@@ -6,12 +6,15 @@ import { ConfigOverviewComponent } from './config-overview/config-overview.compo
 import { ConfigUserComponent } from './config-user/config-user.component';
 import { ConfigSupplierComponent } from './config-supplier/config-supplier.component';
 import { ConfigDeviceTypeComponent } from './config-device-type/config-device-type.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [ConfigOverviewComponent, ConfigUserComponent, ConfigSupplierComponent, ConfigDeviceTypeComponent],
   imports: [
     CommonModule,
-    ConfigRoutingModule
+    ConfigRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class ConfigModule { }

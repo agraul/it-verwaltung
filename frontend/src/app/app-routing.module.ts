@@ -11,15 +11,15 @@ const routes: Routes = [
   },
   {
     path: 'rooms',
-    loadChildren : () => import('./room/room.module').then(m => m.RoomModule), 
+    loadChildren : './room/room.module#RoomModule',
   },
   {
     path: 'devices',
-    loadChildren : () => import('./device/device.module').then(m => m.DeviceModule), 
+    loadChildren : './device/device.module#DeviceModule',
   },
   {
     path: 'configs',
-    loadChildren : () => import('./config/config.module').then(m => m.ConfigModule), 
+    loadChildren : './config/config.module#ConfigModule',
   },
   {
     path: 'logIn',
