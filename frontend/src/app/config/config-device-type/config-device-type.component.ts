@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { DeviceType } from 'src/app/fe-entities/device-type.entity';
+
+import { DeviceAttribute } from '../../fe-entities/device-attibute.entity';
 
 @Component({
   selector: 'app-config-device-type',
@@ -8,10 +11,9 @@ import { FormControl } from '@angular/forms';
 })
 export class ConfigDeviceTypeComponent implements OnInit {
 
-  // TODO: set data types for variables.
-  public deviceTypes = [];
+  public deviceTypes: DeviceType[] = [];
 
-  public deviceAttributes = [];
+  public deviceAttributes: DeviceAttribute[] = [];
 
   public activeType = 0;
 
@@ -26,28 +28,28 @@ export class ConfigDeviceTypeComponent implements OnInit {
     this.deviceAttributes = [
       {
         id: 1,
-        name: 'Seriennummer'
+        bezeichnung: 'Seriennummer'
       },
       {
         id: 2,
-        name: 'RAM Größe'
+        bezeichnung: 'RAM Größe'
       },
       {
         id: 3,
-        name: 'Lumen'
+        bezeichnung: 'Lumen'
       }
     ];
     this.deviceTypes = [
       {
         id: 1,
-        name: 'PC',
-        attributes: [ 1, 2 ],
+        bezeichnung: 'PC',
+        attributes: [1, 2],
         isSoftware: false
       },
       {
         id: 2,
-        name: 'Beamer',
-        attributes: [ 3 ],
+        bezeichnung: 'Beamer',
+        attributes: [3],
         isSoftware: false
       }
     ];
@@ -61,7 +63,6 @@ export class ConfigDeviceTypeComponent implements OnInit {
    */
   public setTypeActive(index: number): void {
     this.activeType = index;
-    // checkbox !!
   }
 
   /**
@@ -104,8 +105,8 @@ export class ConfigDeviceTypeComponent implements OnInit {
     this.deviceTypes.push(
       {
         id: null,
-        name: this.newDeviceType.value,
-        attributes: [ ],
+        bezeichnung: this.newDeviceType.value,
+        attributes: [],
         isSoftware: false
       }
     );
@@ -121,10 +122,18 @@ export class ConfigDeviceTypeComponent implements OnInit {
     this.deviceAttributes.push(
       {
         id: Math.random() * 100,
-        name: this.newDeviceAttribute.value
+        bezeichnung: this.newDeviceAttribute.value
       }
     );
     this.newDeviceAttribute.setValue('');
+  }
+
+  /**
+   * Checks if the current new deviceAttribute exits already.
+   * @returns <code>true</code> when already exits else <code>false</code>
+   */
+  public checkDuplicateDeviceAttribute(): boolean {
+    return this.deviceAttributes.find(attr => attr.bezeichnung === this.newDeviceAttribute.value) === undefined;
   }
 
   /**
@@ -153,7 +162,7 @@ export class ConfigDeviceTypeComponent implements OnInit {
     const attribute = this.deviceAttributes[index];
     let retVal = false;
     if (attribute) {
-      retVal = this.deviceTypes.find(type => type.attributes.find(attr => attribute.id === attr));
+      retVal = this.deviceTypes.find(type => type.attributes.find(attr => attribute.id === attr) !== undefined) !== undefined;
     }
     return retVal;
   }
@@ -165,6 +174,21 @@ export class ConfigDeviceTypeComponent implements OnInit {
   public deleteDeviceAttribute(index: number): void {
     // TODO: request to BE, if attributes are saved directly.
     this.deviceAttributes.splice(index, 1);
+  }
+
+
+  /**
+   * Sorts the deviceType array alphabetically and returns it.
+   */
+  public sortedDeviceTypes(): DeviceType[] {
+    return this.deviceTypes.sort((a, b) => a.bezeichnung.localeCompare(b.bezeichnung));
+  }
+
+  /**
+   * Sorts the deviceAttribute array alphabetically and returns it.
+   */
+  public sortedDeviceAttributes(): DeviceAttribute[] {
+    return this.deviceAttributes.sort((a, b) => a.bezeichnung.localeCompare(b.bezeichnung));
   }
 
 }

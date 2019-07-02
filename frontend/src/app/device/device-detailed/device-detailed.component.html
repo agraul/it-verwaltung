@@ -1,1 +1,44 @@
-<p>device-detailed works!</p>
+<h5>Neue Komponente:</h5>
+<form [formGroup]="basicForm">
+  <div class="row mb-3">
+    <label for="deviceType" class="col-3 col-form-label">Komponentenart</label>
+    <div class="col-6">
+      <select class="form-control" id="deviceType" formControlName="deviceType">
+        <option *ngFor="let type of sortedTypes()" [value]="type.id">{{ type.bezeichnung }}</option>
+      </select>
+    </div>
+  </div>
+  <div class="row mt-1">
+    <label for="producer" class="col-3 col-form-label">Hersteller</label>
+    <div class="col-6">
+      <input type="text" class="form-control" id="producer" formControlName="producer">
+    </div>
+  </div>
+  <div class="row mt-1">
+    <label for="name" class="col-3 col-form-label">Bezeichnung</label>
+    <div class="col-6">
+      <input type="text" class="form-control" id="name" formControlName="name">
+    </div>
+  </div>
+  <div class="row mt-1">
+    <label for="deliverer" class="col-3 col-form-label">Lieferant</label>
+    <div class="col-6">
+      <input type="text" class="form-control" id="deliverer" formControlName="deliverer">
+    </div>
+  </div>
+  <div class="row mt-1">
+    <label for="warranty" class="col-3 col-form-label">Gewährleistung</label>
+    <div class="col-6">
+      <input type="text" class="form-control" id="warranty" formControlName="warranty">
+    </div>
+  </div>
+  <div class="row mt-1">
+    <label for="room" class="col-3 col-form-label">Room</label>
+    <div class="col-6">
+      <select class="form-control" id="room" formControlName="room">
+        <option *ngFor="let room of sortedRooms()" [value]="room.id">{{ room.roomnr }}</option>
+      </select>
+    </div>
+  </div>
+
+</form>

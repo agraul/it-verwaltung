@@ -1,15 +1,18 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { DeviceRoutingModule } from './device-routing.module';
-import { DeviceOverviewComponent } from './device-overview/device-overview.component';
 import { DeviceDetailedComponent } from './device-detailed/device-detailed.component';
+import { DeviceOverviewComponent } from './device-overview/device-overview.component';
+import { DeviceRoutingModule } from './device-routing.module';
 
 @NgModule({
   declarations: [DeviceOverviewComponent, DeviceDetailedComponent],
   imports: [
     CommonModule,
-    DeviceRoutingModule
+    DeviceRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class DeviceModule { }
