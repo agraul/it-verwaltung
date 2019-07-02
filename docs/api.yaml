@@ -1,0 +1,331 @@
+openapi: 3.0.0
+info:
+  title: Sample API
+  description: Optional multiline or single-line description in [CommonMark](http://commonmark.org/help/) or HTML.
+  version: 0.1.9
+
+servers:
+  - url: http://example.com/api/v1
+    description: Optional server description, e.g. Main (production) server
+
+paths:
+  /room/all:
+    get:
+      summary: Liste aller Räume inkl. infos für die Suche
+      responses:
+        '200':    # status code
+          description: OK
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:  
+                    id:
+                      type: integer
+                    nr: 
+                      type: string
+                    bezeichnung:
+                      type: string
+                    hat_notiz:
+                      type: boolean 
+                    komponenten_arten:
+                      type: array
+                      items:
+                        type: string
+  /room/detail:
+    get:
+      summary: Get the components of one room & detail of the room
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':    # status code
+          description: Ein JSON Array aus Raum Objekten
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:  
+                    id:
+                      type: integer
+                    nr:
+                      type: string
+                    bezeichnung:
+                      type: string
+                    notiz:
+                      type: string
+                    komponenten:
+                      type: object 
+                      properties:
+                        id:
+                          type: integer
+                        bezeichnung:
+                          type: string
+                        hersteller:
+                          type: string
+                        serienundversionsnummer:
+                          type: string
+                        is_software:
+                          type: boolean
+
+  /room/push:
+    post:
+      summary: Add info to a room
+      parameters:
+      - in: query
+        name: nr
+        schema:
+          type: string
+      - in: query
+        name: bezeichnung
+        schema:
+          type: integer
+      responses:
+        '200':    # status code
+          description: OK
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:  
+                    id:
+                      type: integer
+                    nr:
+                      type: string
+                    bezeichnung:
+                      type: string
+                    hat_notiz:
+                      type: boolean                      
+                      
+  /component/all:
+    get:
+      summary: x
+      parameters:
+        - in: query
+          name: email
+          schema:
+            type: string
+        - in: query
+          name: pw
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: OK
+          
+  /component/detail:
+    get:
+      summary: Get details about a component
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: OK
+    post:
+      summary: Post changes for a component
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: OK
+  /component/overview:
+    get:
+      summary: Get overview data for components 
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: OK
+
+  /componenttype/all:
+    get:
+      summary: Get all componenttypes
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:  
+                    id:
+                      type: integer
+                    komponentenart:
+                      type: string
+                    is_software:
+                      type: boolean
+
+  /componentattribute/all:
+    get:
+      summary: Get all component attributes
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:  
+                    id:
+                      type: integer
+                    komponentenart:
+                      type: string
+                    is_software:
+                      type: boolean                      
+
+  /user/login:
+    post:
+      summary: Login user
+      parameters:
+        - in: query
+          name: username
+          schema:
+            type: string
+        - in: query
+          name: pw
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: OK    
+  /user/logout:
+    get:
+      summary: Logout user
+      parameters:
+        - in: query
+          name: username
+          schema:
+            type: string
+        - in: query
+          name: pw
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: OK  
+  /user/register:
+    post:
+      summary: Register new user
+      parameters:
+        - in: query
+          name: username
+          schema:
+            type: string
+        - in: query
+          name: pw
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:  
+                    success:
+                      type: boolean 
+                    id:
+                      type: integer
+          
+  /user/delete:
+    get:
+      summary: Delete a user
+      parameters:
+        - in: query
+          name: username
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: OK
+  /user/setpassword:
+    get:
+      summary: Set a new password for a user
+      parameters:
+        - in: query
+          name: username
+          schema:
+            type: string
+        - in: query
+          name: pw
+          schema:
+            type: string
+          required: truer
+      responses:
+        '200':
+          description: OK  
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:  
+                    success:
+                      type: boolean           
+          
+components:
+  schemas:
+    Raum:
+      properties:
+        id:
+          type: integer
+        nr:
+          type: string
+        bezeichnung:
+          type: string
+        notiz:
+          type: string
+      required:
+        - id
+        - nr
+        - bezeichnung
+        - notiz
+
+
+
