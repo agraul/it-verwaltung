@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { DeviceType } from 'src/app/fe-entities/device-type.entity';
 import { Room } from 'src/app/fe-entities/room.entity';
+import { DeviceAttribute } from 'src/app/fe-entities/device-attibute.entity';
 
 @Component({
   selector: 'app-device-detailed',
@@ -12,15 +13,33 @@ export class DeviceDetailedComponent implements OnInit {
 
   public basicForm: FormGroup;
 
-  public rooms: Room[];
+  private rooms: Room[];
 
-  public deviceTypes: DeviceType[];
+  private deliverers: any [];
 
-  public typeForm: FormGroup;
+  private deviceTypes: DeviceType[];
+
+  public multiForm: FormGroup;
+
+  private currentTypeId: number;
+
+  public currentAttributes: DeviceAttribute[];
 
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    // TODO: get from BE; pflichtfelder; daten laden; als vorlage;
+    this.deliverers = [
+      {
+        id: 1,
+        firmenname: 'Huber CO'
+      },
+      {
+        id: 2,
+        firmenname: 'Moritz GmbH'
+      }
+    ];
+
     this.rooms = [
       {
         id: 1,
@@ -104,7 +123,12 @@ export class DeviceDetailedComponent implements OnInit {
       warranty: '',
       deliverer: '',
       note: '',
-      deviceType: ''
+      deviceType: '',
+      attributes: this.formBuilder.array([])
+    });
+
+    this.multiForm = this.formBuilder.group({
+      array: this.formBuilder.array([''])
     });
   }
 
@@ -116,18 +140,91 @@ export class DeviceDetailedComponent implements OnInit {
     return this.deviceTypes.sort((a, b) => a.bezeichnung.localeCompare(b.bezeichnung));
   }
 
-  public getAttributes(): string[] {
+  public sortedDeliverers(): DeviceType[] {
+    return this.deliverers.sort((a, b) => a.firmenname.localeCompare(b.firmenname));
+  }
+
+  public getAttributes(): DeviceAttribute[] {
     const att = this.deviceTypes.find(
-      type => type.id === Number(this.basicForm.get('deviceType').value)).attributes.map(
-        attr => attr.bezeichnung);
-    this.typeForm = this.formBuilder.group({
-      ...att
-    });
+      type => type.id === Number(this.basicForm.get('deviceType').value)).attributes.filter(attr => attr.bezeichnung !== 'Seriennummer');
+    const formArray = this.basicForm.get('attributes') as FormArray;
+    formArray.controls.splice(0);
+    for (const i of att) {
+      formArray.push(this.formBuilder.control(''));
+    }
     return att;
   }
 
   public isDeviceTypeSet(): boolean {
     return this.basicForm.get('deviceType').value !== '';
+  }
+
+  public getSelectedDeviceType(): DeviceType {
+    return this.deviceTypes.find(type => type.id === Number(this.basicForm.get('deviceType').value));
+  }
+
+  public isDeviceTypeSW(): boolean {
+    return this.getSelectedDeviceType() ? this.getSelectedDeviceType().isSoftware : false;
+  }
+
+  public getMultiLabel(): string {
+    return this.isDeviceTypeSW() ? 'Raum' : 'Seriennummer';
+  }
+
+  public save(): void {
+    if (this.isDeviceTypeSW()) {
+      const returnObj = {
+        hersteller: this.basicForm.value.producer,
+        bezeichnung: this.basicForm.value.name,
+        gewaehrleistung: this.basicForm.value.warranty,
+        lieferant: this.basicForm.value.deliverer,
+        komponentenart: this.basicForm.value.deviceType,
+        attribute: this.mapAttributes(),
+        raeume: this.multiForm.get('array').value
+      };
+      console.log(returnObj, '!');
+    } else {
+      const returnObj = {
+        hersteller: this.basicForm.value.producer,
+        bezeichnung: this.basicForm.value.name,
+        gewaehrleistung: this.basicForm.value.warranty,
+        lieferant: this.basicForm.value.deliverer,
+        komponentenart: this.basicForm.value.deviceType,
+        attribute: this.mapAttributes(),
+        raum: this.basicForm.value.room
+      };
+      const returnObjs = [];
+      this.multiForm.get('array').value.forEach(serial => {
+        const current = returnObj;
+        current.attribute.push({
+          attributid: this.getSelectedDeviceType().attributes.find(type => type.bezeichnung === 'Seriennummer').id,
+          wert: serial
+        });
+        returnObjs.push(current);
+      });
+      console.log(returnObjs, '!');
+      // TODO: send to BE;
+    }
+  }
+
+  public changeType(): void {
+    if (this.currentTypeId === this.getSelectedDeviceType().id) {
+      return;
+    }
+    this.currentTypeId = this.getSelectedDeviceType().id;
+    this.currentAttributes = this.getAttributes();
+  }
+
+  private mapAttributes(): {attributid: number, wert: string}[] {
+    let i;
+    const retVal = [];
+    for (i = 0; i < this.currentAttributes.length; i++) {
+        retVal.push({
+          attributid: this.currentAttributes[i].id,
+          wert: this.basicForm.value.attributes[i]
+        });
+    }
+    return retVal;
   }
 
 }

@@ -5,9 +5,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DeviceDetailedComponent } from './device-detailed/device-detailed.component';
 import { DeviceOverviewComponent } from './device-overview/device-overview.component';
 import { DeviceRoutingModule } from './device-routing.module';
+import { MultiInputComponent } from './device-detailed/multi-input/multi-input.component';
 
 @NgModule({
-  declarations: [DeviceOverviewComponent, DeviceDetailedComponent],
+  declarations: [DeviceOverviewComponent, DeviceDetailedComponent, MultiInputComponent],
   imports: [
     CommonModule,
     DeviceRoutingModule,
