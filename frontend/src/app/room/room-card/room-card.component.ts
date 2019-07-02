@@ -12,6 +12,8 @@ export class RoomCardComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    
+    
   }
 
   

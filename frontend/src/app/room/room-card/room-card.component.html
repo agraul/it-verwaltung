@@ -6,4 +6,7 @@
         </span>
     </div>
     <div class="card-body">{{card.body}}</div>
+    <div *ngIf="card.footer" class="card-footer">
+        {{card.footer}}
+    </div>
 </div>
