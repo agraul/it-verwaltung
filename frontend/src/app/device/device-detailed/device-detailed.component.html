@@ -4,7 +4,8 @@
     <label for="deviceType" class="col-3 col-form-label">Komponentenart</label>
     <div class="col-6">
       <select class="form-control" id="deviceType" formControlName="deviceType">
-        <option *ngFor="let type of sortedTypes()" [value]="type.id">{{ type.bezeichnung }}</option>
+        <option disabled selected></option>
+        <option *ngFor="let type of sortedDeviceTypes()" [value]="type.id">{{ type.bezeichnung }}</option>
       </select>
     </div>
   </div>
@@ -36,9 +37,19 @@
     <label for="room" class="col-3 col-form-label">Room</label>
     <div class="col-6">
       <select class="form-control" id="room" formControlName="room">
-        <option *ngFor="let room of sortedRooms()" [value]="room.id">{{ room.roomnr }}</option>
+        <option disabled selected></option>
+        <option *ngFor="let room of sortedRooms()" [value]="room.id">{{ room.nr }}</option>
       </select>
     </div>
   </div>
+</form>
 
+<form *ngIf="isDeviceTypeSet()" [formGroup]="typeForm">
+  WuppWup!
+  <div class="row mt-1" *ngFor="let name of getAttributes()">
+    <label for="{{ name }}" class="col-3 col-form-label">{{ name }}</label>
+    <div class="col-6">
+      <input type="text" class="form-control" id="{{ name }}" formControlName="{{ name }}">
+    </div>
+  </div>
 </form>

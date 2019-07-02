@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-
-import { Utils } from '../../core/utils';
+import { DeviceType } from 'src/app/fe-entities/device-type.entity';
+import { Room } from 'src/app/fe-entities/room.entity';
 
 @Component({
   selector: 'app-device-detailed',
@@ -12,82 +12,85 @@ export class DeviceDetailedComponent implements OnInit {
 
   public basicForm: FormGroup;
 
-  public rooms;
+  public rooms: Room[];
 
-  public deviceTypes;
+  public deviceTypes: DeviceType[];
+
+  public typeForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.rooms = [
       {
-        id: 1432,
-        roomnr: '201',
+        id: 1,
+        nr: '012',
+        bezeichnung: 'Computerraum',
+        hat_notiz: true,
+        komponentenarten: null
       },
       {
-        id: 837,
-        roomnr: '015',
+        id: 2,
+        nr: '222',
+        bezeichnung: 'Computerraum',
+        hat_notiz: false,
+        komponentenarten: null
       },
       {
-        id: 2931,
-        roomnr: '189',
-      },
-      {
-        id: 9483,
-        roomnr: '031',
-      },
-      {
-        id: 1382,
-        roomnr: '205',
+        id: 3,
+        nr: '154',
+        bezeichnung: 'Computerraum',
+        hat_notiz: true,
+        komponentenarten: null
       }
     ];
 
     this.deviceTypes = [
       {
         id: 1,
-        name: 'PC',
+        bezeichnung: 'PC',
         attributes: [
           {
             id: 1,
-            name: 'Seriennummer'
+            bezeichnung: 'Seriennummer'
           },
           {
             id: 2,
-            name: 'RAM Größe'
+            bezeichnung: 'RAM Größe'
           },
           {
             id: 3,
-            name: 'CPU Bezeichnung'
+            bezeichnung: 'CPU Bezeichnung'
           }
         ],
         isSoftware: false
       },
       {
         id: 2,
-        name: 'Beamer',
+        bezeichnung: 'Beamer',
         attributes: [
           {
             id: 1,
-            name: 'Seriennummer'
+            bezeichnung: 'Seriennummer'
           },
           {
             id: 4,
-            name: 'Lumen'
+            bezeichnung: 'Lumen'
           }
         ],
         isSoftware: false
       },
       {
         id: 3,
-        name: 'Software',
+        bezeichnung: 'Software',
         attributes: [
           {
             id: 5,
-            name: 'Versionsnummer'
+            bezeichnung: 'Versionsnummer'
           },
           {
             id: 6,
-            name: 'Lizenztyp'
+            bezeichnung: 'Lizenztyp'
           }
         ],
         isSoftware: true
@@ -105,8 +108,26 @@ export class DeviceDetailedComponent implements OnInit {
     });
   }
 
-  public sortedRooms(): any {
-    return Utils.sortObjectArrayAlphabetically(this.rooms, 'roomnr');
+  public sortedRooms(): Room[] {
+    return this.rooms.sort((a, b) => a.nr.localeCompare(b.nr));
+  }
+
+  public sortedDeviceTypes(): DeviceType[] {
+    return this.deviceTypes.sort((a, b) => a.bezeichnung.localeCompare(b.bezeichnung));
+  }
+
+  public getAttributes(): string[] {
+    const att = this.deviceTypes.find(
+      type => type.id === Number(this.basicForm.get('deviceType').value)).attributes.map(
+        attr => attr.bezeichnung);
+    this.typeForm = this.formBuilder.group({
+      ...att
+    });
+    return att;
+  }
+
+  public isDeviceTypeSet(): boolean {
+    return this.basicForm.get('deviceType').value !== '';
   }
 
 }

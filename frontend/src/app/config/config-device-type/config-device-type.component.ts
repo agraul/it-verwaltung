@@ -43,13 +43,22 @@ export class ConfigDeviceTypeComponent implements OnInit {
       {
         id: 1,
         bezeichnung: 'PC',
-        attributes: [1, 2],
+        attributes: [{
+          id: 1,
+          bezeichnung: 'Seriennummer'
+        }, {
+          id: 2,
+          bezeichnung: 'RAM Größe'
+        }],
         isSoftware: false
       },
       {
         id: 2,
         bezeichnung: 'Beamer',
-        attributes: [3],
+        attributes: [{
+          id: 3,
+          bezeichnung: 'Lumen'
+        }],
         isSoftware: false
       }
     ];
@@ -73,10 +82,10 @@ export class ConfigDeviceTypeComponent implements OnInit {
     const attribute = this.deviceAttributes[index];
     if (attribute) {
       const id = attribute.id;
-      if (this.deviceTypes[this.activeType].attributes.indexOf(id) === -1) {
-        this.deviceTypes[this.activeType].attributes.push(id);
+      if (this.deviceTypes[this.activeType].attributes.find(attr => attr.id === id) === undefined) {
+        this.deviceTypes[this.activeType].attributes.push(attribute);
       } else {
-        const found = this.deviceTypes[this.activeType].attributes.indexOf(id);
+        const found = this.deviceTypes[this.activeType].attributes.findIndex(attr => attr.id === id);
         this.deviceTypes[this.activeType].attributes.splice(found, 1);
       }
     }
@@ -92,7 +101,7 @@ export class ConfigDeviceTypeComponent implements OnInit {
     let retVal = false;
     if (attribute) {
       const id = attribute.id;
-      retVal = this.deviceTypes[this.activeType].attributes.indexOf(id) !== -1;
+      retVal = this.deviceTypes[this.activeType].attributes.find(attr => attr.id === id) !== undefined;
     }
     return retVal;
   }
@@ -162,7 +171,7 @@ export class ConfigDeviceTypeComponent implements OnInit {
     const attribute = this.deviceAttributes[index];
     let retVal = false;
     if (attribute) {
-      retVal = this.deviceTypes.find(type => type.attributes.find(attr => attribute.id === attr) !== undefined) !== undefined;
+      retVal = this.deviceTypes.find(type => type.attributes.find(attr => attribute.id === attr.id) !== undefined) !== undefined;
     }
     return retVal;
   }
