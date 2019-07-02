@@ -5,21 +5,22 @@ import { LogInComponent } from './log-in/log-in.component';
 
 const routes: Routes = [
 
-  { path: '',
+  {
+    path: '',
     redirectTo: '/rooms',
     pathMatch: 'full'
   },
   {
     path: 'rooms',
-    loadChildren : './room/room.module#RoomModule',
+    loadChildren: './room/room.module#RoomModule',
   },
   {
     path: 'devices',
-    loadChildren : './device/device.module#DeviceModule',
+    loadChildren: './device/device.module#DeviceModule',
   },
   {
-    path: 'configs',
-    loadChildren : './config/config.module#ConfigModule',
+    path: 'masterdata',
+    loadChildren: './config/config.module#ConfigModule',
   },
   {
     path: 'logIn',
