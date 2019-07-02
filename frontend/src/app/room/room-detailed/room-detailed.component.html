@@ -1,1 +1,28 @@
-<p>room-detailed works!</p>
+<div class="container-fluid">
+
+        <div class="row">
+            <b class="col-2">
+                Raum {{room.nr}}
+            </b>
+            <b class="col">
+                {{room.bezeichnung}}
+            </b>
+        </div> 
+        <hr>
+        <b>Hardware:</b>
+        <br>
+        <br>
+        
+        <div class="flex-container" style="padding: 1%">
+            <app-room-card  *ngFor="let component of overViewHComponents" [card]="component" ></app-room-card>
+        </div>
+
+        <hr>
+        <b>Software:</b>
+        <br>
+        <br>
+        <div class="flex-container" style="padding: 1%">
+            <app-room-card  *ngFor="let component of overViewSComponents" [card]="component" ></app-room-card>
+        </div>
+    
+    </div>
