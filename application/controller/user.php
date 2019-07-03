@@ -14,6 +14,7 @@ class user extends controller
         $link = new db();
         $this->db = $link::get();
         $_POST = json_decode(file_get_contents('php://input'), true);
+        $this->cors();
     }
 
     public function __destruct()
@@ -43,6 +44,9 @@ class user extends controller
 
     public function register()
     {
+        if ($this->verify($_POST['groupid']) === false || $this->verify($_POST['firstname']) === false || $this->verify($_POST['lastname']) === false || $this->verify($_POST['username']) === false || $this->verify($_POST['pw']) === false) {
+            http_response_code(400);
+        }
         $groupId = (int) $_POST['groupid'];
         $firstName = (string) $_POST['firstname'];
         $lastName = (string) $_POST['lastname'];
@@ -50,14 +54,9 @@ class user extends controller
         $pw = (string) password_hash((string) $_POST['pw'], PASSWORD_BCRYPT);
         $sql = "INSERT INTO benutzer (gruppe_g_id, b_vorname, b_nachname, b_username, b_passwort) VALUES (?,?,?,?,?);";
         $query = $this->db->prepare($sql);
-        $query->execute(array($groupId, $firstName, $lastName, $username, $pw));
-        $this->data[0] = gettype($query);
-        $this->data[1] = $_POST;
-
-        foreach ($query as $r) {
-
-
-# var_dump($r);   
+        $res = $query->execute(array($groupId, $firstName, $lastName, $username, $pw));
+        if ($res === false) {
+            http_response_code(409);
         }
     }
 
@@ -72,8 +71,8 @@ class user extends controller
             $this->data[$i]->groupid = (int) $row['gruppe_g_id'];
             $this->data[$i]->username = (string) $row['b_username'];
             $this->data[$i]->pw = (string) $row['b_passwort'];
-            $this->data[$i]->vorname = (string) $row['b_vorname'];
-            $this->data[$i]->nachname = (string) $row['b_nachname'];
+            $this->data[$i]->firstname = (string) $row['b_vorname'];
+            $this->data[$i]->lastname = (string) $row['b_nachname'];
             $i++;
         }
     }
