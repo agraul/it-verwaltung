@@ -18,7 +18,7 @@
         <hr>
         <div class="ex1">
             <div class="flex-container">
-                <app-device-card></app-device-card>
+                <app-device-card *ngFor="let deviceCard of deviceCards; let i = index" [card]="deviceCard" (click)="showDetailedDevice(devices[i].id)" ></app-device-card>
                 <app-add-device-card></app-add-device-card>
             </div>
         </div>
