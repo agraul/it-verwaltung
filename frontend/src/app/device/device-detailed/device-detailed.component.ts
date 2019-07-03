@@ -180,9 +180,10 @@ export class DeviceDetailedComponent implements OnInit {
         lieferant: this.basicForm.value.deliverer,
         komponentenart: this.basicForm.value.deviceType,
         attribute: this.mapAttributes(),
-        raeume: this.multiForm.get('array').value
+        raum: null
       };
-      console.log(returnObj, '!');
+      const raeume = this.multiForm.get('array').value;
+      console.log(returnObj, raeume);
     } else {
       const returnObj = {
         hersteller: this.basicForm.value.producer,
