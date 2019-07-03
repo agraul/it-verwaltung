@@ -89,5 +89,15 @@ return $routes = [
         'controller' => 'supplier',
         'action' => 'all',
     ],
+    [
+        'route' => '/supplier/delete',
+        'controller' => 'supplier',
+        'action' => 'delete',
+    ],
+    [
+        'route' => '/supplier/add',
+        'controller' => 'supplier',
+        'action' => 'add',
+    ],
 ];
 

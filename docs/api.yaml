@@ -199,6 +199,33 @@ paths:
                   properties:  
                     sucess:
                       type: boolean
+  /componenttype/addAttribute: 
+     post:
+      summary: WORKS - Add a attribute for a component type
+      parameters:
+        - in: query
+          name: komponentenart_id
+          schema:
+            type: integer
+          required: true
+        - in: query
+          name: komponentenattribute_id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:  
+                    sucess:
+                      type: boolean
+
   /componentattribute/all:
     get:
       summary: Get all component attributes
@@ -292,7 +319,7 @@ paths:
           description: OK  
   /user/register:
     post:
-      summary: Register new user [NOT WORKING]
+      summary: WORKS - Register new user, if user is already registered we return a HTTP 409 
       parameters:
         - in: query
           name: groupid
@@ -442,7 +469,7 @@ paths:
             type: string
           required: true
         - in: query
-          name: privilegiert
+          name: priviligiert
           schema:
             type: string
           required: true
@@ -475,9 +502,119 @@ paths:
                       type: integer
                     bezeichnung:
                       type: string
-                    privilegiert:
+                    priviligiert:
                       type: boolean
-                    
+          
+  /supplier/all:
+    get:
+      summary: WORKS - Get all supplier
+      responses:
+        '200':
+          description: OK  
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:  
+                    id:
+                      type: integer
+                    companyname:
+                      type: string
+                    street:
+                      type: string
+                    plz:
+                      type: string
+                    place: 
+                      type: string
+                    tel: 
+                      type: string
+                    mobile: 
+                      type: string
+                    fax:
+                      type: string
+                    email:
+                      type: string
+  /supplier/delete:
+    get:
+      summary: IN PROGRESS - Delete a supplier by id
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: OK  
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:  
+                    success:
+                      type: boolean
+  /supplier/add:
+    post:
+      summary: IN PROGRESS - Add a suppler
+      parameters:
+        - in: query
+          name: companyname
+          schema:
+            type: string
+          required: true
+        - in: query
+          name: street
+          schema:
+            type: string
+          required: true
+        - in: query
+          name: plz
+          schema:
+            type: string
+          required: true
+        - in: query
+          name: place
+          schema:
+            type: string
+          required: true
+        - in: query
+          name: tel
+          schema:
+            type: string
+          required: true       
+        - in: query
+          name: mobile
+          schema:
+            type: string
+          required: true
+        - in: query
+          name: fax
+          schema:
+            type: string
+          required: true
+        - in: query
+          name: email
+          schema:
+            type: string
+          required: true                  
+      responses:
+        '200':
+          description: OK  
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:  
+                    success:
+                      type: boolean
+
+                      
 components:
   schemas:
     Raum:
