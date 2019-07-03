@@ -13,6 +13,7 @@ class componenttype extends controller
         require '../db.php';
         $link = new db();
         $this->db = $link::get();
+        $_POST = json_decode(file_get_contents('php://input'), true);
     }
 
     public function __destruct()
@@ -23,7 +24,6 @@ class componenttype extends controller
     public function all()
     {
         // SELECT ka_id, ka_komponentenart, ka_software FROM komponentenarten;
-
         $sql1 = "SELECT ka_id, ka_komponentenart, ka_software FROM komponentenarten;";
         $query = $this->db->prepare($sql);
         $query->execute();
@@ -36,8 +36,6 @@ class componenttype extends controller
               "id": 0,
               "bezeichnung": "string"
               }
-             * 
-             * 
              *              */
             $this->data[$i] = new stdClass();
             $this->data[$i]->id = (int) $row['ka_id'];
@@ -49,8 +47,6 @@ class componenttype extends controller
             foreach ($row as $z) {
                 
             }
-
-
             $i++;
         }
     }
@@ -78,6 +74,21 @@ class componenttype extends controller
             $sql = "DELETE FROM komponentenarten WHERE ka_id=?;";
             $query = $this->db->prepare($sql);
             $query->execute(array($id));
+            $this->data[0]->success = true;
+        } catch (Exception $e) {
+            $this->data[0]->success = false;
+        }
+    }
+
+    public function addAttribute()
+    {
+        $this->data[0] = new stdClass();
+        try {
+            $artId = (int) $_POST['komponentenart_id'];
+            $attributeId = (int) $_POST['komponentenattribute_id'];
+            $sql = "INSERT INTO wird_beschrieben_durch (komponentenarten_ka_id, komponentenattribute_kat_id) VALUES (?, ?);";
+            $query = $this->db->prepare($sql);
+            $query->execute(array($artId, $attributeId));
             $this->data[0]->success = true;
         } catch (Exception $e) {
             $this->data[0]->success = false;

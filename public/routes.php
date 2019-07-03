@@ -79,5 +79,10 @@ return $routes = [
         'controller' => 'componenttype',
         'action' => 'delete',
     ],
+    [
+        'route' => '/componenttype/addAttribute',
+        'controller' => 'componenttype',
+        'action' => 'addAttribute',
+    ],
 ];
 

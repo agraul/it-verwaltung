@@ -13,6 +13,7 @@ class group extends controller
         require '../db.php';
         $link = new db();
         $this->db = $link::get();
+        $_POST = json_decode(file_get_contents('php://input'), true);
     }
 
     public function __destruct()
@@ -43,8 +44,8 @@ class group extends controller
             $this->data[$i] = new stdClass();
             $this->data[$i]->id = (int) $row['g_id'];
             $this->data[$i]->bezeichnung = (string) $row['g_bezeichnung'];
-            $this->data[$i]->priviligiert = (bool) $row['g_privilegiert'];
-            $i++;
+            $this->data[$i]->privilegiert = (bool) $row['g_privilegiert'];
+            $i++;                                           
         }
     }
 
