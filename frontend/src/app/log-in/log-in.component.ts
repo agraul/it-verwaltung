@@ -23,17 +23,23 @@ export class LogInComponent implements OnInit {
   ngOnInit() {
   }
 
+  
   public secureAndSend(username: string, password: string): void{
    console.log(this.authentication.login(username, password).subscribe((resp)=> {return resp;}));
     
-    var retVal = false;
-          if(this.authentication.login(username, password).subscribe((resp)=> {return resp;}).closed === false){
+    let retVal = false;
+    console.log(this.authentication.login(username, password).subscribe((resp)=> {return resp;}).closed === false);
+    
+          if(this.authentication.login(username, password).subscribe((resp)=> {
             this.router.navigate(['/rooms']);
+            return resp;
+          }).closed === false){
+            
             retVal = false;
+
           }
         else{
           this.showValidationMessage = true;
         }
-    
   }
   }

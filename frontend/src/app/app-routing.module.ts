@@ -9,8 +9,7 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: '/rooms',
-    pathMatch: 'full',
-    canActivate: [AuthGuard]
+    pathMatch: 'full'
   },
   {
     path: 'rooms',
