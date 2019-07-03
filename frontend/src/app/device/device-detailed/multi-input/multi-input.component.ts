@@ -15,6 +15,8 @@ export class MultiInputComponent implements OnInit {
 
   @Input() public rooms: Room[] = [];
 
+  @Input() public extendable: boolean ;
+
   constructor(private builder: FormBuilder) { }
 
   ngOnInit() {
