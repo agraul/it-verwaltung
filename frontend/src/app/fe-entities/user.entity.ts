@@ -1,10 +1,10 @@
 export class User {
 
-  public id?: number;
-  public benutzername: string;
-  public passwort: string;
-  public gruppe: number;
-  public vorname: string;
-  public nachname: string;
+  public userid?: number;
+  public username: string;
+  public pw: string;
+  public groupid: number;
+  public firstname: string;
+  public lastname: string;
 
 }
