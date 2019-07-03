@@ -10,7 +10,6 @@ if ($request_method === '/') :
     chdir('build');
     require 'index.html';
 else:
-
     $base = '/api/v1';
     require 'routes.php';
 
@@ -31,10 +30,15 @@ else:
             }
         }
         return [];
-        // @TODO error, no route found
     }
 
     $route = route($request_uri, $routes);
+    if (empty($route) === true) {
+        chdir('build');
+        require 'index.html';
+        return;
+    }
+
     chdir('../application/controller');
     require 'controller.php';
     require $route['controller'] . '.php';
