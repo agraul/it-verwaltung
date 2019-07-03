@@ -7,12 +7,11 @@ class room extends controller
     public $data;
     public $param;
 
-    public function __construct(string $request_method, $param)
+    public function __construct(string $request_method)
     {
         $this->request_method = $request_method;
         header('Content-Type: application/json');
         $this->data = [];
-        $this->param = $_GET;
     }
 
     public function __destruct()
@@ -34,14 +33,13 @@ class room extends controller
             $this->data[$i]->nr = (int) $row['r_nr'];
             $this->data[$i]->bezeichnung = (string) $row['r_bezeichnung'];
             $this->data[$i]->hat_notiz = empty($row['r_bezeichnung']) ? false : true;
-
             $this->data[$i]->komponenten_arten = [];
             $q = $db->prepare("SELECT ka_komponentenart FROM komponentenarten INNER JOIN komponenten ON komponentenarten_ka_id = ka_id INNER JOIN raeume ON raeume_r_id = r_id WHERE r_id = ?;");
             $q->execute(array((int) $row['r_id']));
             $j = 0;
             foreach ($q as $r) {
                 $this->data[$i]->komponenten_arten[$j] = $r['ka_komponentenart'];
-                $j++;
+               $j++;
             }
             $i++;
         }
