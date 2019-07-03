@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {  Router } from '@angular/router';
 import { USERS } from './log-in.mock';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-log-in',
@@ -15,26 +16,24 @@ export class LogInComponent implements OnInit {
   showValidationMessage= false;
 
   constructor(
-    private router: Router
+    private router: Router,
+    private authentication: AuthService,
   ) { }
 
   ngOnInit() {
   }
 
   public secureAndSend(username: string, password: string): void{
+   console.log(this.authentication.login(username, password).subscribe((resp)=> {return resp;}));
+    
     var retVal = false;
-    for(var i = 0;i<this.users.length; i++){
-      if(this.users[i].benutzername === username){
-        if(this.users[i].passwort === password){
-          this.router.navigate(['/rooms']);
-          retVal = false;
-        }else{
+          if(this.authentication.login(username, password).subscribe((resp)=> {return resp;}).closed === false){
+            this.router.navigate(['/rooms']);
+            retVal = false;
+          }
+        else{
           this.showValidationMessage = true;
         }
-    }else {
-      this.showValidationMessage = true;
-    }
+    
   }
   }
-
-}
