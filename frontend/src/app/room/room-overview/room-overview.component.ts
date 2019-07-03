@@ -19,7 +19,6 @@ export class RoomOverviewComponent implements OnInit {
   ngOnInit() {
     this.rooms = this.getRooms();
     this.overViewRooms = this.mapRoomsToCard(this.rooms);
-    console.log(this.overViewRooms);
     
   }
 
