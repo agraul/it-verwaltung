@@ -14,6 +14,9 @@ abstract class controller
         if (isset($var) === false) {
             return false;
         }
+        if ($var == "") {
+            return false;
+        }
         return true;
     }
 
