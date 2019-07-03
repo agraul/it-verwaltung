@@ -27,4 +27,20 @@ class component extends controller
         
     }
 
+    public function delete()
+    {
+        if ($this->verify($_GET['id']) === false) {
+            http_response_code(400);
+            return;
+        }
+        $id = (int) $_GET['id'];
+        $sql = "DELETE FROM komponenten WHERE k_id = ?;";
+        $query = $this->db->prepare($sql);
+        $result = $query->execute(array($id));
+        if ($result === false) {
+            http_response_code(500);
+            return;
+        }
+    }
+
 }
