@@ -21,7 +21,7 @@ export class LogInComponent implements OnInit {
     logInCreds = true;
 
     if(logInCreds === true){
-      this.router.navigate(['/app-room-overview']);
+      this.router.navigate(['/rooms']);
     }
   }
 
