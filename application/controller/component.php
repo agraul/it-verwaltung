@@ -1,6 +1,6 @@
 <?php
 
-class skeleton extends controller
+class component extends controller
 {
 
     public $data;
@@ -21,9 +21,9 @@ class skeleton extends controller
         echo json_encode($this->data);
     }
 
-    public function somefun()
+    public function all()
     {
-        // $this->data = [ (...) ];
+        
     }
 
 }

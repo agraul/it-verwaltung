@@ -12,6 +12,7 @@ export class RoomOverviewComponent implements OnInit {
 
   public rooms: Room[];
   public overViewRooms: Card[];
+  public searchText = '';
 
 
   constructor(private _router: Router) { }

@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DeviceOverviewComponent implements OnInit {
 
+  public devices;
+  public SearchText = '';
+
   constructor() { }
 
   ngOnInit() {
