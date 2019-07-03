@@ -6,9 +6,11 @@ import { DeviceDetailedComponent } from './device-detailed/device-detailed.compo
 import { DeviceOverviewComponent } from './device-overview/device-overview.component';
 import { DeviceRoutingModule } from './device-routing.module';
 import { MultiInputComponent } from './device-detailed/multi-input/multi-input.component';
+import { DeviceCardComponent } from './device-card/device-card.component';
+import { AddDeviceCardComponent } from './add-device-card/add-device-card.component';
 
 @NgModule({
-  declarations: [DeviceOverviewComponent, DeviceDetailedComponent, MultiInputComponent],
+  declarations: [DeviceOverviewComponent, DeviceDetailedComponent, MultiInputComponent,  DeviceCardComponent, AddDeviceCardComponent],
   imports: [
     CommonModule,
     DeviceRoutingModule,

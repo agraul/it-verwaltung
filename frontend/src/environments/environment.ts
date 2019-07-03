@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  url: 'http://116.203.81.6/api/v1',
+  isMock: false
 };
 
 /*

@@ -1,1 +1,83 @@
-<p>config-supplier works!</p>
+<h6>Lieferantenverwaltung</h6>
+<form [formGroup]="form">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Firmenname</th>
+        <th scope="col">Straße</th>
+        <th scope="col">PLZ</th>
+        <th scope="col">Ort</th>
+        <th scope="col">Telefon</th>
+        <th scope="col">Mobil</th>
+        <th scope="col">Fax</th>
+        <th scope="col">Mail</th>
+        <th scope="col">Aktion</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let deliverer of this.form.get('deliverers').controls; let i = index" formArrayName="deliverers">
+        <ng-container [formGroupName]="i">
+          <td>
+            <input class="form-control" id="fn-{{i}}" type="text" formControlName="firmenname">
+          </td>
+          <td>
+            <input class="form-control" id="strasse-{{i}}" type="text" formControlName="strasse">
+          </td>
+          <td>
+            <input class="form-control" id="plz-{{i}}" type="number" formControlName="plz">
+          </td>
+          <td>
+            <input class="form-control" id="ort-{{i}}" type="text" formControlName="ort">
+          </td>
+          <td>
+            <input class="form-control" id="tel-{{i}}" type="text" formControlName="tel">
+          </td>
+          <td>
+            <input class="form-control" id="mobil-{{i}}" type="text" formControlName="mobil">
+          </td>
+          <td>
+            <input class="form-control" id="fax-{{i}}" type="text" formControlName="fax">
+          </td>
+          <td>
+            <input class="form-control" id="mail-{{i}}" type="email" formControlName="email">
+          </td>
+          <td>
+            <button [disabled]="!form.get('deliverers').controls[i].valid" (click)=saveChange(deliverer)>Ändern</button>
+            <button (click)="deleteDeliverer(i)">Löschen</button>
+          </td>
+        </ng-container>
+      </tr>
+      <ng-container formGroupName="addDeliverer">
+        <tr>
+          <td>
+            <input class="form-control" id="fn" type="text" formControlName="firmenname">
+          </td>
+          <td>
+            <input class="form-control" id="strasse" type="text" formControlName="strasse">
+          </td>
+          <td>
+            <input class="form-control" id="plz" type="number" formControlName="plz">
+          </td>
+          <td>
+            <input class="form-control" id="ort" type="text" formControlName="ort">
+          </td>
+          <td>
+            <input class="form-control" id="tel" type="text" formControlName="tel">
+          </td>
+          <td>
+            <input class="form-control" id="mobil" type="text" formControlName="mobil">
+          </td>
+          <td>
+            <input class="form-control" id="fax" type="text" formControlName="fax">
+          </td>
+          <td>
+            <input class="form-control" id="mail" type="email" formControlName="email">
+          </td>
+          <td>
+            <button [disabled]="!form.get('addDeliverer').valid" (click)=saveDeliverer()>Speichern</button>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</form>

@@ -5,7 +5,7 @@ import { DeviceDetailedComponent } from './device-detailed/device-detailed.compo
 
 const routes: Routes = [
   { path: '', component:  DeviceOverviewComponent},
-  { path: 'detailed', component: DeviceDetailedComponent}
+  { path: ':id', component: DeviceDetailedComponent}
 ];
 
 @NgModule({
