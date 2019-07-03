@@ -14,6 +14,7 @@ class group extends controller
         $link = new db();
         $this->db = $link::get();
         $_POST = json_decode(file_get_contents('php://input'), true);
+        $this->cors();
     }
 
     public function __destruct()
@@ -25,10 +26,18 @@ class group extends controller
     {
         $this->data[0] = new stdClass();
         try {
+            if ($this->verify($_POST['bezeichnung']) === false || $this->verify($_POST['privilegiert']) === false) {
+                http_response_code(400);
+                return;
+            }
             $bezeichnung = (string) $_POST['bezeichnung'];
             $priv = (int) $_POST['privilegiert'];
             $query = $this->db->prepare("INSERT INTO gruppe (g_bezeichnung, g_privilegiert) VALUES (?, ?);");
-            $query->execute(array($bezeichnung, $priv));
+            $res = $query->execute(array($bezeichnung, $priv));
+            if ($res === false) {
+                http_response_code(500);
+                return;
+            }
             $this->data[0]->success = true;
         } catch (Exception $e) {
             $this->data[0]->success = false;
@@ -45,7 +54,7 @@ class group extends controller
             $this->data[$i]->id = (int) $row['g_id'];
             $this->data[$i]->bezeichnung = (string) $row['g_bezeichnung'];
             $this->data[$i]->privilegiert = (bool) $row['g_privilegiert'];
-            $i++;                                           
+            $i++;
         }
     }
 

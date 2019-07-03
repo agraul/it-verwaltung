@@ -84,5 +84,10 @@ return $routes = [
         'controller' => 'componenttype',
         'action' => 'addAttribute',
     ],
+    [
+        'route' => '/supplier/all',
+        'controller' => 'supplier',
+        'action' => 'all',
+    ],
 ];
 
