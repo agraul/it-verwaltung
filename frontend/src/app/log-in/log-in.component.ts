@@ -25,7 +25,6 @@ export class LogInComponent implements OnInit {
       })
     );
 
-    let retVal = false;
     console.log(
       this.authentication.login(username, password).subscribe(resp => {
         return resp;
@@ -38,7 +37,6 @@ export class LogInComponent implements OnInit {
         return resp;
       }).closed === false
     ) {
-      retVal = false;
     } else {
       this.showValidationMessage = true;
     }
