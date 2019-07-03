@@ -70,11 +70,32 @@ export class ConfigUserComponent implements OnInit {
       id: uid,
       gruppe: changes.gruppe
     };
+    // TODO: BE;
     console.log(pwchange, rolechange);
   }
 
   public deleteUser(index: number): void {
+    // TODO: BE;
+    this.users.splice(index, 1);
+    (this.form.get('users') as FormArray).removeAt(index);
+  }
 
+  public saveUser(): void {
+    const newUser = this.form.get('addUser').value;
+    newUser.id = Math.random() * 100;
+    console.log(newUser);
+    this.users.push(newUser);
+    (this.form.get('users') as FormArray).push(this.builder.group({
+      gruppe: new FormControl(newUser.gruppe, Validators.required),
+      passwort: new FormControl(newUser.passwort, Validators.required),
+    }));
+
+    const addUser = this.form.get('addUser');
+    addUser.get('benutzername').setValue('');
+    addUser.get('vorname').setValue('');
+    addUser.get('nachname').setValue('');
+    addUser.get('passwort').setValue('');
+    addUser.get('gruppe').setValue('1');
   }
 
 }

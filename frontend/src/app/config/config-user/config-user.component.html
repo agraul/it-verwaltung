@@ -18,7 +18,7 @@
           <td>{{user.benutzername}}</td>
           <td>{{user.vorname}}</td>
           <td>{{user.nachname}}</td>
-          <td><select id="role-{{i}}" formControlName="gruppe">
+          <td><select class="form-control" id="role-{{i}}" formControlName="gruppe">
               <option *ngFor="let role of roles" [value]="role.id">{{ role.bezeichnung }}</option>
             </select></td>
           <td>
