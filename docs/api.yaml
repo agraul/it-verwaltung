@@ -11,7 +11,7 @@ servers:
 paths:
   /room/all:
     get:
-      summary: Liste aller Räume inkl. infos für die Suche
+      summary: WORKS - Liste aller Räume inkl. infos für die Suche
       responses:
         '200':    # status code
           description: OK
@@ -36,7 +36,7 @@ paths:
                         type: string
   /room/detail:
     get:
-      summary: Get the components of one room & detail of the room
+      summary: WORKS - Get the components of one room & detail of the room
       parameters:
         - in: query
           name: id
@@ -75,45 +75,10 @@ paths:
                         is_software:
                           type: boolean
 
-  /room/push:
-    post:
-      summary: Add info to a room
-      parameters:
-      - in: query
-        name: nr
-        schema:
-          type: string
-      - in: query
-        name: bezeichnung
-        schema:
-          type: integer
-      responses:
-        '200':    # status code
-          description: OK
-          content:
-            application/json:
-              schema: 
-                type: array
-                items:
-                  type: object
-                  properties:  
-                    id:
-                      type: integer
-                    nr:
-                      type: string
-                    bezeichnung:
-                      type: string
-                    hat_notiz:
-                      type: boolean                      
-                      
   /component/all:
     get:
       summary: x
       parameters:
-        - in: query
-          name: email
-          schema:
-            type: string
         - in: query
           name: pw
           schema:
@@ -161,13 +126,7 @@ paths:
 
   /componenttype/all:
     get:
-      summary: Get all componenttypes
-      parameters:
-        - in: query
-          name: id
-          schema:
-            type: integer
-          required: true
+      summary: Get all componenttypes and their attributes
       responses:
         '200':
           description: OK
@@ -180,14 +139,48 @@ paths:
                   properties:  
                     id:
                       type: integer
-                    komponentenart:
+                    bezeichnung:
                       type: string
                     is_software:
                       type: boolean
-
-  /componentattribute/all:
-    get:
-      summary: Get all component attributes
+                    attribute:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          bezeichnung:
+                            type: string
+  /componenttype/add: 
+     post:
+      summary: WORKS - Add a componenttype
+      parameters:
+        - in: query
+          name: componenttype
+          schema:
+            type: string
+          required: true
+        - in: query
+          name: is_software
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:  
+                    sucess:
+                      type: boolean
+  /componenttype/delete: 
+     post:
+      summary: WORKS - Add a componenttype
       parameters:
         - in: query
           name: id
@@ -204,16 +197,70 @@ paths:
                 items:
                   type: object
                   properties:  
+                    sucess:
+                      type: boolean
+  /componentattribute/all:
+    get:
+      summary: Get all component attributes
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:  
                     id:
                       type: integer
-                    komponentenart:
+                    bezeichnung:
                       type: string
-                    is_software:
-                      type: boolean                      
-
+  /componentattribute/add:
+    post:
+      summary: Add a component attribute
+      parameters:
+        - in: query
+          name: attribute 
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:  
+                    sucess:
+                      type: boolean
+                      
+  /componentattribute/delete:
+    post:
+      summary: Works -  Add a component attribute
+      parameters:
+        - in: query
+          name: id 
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:  
+                    sucess:
+                      type: boolean
   /user/login:
     post:
-      summary: Login user
+      summary: Login user [NOT WORKING]
       parameters:
         - in: query
           name: username
@@ -229,7 +276,7 @@ paths:
           description: OK    
   /user/logout:
     get:
-      summary: Logout user
+      summary: Logout user [NOT WORKING]
       parameters:
         - in: query
           name: username
@@ -245,12 +292,28 @@ paths:
           description: OK  
   /user/register:
     post:
-      summary: Register new user
+      summary: Register new user [NOT WORKING]
       parameters:
+        - in: query
+          name: groupid
+          schema:
+            type: integer
+          required: true
+        - in: query
+          name: firstname
+          schema:
+            type: string
+          required: true        
+        - in: query
+          name: lastname
+          schema:
+            type: string
+          required: true
         - in: query
           name: username
           schema:
             type: string
+          required: true
         - in: query
           name: pw
           schema:
@@ -268,34 +331,121 @@ paths:
                   properties:  
                     success:
                       type: boolean 
-                    id:
-                      type: integer
+
           
   /user/delete:
     get:
-      summary: Delete a user
+      summary: WORKS - Delete a user
       parameters:
         - in: query
-          name: username
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:  
+                    success:
+                      type: boolean 
+  /user/setpassword:
+    post:
+      summary: WORKS - Set a new password for a user
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+        - in: query
+          name: pw
           schema:
             type: string
           required: true
       responses:
         '200':
+          description: OK  
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:  
+                    success:
+                      type: boolean     
+  /user/all:
+    post:
+      summary: WORKS - Get all user
+      responses:
+        '200':
           description: OK
-  /user/setpassword:
-    get:
-      summary: Set a new password for a user
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:  
+                    userid:
+                      type: integer  
+                    username:
+                      type: string
+                    pw: 
+                      type: string
+                    groupid:
+                      type: integer
+                    vorname:
+                      type: string
+                    nachname:
+                      type: string
+  /user/changegroup:
+    post:
+      summary: WORKS - Set a new group for a user
       parameters:
         - in: query
-          name: username
+          name: id
           schema:
-            type: string
+            type: integer
+          required: true
         - in: query
-          name: pw
+          name: groupid
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: OK  
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:  
+                    success:
+                      type: boolean     
+          
+  /group/add:
+    post:
+      summary: WORKS - Add a new group
+      parameters:
+        - in: query
+          name: bezeichnung
           schema:
             type: string
-          required: truer
+          required: true
+        - in: query
+          name: privilegiert
+          schema:
+            type: string
+          required: true
       responses:
         '200':
           description: OK  
@@ -308,7 +458,26 @@ paths:
                   properties:  
                     success:
                       type: boolean           
-          
+  /group/all:
+    get:
+      summary: WORKS - Get info of all groups
+      responses:
+        '200':
+          description: OK  
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:  
+                    id:
+                      type: integer
+                    bezeichnung:
+                      type: string
+                    privilegiert:
+                      type: boolean
+                    
 components:
   schemas:
     Raum:
@@ -326,6 +495,5 @@ components:
         - nr
         - bezeichnung
         - notiz
-
 
 

@@ -1,3 +1,12 @@
-<p>
-  log-in works!
-</p>
+<div id="loginForm">
+  <div id="loginLine">
+    <p id="logIn">Login</p>
+  </div>
+  <div id="inputValues">
+  Benutzer <br><input [(ngModel)]="userName" type="input" id="userNm"><br>
+  Passwort <br> <input [(ngModel)]="passWord" type="password" id="passWd">
+  <p *ngIf="showValidationMessage" id="errorMessage">Falsches Passwort oder Benutzername.</p>
+  <br><br>
+  <input type="button" id="sendBtn" (click)="secureAndSend(userName, passWord, true)" value="Anmelden">
+</div>
+</div>

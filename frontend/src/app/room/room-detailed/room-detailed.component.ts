@@ -173,10 +173,6 @@ export class RoomDetailedComponent implements OnInit {
         if(comps[i].is_software) {
           let card = new Card(comps[i].bezeichnung, comps[i].seriennummer, false);
           cards[cardCounter++] = card;
-          console.log(i);
-          console.log(comps[i].is_software);
-          
-          
         }
     }
     return cards;
