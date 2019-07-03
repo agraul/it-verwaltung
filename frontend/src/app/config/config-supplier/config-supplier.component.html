@@ -1,13 +1,13 @@
 <h6>Lieferantenverwaltung</h6>
-<form [formGroup]="form">
+<form *ngIf="form" [formGroup]="form">
   <table class="table">
     <thead>
       <tr>
-        <th scope="col">Firmenname</th>
-        <th scope="col">Straße</th>
-        <th scope="col">PLZ</th>
-        <th scope="col">Ort</th>
-        <th scope="col">Telefon</th>
+        <th scope="col">Firmenname*</th>
+        <th scope="col">Straße*</th>
+        <th scope="col">PLZ*</th>
+        <th scope="col">Ort*</th>
+        <th scope="col">Telefon*</th>
         <th scope="col">Mobil</th>
         <th scope="col">Fax</th>
         <th scope="col">Mail</th>
@@ -18,22 +18,22 @@
       <tr *ngFor="let deliverer of this.form.get('deliverers').controls; let i = index" formArrayName="deliverers">
         <ng-container [formGroupName]="i">
           <td>
-            <input class="form-control" id="fn-{{i}}" type="text" formControlName="firmenname">
+            <input class="form-control" id="fn-{{i}}" type="text" formControlName="companyname">
           </td>
           <td>
-            <input class="form-control" id="strasse-{{i}}" type="text" formControlName="strasse">
+            <input class="form-control" id="street-{{i}}" type="text" formControlName="street">
           </td>
           <td>
             <input class="form-control" id="plz-{{i}}" type="number" formControlName="plz">
           </td>
           <td>
-            <input class="form-control" id="ort-{{i}}" type="text" formControlName="ort">
+            <input class="form-control" id="place-{{i}}" type="text" formControlName="place">
           </td>
           <td>
             <input class="form-control" id="tel-{{i}}" type="text" formControlName="tel">
           </td>
           <td>
-            <input class="form-control" id="mobil-{{i}}" type="text" formControlName="mobil">
+            <input class="form-control" id="mobile-{{i}}" type="text" formControlName="mobile">
           </td>
           <td>
             <input class="form-control" id="fax-{{i}}" type="text" formControlName="fax">
@@ -43,29 +43,29 @@
           </td>
           <td>
             <button [disabled]="!form.get('deliverers').controls[i].valid" (click)=saveChange(deliverer)>Ändern</button>
-            <button (click)="deleteDeliverer(i)">Löschen</button>
+            <button (click)="deleteDeliverer(deliverer.value.id)">Löschen</button>
           </td>
         </ng-container>
       </tr>
       <ng-container formGroupName="addDeliverer">
         <tr>
           <td>
-            <input class="form-control" id="fn" type="text" formControlName="firmenname">
+            <input class="form-control" id="fn" type="text" formControlName="companyname">
           </td>
           <td>
-            <input class="form-control" id="strasse" type="text" formControlName="strasse">
+            <input class="form-control" id="street" type="text" formControlName="street">
           </td>
           <td>
             <input class="form-control" id="plz" type="number" formControlName="plz">
           </td>
           <td>
-            <input class="form-control" id="ort" type="text" formControlName="ort">
+            <input class="form-control" id="place" type="text" formControlName="place">
           </td>
           <td>
             <input class="form-control" id="tel" type="text" formControlName="tel">
           </td>
           <td>
-            <input class="form-control" id="mobil" type="text" formControlName="mobil">
+            <input class="form-control" id="mobile" type="text" formControlName="mobile">
           </td>
           <td>
             <input class="form-control" id="fax" type="text" formControlName="fax">

@@ -33,7 +33,7 @@ export class LogInComponent implements OnInit {
 
     if (
       this.authentication.login(username, password).subscribe(resp => {
-        this.router.navigate(['/rooms']);
+        this.router.navigateByUrl(this.authentication.redirectUrl ? this.router.parseUrl(this.authentication.redirectUrl) : '/rooms');
         return resp;
       }).closed === false
     ) {

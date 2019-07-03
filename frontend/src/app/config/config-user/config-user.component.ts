@@ -43,8 +43,8 @@ export class ConfigUserComponent implements OnInit {
   }
 
   private async reloadTable() {
-    this.api.getAllGroups().subscribe(obs => this.roles = obs);
-    await this.api.getAllUser().then(obs => this.users = obs);
+    this.api.getAllGroups().subscribe(obs => this.roles = obs.sort((a, b) => a.bezeichnung.localeCompare(b.bezeichnung)));
+    await this.api.getAllUser().then(obs => this.users = obs.sort((a, b) => a.username.localeCompare(b.username)));
 
     this.form = this.builder.group({
       addUser: this.builder.group({
@@ -65,7 +65,7 @@ export class ConfigUserComponent implements OnInit {
   }
 
   public deleteUser(index: number): void {
-    this.api.deleteUser(this.users[index].userid).then(res => this.reloadTable());
+    this.api.deleteUser(this.users[index].userid).then(() => this.reloadTable());
   }
 
   public saveUser(): void {

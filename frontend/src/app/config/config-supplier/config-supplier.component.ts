@@ -1,6 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators
+} from '@angular/forms';
 import { Deliverer } from 'src/app/fe-entities/deliverer.entity';
+import { ApiClientService } from 'src/app/core/api-client.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-config-supplier',
@@ -8,63 +16,56 @@ import { Deliverer } from 'src/app/fe-entities/deliverer.entity';
   styleUrls: ['./config-supplier.component.less']
 })
 export class ConfigSupplierComponent implements OnInit {
-
-  private deliverers: Deliverer[] = [];
-
   public form: FormGroup;
 
-  constructor(private builder: FormBuilder) { }
+  constructor(private builder: FormBuilder, private api: ApiClientService) {}
 
   ngOnInit() {
-    // TODO load BE;
-    this.form = this.builder.group({
-      addDeliverer: this.buildDelivererGroup(new Deliverer()),
-      deliverers: this.builder.array(this.deliverers.map(del => this.buildDelivererGroup(del)))
+    this.reloadTable();
+  }
+
+  private reloadTable(): void {
+    this.api.getAllDeliverer().then(resp => {
+      this.form = this.builder.group({
+        addDeliverer: this.buildDelivererGroup(new Deliverer()),
+        deliverers: this.builder.array(
+          resp
+            .sort((a, b) => a.companyname.localeCompare(b.companyname))
+            .map(del => this.buildDelivererGroup(del))
+        )
+      });
     });
   }
 
   private buildDelivererGroup(del: Deliverer): FormGroup {
     return this.builder.group({
       id: del.id,
-      firmenname: new FormControl(del.firmenname, Validators.required),
-      strasse: new FormControl(del.strasse, Validators.required),
+      companyname: new FormControl(del.companyname, Validators.required),
+      street: new FormControl(del.street, Validators.required),
       plz: new FormControl(del.plz, Validators.required),
-      ort: new FormControl(del.ort, Validators.required),
+      place: new FormControl(del.place, Validators.required),
       tel: new FormControl(del.tel, Validators.required),
-      mobil: new FormControl(del.mobil),
-      fax: new FormControl(del.fax),
-      email: new FormControl(del.email)
+      mobile: new FormControl(del.mobile, Validators.required),
+      fax: new FormControl(del.fax, Validators.required),
+      email: new FormControl(del.email, Validators.required)
     });
   }
 
   public saveDeliverer(): void {
+    const newDeliverer = this.form.get('addDeliverer').value;
 
-    // TODO: BE;
-    const newDeliverer = this.form.get('addDeliverer');
-    newDeliverer.get('id').setValue(Math.random() + 100);
-    (this.form.get('deliverers') as FormArray).push(this.buildDelivererGroup(newDeliverer.value));
-
-    newDeliverer.get('id').setValue(null);
-    newDeliverer.get('firmenname').setValue(null);
-    newDeliverer.get('strasse').setValue(null);
-    newDeliverer.get('plz').setValue(null);
-    newDeliverer.get('ort').setValue(null);
-    newDeliverer.get('tel').setValue(null);
-    newDeliverer.get('mobil').setValue(null);
-    newDeliverer.get('fax').setValue(null);
-    newDeliverer.get('email').setValue(null);
-
+    this.api.updateDeliverer(newDeliverer).then(res => {
+      if (!(res instanceof HttpErrorResponse)) {
+        this.reloadTable();
+      }
+    });
   }
 
   public saveChange(control: FormGroup): void {
     // TODO: BE;
   }
 
-  public deleteDeliverer(index: number): void {
-    // TOBE: BE;
-    (this.form.get('deliverers') as FormArray).removeAt(index);
+  public deleteDeliverer(id: number): void {
+    this.api.deleteDeliverer(id).then(() => this.reloadTable());
   }
-
-
-
 }
