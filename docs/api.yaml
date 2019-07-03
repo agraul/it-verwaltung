@@ -74,6 +74,61 @@ paths:
                           type: string
                         is_software:
                           type: boolean
+  /room/add:
+    post:
+      summary: WORKS - Add a room
+      parameters:
+        - in: query
+          name: nr
+          schema:
+            type: string
+          required: true
+        - in: query
+          name: bezeichnung
+          schema:
+            type: string
+          required: true
+        - in: query
+          name: notiz
+          schema:
+            type: string
+      responses:
+        '200':  
+          description: OK
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:  
+                    success:
+                      type: boolean
+        '400':
+          description: Bad Request
+  /room/delete:
+    get:
+      summary: WORKS - Delete a room
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':  
+          description: OK
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:  
+                    success:
+                      type: boolean
+        '400':
+          description: Bad Request
 
   /component/all:
     get:
@@ -87,7 +142,6 @@ paths:
       responses:
         '200':
           description: OK
-          
   /component/detail:
     get:
       summary: Get details about a component
@@ -123,10 +177,23 @@ paths:
       responses:
         '200':
           description: OK
+  /component/delete:
+    get:
+      summary: MIT LÖSCHWEITERGABE TESTEN - Delete a component
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: OK
+
 
   /componenttype/all:
     get:
-      summary: Get all componenttypes and their attributes
+      summary: WORKS - Get all componenttypes and their attributes
       responses:
         '200':
           description: OK
@@ -538,7 +605,7 @@ paths:
                       type: string
   /supplier/delete:
     get:
-      summary: IN PROGRESS - Delete a supplier by id
+      summary: WORKS - Delete a supplier by id
       parameters:
         - in: query
           name: id
@@ -559,7 +626,7 @@ paths:
                       type: boolean
   /supplier/add:
     post:
-      summary: IN PROGRESS - Add a suppler
+      summary: WORKS - Add a suppler
       parameters:
         - in: query
           name: companyname
