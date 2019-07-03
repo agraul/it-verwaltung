@@ -10,7 +10,7 @@ class skeleton extends controller
     {
         $this->request_method = $request_method;
         header('Content-Type: application/json');
-        $this->data = new stdClass();
+        $this->data = [];
     }
 
     public function __destruct()
