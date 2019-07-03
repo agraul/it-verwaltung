@@ -6,12 +6,14 @@ import { RoomOverviewComponent } from './room-overview/room-overview.component';
 import { RoomDetailedComponent } from './room-detailed/room-detailed.component';
 import { RoomCardComponent } from './room-card/room-card.component';
 import { AddCardComponent } from './add-card/add-card.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [RoomOverviewComponent, RoomDetailedComponent, RoomCardComponent, AddCardComponent],
   imports: [
     CommonModule,
-    RoomRoutingModule
+    RoomRoutingModule,
+    FormsModule
   ]
 })
 export class RoomModule { }

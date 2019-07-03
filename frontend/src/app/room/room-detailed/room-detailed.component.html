@@ -9,20 +9,31 @@
             </b>
         </div> 
         <hr>
-        <b>Hardware:</b>
-        <br>
-        <br>
-        
-        <div class="flex-container" style="padding: 1%">
-            <app-room-card  *ngFor="let component of overViewHComponents" [card]="component" ></app-room-card>
-        </div>
+        <div class="ex1">
+            <b>Hardware:</b>
+            <br>
+            <br>
+            
+            <div class="flex-container" style="padding: 1%">
+                <app-room-card *ngFor="let component of overViewHComponents; let i = index" [card]="component" (click)="showDetailedHCard(room.komponenten[i].id)" ></app-room-card>
+                <app-add-card></app-add-card>
+            </div>
 
-        <hr>
-        <b>Software:</b>
-        <br>
-        <br>
-        <div class="flex-container" style="padding: 1%">
-            <app-room-card  *ngFor="let component of overViewSComponents" [card]="component" ></app-room-card>
+            <hr>
+            <b>Software:</b>
+            <br>
+            <br>
+            <div class="flex-container" style="padding: 1%">
+                <app-room-card  *ngFor="let component of overViewSComponents" [card]="component" ></app-room-card>
+                <app-add-card></app-add-card>
+            </div>
         </div>
-    
+        <hr >
+        <div class="row form-group">
+            <label for="exampleFormControlTextarea1"><b>Raumkommentar:</b></label>
+            <textarea [(ngModel)]="roomComment" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        </div>
+        <div class="row" style="float: right">
+            <button (click)="saveComment(room.id)" type="button" class="btn btn-primary">Speichern</button>
+        </div>
     </div>
