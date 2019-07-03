@@ -1,6 +1,6 @@
 <?php
 
-class skeleton extends controller
+class supplier extends controller
 {
 
     public $data;
@@ -22,9 +22,14 @@ class skeleton extends controller
         echo json_encode($this->data);
     }
 
-    public function somefun()
+    public function all()
     {
-        // $this->data = [ (...) ];
+        $query = $this->db->prepare("SELECT * FROM lieferant");
+        $query->execute();
+
+        foreach ($query as $row) {
+            // ..
+        }
     }
 
 }
