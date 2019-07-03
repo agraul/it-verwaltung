@@ -442,7 +442,7 @@ paths:
             type: string
           required: true
         - in: query
-          name: priviligiert
+          name: privilegiert
           schema:
             type: string
           required: true
@@ -475,7 +475,7 @@ paths:
                       type: integer
                     bezeichnung:
                       type: string
-                    priviligiert:
+                    privilegiert:
                       type: boolean
                     
 components:

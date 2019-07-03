@@ -13,6 +13,7 @@ class component extends controller
         require '../db.php';
         $link = new db();
         $this->db = $link::get();
+        $_POST = json_decode(file_get_contents('php://input'), true);
     }
 
     public function __destruct()
@@ -22,6 +23,7 @@ class component extends controller
 
     public function all()
     {
+        
     }
 
 }
