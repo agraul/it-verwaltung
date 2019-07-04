@@ -195,15 +195,44 @@ paths:
   /component/all:
     get:
       summary: x
-      parameters:
-        - in: query
-          name: pw
-          schema:
-            type: string
-          required: true
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    bezeichnung:
+                      type: string
+                    raeume_id:
+                      type: integer
+                    lieferant_id:
+                      type: integer
+                    einkaufsdatum:
+                      type: string
+                    gewaehrleistungsdauer:
+                      type: integer
+                    notiz:
+                      type: string
+                    hersteller:
+                      type: string
+                    beleg_id:
+                      type: string
+                    komponentenartenid:
+                      type: integer
+                    attribute:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        value:
+                          type: string
+          
   /component/detail:
     get:
       summary: Get details about a component
@@ -251,7 +280,6 @@ paths:
       responses:
         '200':
           description: OK
-
 
   /componenttype/all:
     get:
