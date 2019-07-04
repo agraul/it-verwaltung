@@ -20,9 +20,10 @@
   <b>Räume:</b>
   <div class="ex1">
     <div class="flex-container">
-      <app-room-card *ngFor="let room of overViewRooms" [card]="room" (click)="showDetailedCard(room.header)">
-      </app-room-card>
+      <app-room-card *ngFor="let room of (overViewRooms | roomPipe:searchText)" [card]="room"
+        (click)="showDetailedCard(room.header)"></app-room-card>
       <app-add-card (click)="showAddRoom()"></app-add-card>
     </div>
   </div>
+</div>
 </div>
