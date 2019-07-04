@@ -341,17 +341,29 @@ paths:
   /componenttype/addAttribute:
      post:
       summary: WORKS - Add a attribute for a component type
-      parameters:
-        - in: query
-          name: komponentenart_id
-          schema:
-            type: integer
-          required: true
-        - in: query
-          name: komponentenattribute_id
-          schema:
-            type: integer
-          required: true
+      requestBody:
+        content:
+          application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    bezeichnung:
+                      type: string
+                    is_software:
+                      type: boolean
+                    attribute:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          bezeichnung:
+                            type: string
       responses:
         '200':
           description: OK
