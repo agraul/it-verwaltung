@@ -46,6 +46,16 @@ return $routes = [
         'action' => 'setpassword',
     ],
     [
+        'route' => '/user/login',
+        'controller' => 'user',
+        'action' => 'login',
+    ],
+    [
+        'route' => '/user/logout',
+        'controller' => 'user',
+        'action' => 'logout',
+    ],
+    [
         'route' => '/user/all',
         'controller' => 'user',
         'action' => 'all',

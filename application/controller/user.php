@@ -13,7 +13,7 @@ class user extends controller
         require '../db.php';
         $link = new db();
         $this->db = $link::get();
-        $_POST = json_decode(file_get_contents('php://input'), true);
+        #   $_POST = json_decode(file_get_contents('php://input'), true);
         $this->cors();
     }
 
@@ -39,6 +39,35 @@ class user extends controller
 
     public function login()
     {
+        if ($this->verify($_POST['username']) === false || $this->verify($_POST['pw']) === false) {
+            http_response_code(400);
+            return;
+        }
+
+        $username = (string) $_POST['username'];
+        $pw = (string) $_POST['pw'];
+        $sql = "SELECT * FROM benutzer WHERE b_username=?";
+        $query = $this->db->prepare($sql);
+        $result = $query->execute(array($username));
+        var_dump($query->rowCount());
+        if ((int) $query->rowCount() === 0) {
+            http_response_code(400);
+            return;
+        }
+        foreach ($query as $row) {
+            $hash = (string) $row['b_passwort'];
+        }
+        if (password_verify($pw, $hash) === false) {
+            http_response_code(400);
+            return;
+        } else {
+ 
+            var_dump('erfolgreich');
+        }
+    }
+
+    public function logout()
+    {
         
     }
 
@@ -46,6 +75,7 @@ class user extends controller
     {
         if ($this->verify($_POST['groupid']) === false || $this->verify($_POST['firstname']) === false || $this->verify($_POST['lastname']) === false || $this->verify($_POST['username']) === false || $this->verify($_POST['pw']) === false) {
             http_response_code(400);
+            return;
         }
         $groupId = (int) $_POST['groupid'];
         $firstName = (string) $_POST['firstname'];
@@ -57,6 +87,7 @@ class user extends controller
         $res = $query->execute(array($groupId, $firstName, $lastName, $username, $pw));
         if ($res === false) {
             http_response_code(409);
+            return;
         }
     }
 
