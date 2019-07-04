@@ -1,51 +1,59 @@
 <div class="row">
-    <div class="col-4">
-            <h6>Komponentenart</h6>
+  <div class="col-4">
+    <h6>Komponentenart</h6>
+  </div>
+  <div class="col-4">
+    <h6>Komponentenattribute</h6>
+  </div>
+  <div class="col-4">
+  </div>
+</div>
+<div class="row row-height">
+  <div class="col-4">
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let type of sortedDeviceTypes(); let i = index;" (click)="setTypeActive(i)"
+        [ngClass]="{'active': activeType == i}">{{ type.bezeichnung }}</li>
+    </ul>
+  </div>
+  <div class="col-4">
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let attribute of sortedDeviceAttributes(); let i = index;"
+        (click)="toggleDeviceAttribute(i)" [ngClass]="{'active': checkDeviceAttributeActive(i)}">
+        {{ attribute.bezeichnung }}<button class="float-right" *ngIf="!checkAttributeDeleteable(i)"
+          (click)="deleteDeviceAttribute(i)" id="delete-attribute">x</button></li>
+    </ul>
+  </div>
+  <div class="col-4">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" [(ngModel)]="deviceTypes[activeType].isSoftware"
+        id="isSoftware"><label class="form-check-label" for="isSoftware">Software</label>
     </div>
-    <div class="col-4">
-            <h6>Komponentenattribute</h6>
+    <div>
+      <button id="btn-save" (click)="saveDeviceType()">Speichern</button>
     </div>
-    <div class="col-4">
-    </div>
+  </div>
 </div>
 <div class="row">
-    <div class="col-4">
-            <ul class="list-group">
-                <li class="list-group-item" *ngFor="let type of deviceTypes; let i = index;" (click)="setTypeActive(i)" [ngClass]="{'active': activeType == i}">{{ type.name }}</li>
-            </ul>
-          </div>
-          <div class="col-4">
-                <ul class="list-group">
-                    <li class="list-group-item" *ngFor="let attribute of deviceAttributes; let i = index;" (click)="toggleDeviceAttribute(i)" [ngClass]="{'active': checkDeviceAttributeActive(i)}">{{ attribute.name }}<button class="float-right" *ngIf="!checkAttributeDeleteable(i)" (click)="deleteDeviceAttribute(i)" id="delete-attribute">x</button></li> 
-                </ul>
-          </div>
-          <div class="col-4">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" [(ngModel)]="deviceTypes[activeType].isSoftware" id="isSoftware"><label class="form-check-label" for="isSoftware">Software</label>
-            </div>
-            <div>
-              <button id="btn-save" (click)="saveDeviceType()">Speichern</button>
-            </div>
-          </div>
-</div>
-<div class="row">
-    <div class="col-12">
-            <div class="form-group row">
-                    <div class="col-3">
-                      <input type="text" class="form-control" id="new-device-type" [formControl]="newDeviceType" placeholder="Neuer Typ">
-                    </div>
-                    <div class="col-1">
-                        <button (click)="addNewDeviceType()" id="add-new-type">+</button>
-                    </div>
-                    <div class="col-3">
-                            <input type="text" class="form-control" id="new-attribute" [formControl]="newDeviceAttribute" placeholder="Neues Attribute">
-                          </div>
-                          <div class="col-1">
-                              <button (click)="addNewDeviceAttribute()" id="add-new-attribute">+</button>
-                          </div>
-                  <div class="col-3">
-                        <button id="delete-type" (click)="deleteDeviceType()">Löschen</button>
-                </div>
-                </div>
+  <div class="col-12">
+    <div class="form-group row">
+      <div class="col-3">
+        <input type="text" class="form-control" id="new-device-type" [formControl]="newDeviceType"
+          placeholder="Neuer Typ">
+      </div>
+      <div class="col-1">
+        <button (click)="addNewDeviceType()" id="add-new-type">+</button>
+      </div>
+      <div class="col-3">
+        <input type="text" class="form-control" id="new-attribute" [formControl]="newDeviceAttribute"
+          placeholder="Neues Attribute">
+      </div>
+      <div class="col-1">
+        <button [disabled]="!checkDuplicateDeviceAttribute()" (click)="addNewDeviceAttribute()"
+          id="add-new-attribute">+</button>
+      </div>
+      <div class="col-3">
+        <button id="delete-type" (click)="deleteDeviceType()">Löschen</button>
+      </div>
     </div>
+  </div>
 </div>

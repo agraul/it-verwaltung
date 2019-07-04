@@ -1,1 +1,59 @@
-<p>config-user works!</p>
+<h6>Benutzerverwaltung</h6>
+<form *ngIf="form" [formGroup]="form">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Benutzername</th>
+        <th scope="col">Vorname</th>
+        <th scope="col">Nachname</th>
+        <th scope="col">Rechtegruppe</th>
+        <th scope="col">Neues Passwort</th>
+        <th scope="col">Aktion</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users; let i = index" formArrayName="users">
+        <ng-container [formGroupName]="i">
+
+          <td>{{user.username}}</td>
+          <td>{{user.firstname}}</td>
+          <td>{{user.lastname}}</td>
+          <td><select class="form-control" id="role-{{i}}" formControlName="groupid">
+              <option *ngFor="let role of roles" [value]="role.id">{{ role.bezeichnung }}</option>
+            </select></td>
+          <td>
+            <input class="form-control" id="pw-{{i}}" type="password" formControlName="pw">
+          </td>
+          <td>
+            <button [disabled]="!form.get('users').controls[i].valid" (click)=saveChange(i)>Ändern</button>
+            <button (click)="deleteUser(i)">Löschen</button>
+          </td>
+        </ng-container>
+      </tr>
+      <ng-container formGroupName="addUser">
+        <tr>
+          <td>
+            <input class="form-control" id="addusername" formControlName="username">
+          </td>
+          <td>
+            <input class="form-control" id="addfirstname" formControlName="firstname">
+          </td>
+          <td>
+            <input class="form-control" id="addlastname" formControlName="lastname">
+          </td>
+          <td>
+            <select class="form-control" id="addRole" formControlName="groupid">
+              <option *ngFor="let role of roles" [value]="role.id">{{ role.bezeichnung }}</option>
+            </select>
+          </td>
+          <td>
+            <input type="password" class="form-control" id="addpw" formControlName="pw">
+          </td>
+          <td>
+            <button [disabled]="!form.get('addUser').valid" (click)=saveUser()>Speichern</button>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</form>

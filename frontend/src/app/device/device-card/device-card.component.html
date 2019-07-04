@@ -1,0 +1,13 @@
+<div class="flex-item card rounded-0" >
+    <div class="card-header">
+            {{card.header}}
+        <span *ngIf="card.has_badge == true" class="badge badge-primary" style="float: right">
+                <i class="far fa-comment-alt"></i>
+        </span>
+    </div>
+    <div class="card-body" style="margin: 0 auto; padding-top: 1px; padding-bottom: 1px">
+        <div class="row">{{card.body}}</div>
+        <div class="row">{{card.footer}}</div>
+    </div>
+    
+</div>
