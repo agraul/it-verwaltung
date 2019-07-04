@@ -55,7 +55,6 @@ class componenttype extends controller
         $is_software = (int) $_POST['is_software'];
         $attributes = (array) $_POST['attribute'];
         $sql = "INSERT INTO komponentenarten (ka_komponentenart, ka_software) VALUES (?, ?);";
-        // update: delete in wird_beschrieben_durch, dann geändertes per insert2 rein.
         $query = $this->db->prepare($sql);
         $result = $query->execute(array($type, $is_software));
         if ($result != true) {
