@@ -12,6 +12,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class RoomDetailedComponent implements OnInit {
 
+  // For Selecting Devices
+  public selectedDevices = new Array();
+  public selectModeActive = false;
+  public selectButtonValue = 'Auswahl';
+
   public roomComment: string;
   public overViewHComponents: Card[];
   public overViewSComponents: Card[];
@@ -43,89 +48,89 @@ export class RoomDetailedComponent implements OnInit {
           is_software: false
         },
         {
-          id: 5557,
+          id: 5558,
           bezeichnung: "Powerpoint",
           hersteller: "Microsoft",
           seriennummer: "4543-4343-65-665",
           is_software: true
         },{
-          id: 5555,
+          id: 5559,
           bezeichnung: "Computer",
           hersteller: "Lenovo",
           seriennummer: "478348384",
           is_software: false
         },
         {
-          id: 5556,
+          id: 5560,
           bezeichnung: "Computer",
           hersteller: "hp",
           seriennummer: "478348385",
           is_software: false
         },
         {
-          id: 5557,
+          id: 5561,
           bezeichnung: "Computer",
           hersteller: "Apple",
           seriennummer: "478348386",
           is_software: false
         },
         {
-          id: 5557,
+          id: 5562,
           bezeichnung: "Powerpoint",
           hersteller: "Microsoft",
           seriennummer: "4543-4343-65-665",
           is_software: true
         },{
-          id: 5555,
+          id: 5563,
           bezeichnung: "Computer",
           hersteller: "Lenovo",
           seriennummer: "478348384",
           is_software: false
         },
         {
-          id: 5556,
+          id: 5564,
           bezeichnung: "Computer",
           hersteller: "hp",
           seriennummer: "478348385",
           is_software: false
         },
         {
-          id: 5557,
+          id: 5565,
           bezeichnung: "Computer",
           hersteller: "Apple",
           seriennummer: "478348386",
           is_software: false
         },
         {
-          id: 5557,
+          id: 5566,
           bezeichnung: "Powerpoint",
           hersteller: "Microsoft",
           seriennummer: "4543-4343-65-665",
           is_software: true
         },
         {
-          id: 5555,
+          id: 5567,
           bezeichnung: "Computer",
           hersteller: "Lenovo",
           seriennummer: "478348384",
           is_software: false
         },
         {
-          id: 5556,
+          id: 5568,
           bezeichnung: "Computer",
           hersteller: "hp",
           seriennummer: "478348385",
           is_software: false
         },
         {
-          id: 5557,
+          id: 5569,
           bezeichnung: "Computer",
           hersteller: "Apple",
           seriennummer: "478348386",
           is_software: false
         },
         {
-          id: 5557,
+          id: 5570,
           bezeichnung: "Powerpoint",
           hersteller: "Microsoft",
           seriennummer: "4543-4343-65-665",
@@ -178,6 +183,38 @@ export class RoomDetailedComponent implements OnInit {
     return cards;
   }
 
+  clickCard(id: number) {
+    if(!this.selectModeActive) {
+      this._router.navigate(['devices/' + id]);
+    } else {
+      // IF Device is not selected
+      if(!this.selectedDevices.find(resp => resp === id)) {
+        this.selectedDevices.push(id);
+      } else {
+        // IF device is already selected
+        let index = this.selectedDevices.indexOf(id,0);
+        if(index > -1) {
+          this.selectedDevices.splice(index, 1);
+        }
+      }
+    }
+    console.log(this.selectedDevices);
+    
+  }
+
+  rejectDevices() {
+    let devicesToReject = this.selectedDevices;
+
+    //TODO Api call for moving Devices in Ausmusterung
+  }
+
+  maintainDevices() {
+    let devicesToMaintain = this.selectedDevices;
+
+
+    //TODO API call for moving Devices in Wartung
+  }
+
   showDetailedHCard(id: number) {
     this._router.navigate(['devices/'+id])
   }
@@ -195,6 +232,26 @@ export class RoomDetailedComponent implements OnInit {
 
   saveComment(id: number) {
     // TODO save the comment to db
+  }
+  
+  toggleSelectMode(){
+    if(this.selectModeActive){
+      this.selectModeActive = false;
+      this.selectedDevices = new Array();
+      this.selectButtonValue = 'Auswählen';
+    } else { 
+      this.selectModeActive = true;
+      this.selectButtonValue = 'Aufheben';
+    }
+    
+  }
+  isCardSelected(id: number): boolean {
+  
+    if(this.selectedDevices.find(resp => resp === id)){
+      return true;
+    } else {
+      return false;
+    }
   }
 
 }
