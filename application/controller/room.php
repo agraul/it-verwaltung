@@ -30,7 +30,7 @@ class room extends controller
         foreach ($query as $row) {
             $this->data[$i] = new stdClass();
             $this->data[$i]->id = (int) $row['r_id'];
-            $this->data[$i]->nr = (int) $row['r_nr'];
+            $this->data[$i]->nr = (string) $row['r_nr'];
             $this->data[$i]->bezeichnung = (string) $row['r_bezeichnung'];
             $this->data[$i]->hat_notiz = empty($row['r_bezeichnung']) ? false : true;
             $this->data[$i]->komponenten_arten = [];
@@ -103,6 +103,41 @@ class room extends controller
         $sql = "DELETE FROM raeume WHERE r_id = ?;";
         $query = $this->db->prepare($sql);
         $result = $query->execute(array($id));
+        if ($result === false) {
+            http_response_code(500);
+            return;
+        }
+    }
+
+    public function edit()
+    {
+        if ($this->verify($_POST['id']) === false || $this->verify($_POST['nr']) === false || $this->verify($_POST['bezeichnung']) === false) {
+            http_response_code(400);
+            return;
+        }
+        $id = (int) $_POST['id'];
+        $nr = (string) $_POST['nr'];
+        $bezeichnung = (string) $_POST['bezeichnung'];
+        $sql = "UPDATE raeume SET r_nr = ?,  r_bezeichnung = ? WHERE r_id = ?;";
+        $query = $this->db->prepare($sql);
+        $result = $query->execute(array($nr, $bezeichnung, $id));
+        if ($result === false) {
+            http_response_code(500);
+            return;
+        }
+    }
+
+    public function note()
+    {
+        if ($this->verify($_POST['id']) === false || $this->verify($_POST['notiz']) === false) {
+            http_response_code(400);
+            return;
+        }
+        $id = (int) $_POST['id'];
+        $note = (string) $_POST['notiz'];
+        $sql = "UPDATE raeume SET r_notiz = ? WHERE r_id = ?;";
+        $query = $this->db->prepare($sql);
+        $result = $query->execute(array($note, $id));
         if ($result === false) {
             http_response_code(500);
             return;

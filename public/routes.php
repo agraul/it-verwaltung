@@ -16,6 +16,16 @@ return $routes = [
         'action' => 'add',
     ],
     [
+        'route' => '/room/note',
+        'controller' => 'room',
+        'action' => 'note',
+    ],
+    [
+        'route' => '/room/edit',
+        'controller' => 'room',
+        'action' => 'edit',
+    ],
+    [
         'route' => '/group/add',
         'controller' => 'group',
         'action' => 'add',
@@ -76,9 +86,34 @@ return $routes = [
         'action' => 'all',
     ],
     [
+        'route' => '/component/add',
+        'controller' => 'component',
+        'action' => 'add',
+    ],
+    [
+        'route' => '/component/update',
+        'controller' => 'component',
+        'action' => 'update',
+    ],
+    [
         'route' => '/component/delete',
         'controller' => 'component',
         'action' => 'delete',
+    ],
+    [
+        'route' => '/component/detail',
+        'controller' => 'component',
+        'action' => 'detail',
+    ],
+    [
+        'route' => '/component/changeRoom',
+        'controller' => 'component',
+        'action' => 'changeRoom',
+    ],
+    [
+        'route' => '/component/all',
+        'controller' => 'component',
+        'action' => 'all',
     ],
     [
         'route' => '/componenttype/add',
@@ -91,9 +126,9 @@ return $routes = [
         'action' => 'delete',
     ],
     [
-        'route' => '/componenttype/addAttribute',
+        'route' => '/componenttype/update',
         'controller' => 'componenttype',
-        'action' => 'addAttribute',
+        'action' => 'update',
     ],
     [
         'route' => '/supplier/all',
@@ -109,6 +144,26 @@ return $routes = [
         'route' => '/supplier/add',
         'controller' => 'supplier',
         'action' => 'add',
+    ],
+    [
+        'route' => '/supplier/edit',
+        'controller' => 'supplier',
+        'action' => 'edit',
+    ],
+    [
+        'route' => '/software/all',
+        'controller' => 'software',
+        'action' => 'all',
+    ],
+    [
+        'route' => '/software/add',
+        'controller' => 'software',
+        'action' => 'add',
+    ],
+    [
+        'route' => '/software/delete',
+        'controller' => 'software',
+        'action' => 'delete',
     ],
 ];
 
