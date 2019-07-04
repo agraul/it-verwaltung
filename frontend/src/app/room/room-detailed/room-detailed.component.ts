@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Card } from 'src/app/fe-entities/card.entity';
 import { HComponent } from 'src/app/fe-entities/component.entity';
 import { RoomDetailed } from 'src/app/fe-entities/room-detailed.entity';
+import { ApiClientService } from 'src/app/core/api-client.service';
 
 @Component({
   selector: 'app-room-detailed',
@@ -138,9 +139,10 @@ export class RoomDetailedComponent implements OnInit {
     ]
   };
 
-  constructor(private _router: Router, private _route: ActivatedRoute) { }
+  constructor(private _router: Router, private _route: ActivatedRoute, private api: ApiClientService) { }
 
   ngOnInit() {
+    // TODO !!!!!!
     this.getRoom();
     this.overViewHComponents = this.mapHToCards(this.room.komponenten);
     this.overViewSComponents = this.mapSToCards(this.room.komponenten);
@@ -150,6 +152,14 @@ export class RoomDetailedComponent implements OnInit {
     this.roomComment = this.room.notiz;
 
   }
+
+  getAllComponents(id: number) {
+
+    this.api.getRoomDetail(id).then(resp => {
+      this.room = resp;
+    })
+
+  } 
 
   /**
    * Maps The Components which are Hardware, to Card Array for displaying
