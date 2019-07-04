@@ -451,16 +451,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 /* harmony import */ var _core_api_client_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../core/api-client.service */ "./src/app/core/api-client.service.ts");
+/* harmony import */ var src_app_auth_auth_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/auth/auth.service */ "./src/app/auth/auth.service.ts");
+
 
 
 
 
 
 var ConfigUserComponent = /** @class */ (function () {
-    function ConfigUserComponent(builder, api) {
+    function ConfigUserComponent(builder, api, authService) {
         this.builder = builder;
         this.api = api;
+        this.authService = authService;
         this.roles = [];
+        console.log("GEtt messa");
+        console.log(this.authService.isAdmin);
     }
     ConfigUserComponent.prototype.ngOnInit = function () {
         return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function () {
@@ -471,6 +476,7 @@ var ConfigUserComponent = /** @class */ (function () {
         });
     };
     ConfigUserComponent.prototype.saveChange = function (index) {
+        var _this = this;
         var changes = this.form.get('users').controls[index].value;
         var uid = this.users[index].userid;
         var pwchange = {
@@ -484,7 +490,7 @@ var ConfigUserComponent = /** @class */ (function () {
         if (changes.pw.trim() !== '') {
             this.api.setUserPassword(pwchange).then();
         }
-        this.api.setUserGroupChange(rolechange).then();
+        this.api.setUserGroupChange(rolechange).then(function () { return _this.reloadTable(); });
     };
     ConfigUserComponent.prototype.reloadTable = function () {
         return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function () {
@@ -536,7 +542,7 @@ var ConfigUserComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./config-user.component.html */ "./src/app/config/config-user/config-user.component.html"),
             styles: [__webpack_require__(/*! ./config-user.component.less */ "./src/app/config/config-user/config-user.component.less")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormBuilder"], _core_api_client_service__WEBPACK_IMPORTED_MODULE_4__["ApiClientService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormBuilder"], _core_api_client_service__WEBPACK_IMPORTED_MODULE_4__["ApiClientService"], src_app_auth_auth_service__WEBPACK_IMPORTED_MODULE_5__["AuthService"]])
     ], ConfigUserComponent);
     return ConfigUserComponent;
 }());
@@ -591,43 +597,6 @@ var ConfigModule = /** @class */ (function () {
         })
     ], ConfigModule);
     return ConfigModule;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/core/core.module.ts":
-/*!*************************************!*\
-  !*** ./src/app/core/core.module.ts ***!
-  \*************************************/
-/*! exports provided: CoreModule */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CoreModule", function() { return CoreModule; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _api_client_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./api-client.service */ "./src/app/core/api-client.service.ts");
-
-
-
-
-var CoreModule = /** @class */ (function () {
-    function CoreModule() {
-    }
-    CoreModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
-            declarations: [],
-            imports: [
-                _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"],
-            ],
-            providers: [_api_client_service__WEBPACK_IMPORTED_MODULE_3__["ApiClientService"]]
-        })
-    ], CoreModule);
-    return CoreModule;
 }());
 
 

@@ -63,7 +63,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({"common":"common","room-room-module":"room-room-module","default~config-config-module~device-device-module":"default~config-config-module~device-device-module","config-config-module":"config-config-module","device-device-module":"device-device-module"}[chunkId]||chunkId) + ".js"
+/******/ 		return __webpack_require__.p + "" + ({"common":"common","device-device-module":"device-device-module","room-room-module":"room-room-module","config-config-module":"config-config-module"}[chunkId]||chunkId) + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
