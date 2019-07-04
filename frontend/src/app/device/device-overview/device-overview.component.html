@@ -1,26 +1,39 @@
 <div class="container-fluid d-flex flex-column">
-        <div class="row">
-    
-    
-            <!--Searchbar with Icon-->
-            <div class="row no-gutters">
-                <div class="col-md-8">
-                     <input [(ngModel)]="searchText" class="form-control border-secondary border-right-0 rounded-0" type="search" value="Suche" id="example-search-input4">
-                </div>
-                <div class="col-auto">
-                     <button class="btn btn-outline-secondary border-left-0 rounded-0 rounded-right" type="button">
-                        <i class="fa fa-search"></i>
-                     </button>
-                </div>
+    <div class="row" style="border-color: black">
+
+
+        <!--Searchbar with Icon-->
+        <div class="row no-gutters" >
+            <div class="col-md-8">
+                <input [(ngModel)]="searchText" class="form-control border-secondary border-right-0 rounded-0"
+                    type="search" value="Suche" id="example-search-input4">
             </div>
-      
+            <div class="col-auto">
+                <button class="btn btn-outline-secondary border-left-0 rounded-0 rounded-right" type="button">
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
         </div>
         <hr>
-        <div class="ex1">
-            <div class="flex-container">
-                <app-device-card *ngFor="let deviceCard of deviceCards; let i = index" [card]="deviceCard" (click)="showDetailedDevice(devices[i].id)" ></app-device-card>
-                <app-add-device-card></app-add-device-card>
-            </div>
+    </div>
+    <div class="ex1">
+        <div class="flex-container">
+            <app-device-card *ngFor="let deviceCard of deviceCards; let i = index" [card]="deviceCard"
+                (click)="clickCard(devices[i].id)" [ngClass]="{'active': isCardSelected(devices[i].id)}" ></app-device-card>
+            <app-add-device-card></app-add-device-card>
         </div>
+    </div>
+    <br>
+    <div class="row"><hr></div>
+    
+
 
 </div>
+<footer>
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <button (click)="toggleSelectMode()" class="btn btn-success">{{selectButtonValue}}</button>
+            <button (click)="rejectDevices()" *ngIf="selectModeActive" style="float: right" type="button" class="btn btn-danger">Ausmustern</button>
+        </div>
+    </nav>
+</footer>
