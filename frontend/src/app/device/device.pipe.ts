@@ -11,9 +11,6 @@ export class DevicePipe implements PipeTransform {
     if (!allDevices || !search) {
       return allDevices;
   }
-    console.log(allDevices[1].header);
-    console.log(allDevices.filter(room =>{return room}));
-    
     return allDevices.filter(device => device.header === search || device.footer === search || device.body === search);
   }
 
