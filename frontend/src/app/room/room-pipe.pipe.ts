@@ -11,8 +11,6 @@ export class RoomPipePipe implements PipeTransform {
     if (!allRooms || !search) {
       return allRooms;
   }
-    console.log(allRooms[1].body);
-    console.log(allRooms.filter(room =>{return room}));
     
     return allRooms.filter(room => room.header   === search||room.body === search);
   }
