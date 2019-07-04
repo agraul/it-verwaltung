@@ -17,127 +17,12 @@ export class RoomDetailedComponent implements OnInit {
   public selectModeActive = false;
   public selectButtonValue = 'Auswahl';
 
+  
+
   public roomComment: string;
   public overViewHComponents: Card[];
   public overViewSComponents: Card[];
-  public room: RoomDetailed = {
-    id: 1,
-    nr: "222",
-    bezeichnung: "Computerraum",
-    notiz: "Platzhalter fuer Raumnotiz",
-    komponenten: [
-      {
-        id: 5555,
-        bezeichnung: "Computer",
-        hersteller: "Lenovo",
-        seriennummer: "478348384",
-        is_software: false
-      },
-      {
-        id: 5556,
-        bezeichnung: "Computer",
-        hersteller: "hp",
-        seriennummer: "478348385",
-        is_software: false
-      },
-      {
-        id: 5557,
-        bezeichnung: "Computer",
-        hersteller: "Apple",
-        seriennummer: "478348386",
-        is_software: false
-      },
-      {
-        id: 5558,
-        bezeichnung: "Powerpoint",
-        hersteller: "Microsoft",
-        seriennummer: "4543-4343-65-665",
-        is_software: true
-      }, {
-        id: 5559,
-        bezeichnung: "Computer",
-        hersteller: "Lenovo",
-        seriennummer: "478348384",
-        is_software: false
-      },
-      {
-        id: 5560,
-        bezeichnung: "Computer",
-        hersteller: "hp",
-        seriennummer: "478348385",
-        is_software: false
-      },
-      {
-        id: 5561,
-        bezeichnung: "Computer",
-        hersteller: "Apple",
-        seriennummer: "478348386",
-        is_software: false
-      },
-      {
-        id: 5562,
-        bezeichnung: "Powerpoint",
-        hersteller: "Microsoft",
-        seriennummer: "4543-4343-65-665",
-        is_software: true
-      }, {
-        id: 5563,
-        bezeichnung: "Computer",
-        hersteller: "Lenovo",
-        seriennummer: "478348384",
-        is_software: false
-      },
-      {
-        id: 5564,
-        bezeichnung: "Computer",
-        hersteller: "hp",
-        seriennummer: "478348385",
-        is_software: false
-      },
-      {
-        id: 5565,
-        bezeichnung: "Computer",
-        hersteller: "Apple",
-        seriennummer: "478348386",
-        is_software: false
-      },
-      {
-        id: 5566,
-        bezeichnung: "Powerpoint",
-        hersteller: "Microsoft",
-        seriennummer: "4543-4343-65-665",
-        is_software: true
-      },
-      {
-        id: 5567,
-        bezeichnung: "Computer",
-        hersteller: "Lenovo",
-        seriennummer: "478348384",
-        is_software: false
-      },
-      {
-        id: 5568,
-        bezeichnung: "Computer",
-        hersteller: "hp",
-        seriennummer: "478348385",
-        is_software: false
-      },
-      {
-        id: 5569,
-        bezeichnung: "Computer",
-        hersteller: "Apple",
-        seriennummer: "478348386",
-        is_software: false
-      },
-      {
-        id: 5570,
-        bezeichnung: "Powerpoint",
-        hersteller: "Microsoft",
-        seriennummer: "4543-4343-65-665",
-        is_software: true
-      }
-    ]
-  };
+  public room: RoomDetailed;
 
   constructor(private _router: Router, private _route: ActivatedRoute, private api: ApiClientService) { }
 
@@ -233,13 +118,13 @@ export class RoomDetailedComponent implements OnInit {
     this.api.getAllRooms().then(resp => {
       for(let i=0; i<resp.length; i++){
         if(resp[i].nr === roomId){
-          console.log("Raum gefunden")
-          this.api.getRoomDetail(resp[i].id).then(resp => this.room = resp);
+          this.api.getRoomDetail(resp[i].id).then(resp => {
+            this.room = resp;
+            console.log(resp)
+          });
         }
       }
     })
-    // TODO get specific room from db
-    return;
   }
 
   getRoomId(): string {
