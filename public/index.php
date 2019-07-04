@@ -15,7 +15,6 @@ if ($request_uri === '/index.php') {
 // .html
 // .icon
 // .
-
 #$request_uri = "/runtime.js";
 #var_dump($request_uri);
 
@@ -41,10 +40,31 @@ function route(string $request_uri, array $routes): array
     return [];
 }
 
+$directRoutingFileextension = [
+    '.js',
+    '.js.map',
+    '.ico',
+];
+
 $route = route($request_uri, $routes);
 if (empty($route) === true) {
     chdir('build');
-    require 'index.html';
+    if (strpos($request_uri, '.') !== false) {
+        $fileExtension = substr($request_uri, strpos($request_uri, '.'));
+        foreach ($directRoutingFileextension as $ext) {
+            if ($ext === $fileExtension) {
+                $filename = substr($request_uri, 0, strpos($request_uri, '.'));
+                if (substr($filename, 0, 1) === '/') {
+                    $filename = substr($filename, 1);
+                }
+                require $filename . $fileExtension;
+                return;
+            }
+        }
+    } else {
+        require 'index.html';
+        return;
+    }
     return;
 }
 
@@ -52,7 +72,7 @@ chdir('../application/controller');
 require 'controller.php';
 require $route['controller'] . '.php';
 $param = $_REQUEST;
-$controller = new $route['controller']($request_method, $param);
+$controller = new $route['controller']();
 $action = $route['action'];
 $controller->$action();
 
