@@ -305,6 +305,107 @@ paths:
                     success:
                       type: boolean
 
+  /component/add:
+     post:
+      summary: WORKS - Add a component
+      requestBody:
+        content:
+          application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    bezeichnung:
+                      type: string
+                    raeume_id:
+                      type: integer
+                    lieferant_id:
+                      type: integer
+                    einkaufsdatum:
+                      type: string
+                    gewaehrleistungsdauer:
+                      type: integer
+                    notiz:
+                      type: string
+                    hersteller:
+                      type: string
+                    beleg_id:
+                      type: string
+                    komponentenartenid:
+                      type: integer
+                    attribute:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        value:
+                          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    sucess:
+                      type: boolean
+                    id:
+                      type: integer
+
+  /component/update:
+     post:
+      summary: WORKS - Update a component
+      requestBody:
+        content:
+          application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    bezeichnung:
+                      type: string
+                    raeume_id:
+                      type: integer
+                    lieferant_id:
+                      type: integer
+                    einkaufsdatum:
+                      type: string
+                    gewaehrleistungsdauer:
+                      type: integer
+                    notiz:
+                      type: string
+                    hersteller:
+                      type: string
+                    beleg_id:
+                      type: string
+                    komponentenartenid:
+                      type: integer
+                    attribute:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        value:
+                          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    sucess:
+                      type: boolean
 
   /component/delete:
     get:
