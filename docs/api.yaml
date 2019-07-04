@@ -164,7 +164,7 @@ paths:
           description: Bad Request
   /room/note:
     post:
-      summary: IN PROGRESS - Add a room
+      summary: WORKS - Modify a room note
       parameters:
         - in: query
           name: id
@@ -194,7 +194,7 @@ paths:
 
   /component/all:
     get:
-      summary: x
+      summary: WORKS - Get all components and its attributes
       responses:
         '200':
           description: OK
@@ -233,41 +233,6 @@ paths:
                         value:
                           type: string
           
-  /component/detail:
-    get:
-      summary: Get details about a component
-      parameters:
-        - in: query
-          name: id
-          schema:
-            type: integer
-          required: true
-      responses:
-        '200':
-          description: OK
-    post:
-      summary: Post changes for a component
-      parameters:
-        - in: query
-          name: id
-          schema:
-            type: integer
-          required: true
-      responses:
-        '200':
-          description: OK
-  /component/overview:
-    get:
-      summary: Get overview data for components
-      parameters:
-        - in: query
-          name: id
-          schema:
-            type: integer
-          required: true
-      responses:
-        '200':
-          description: OK
   /component/delete:
     get:
       summary: MIT LÖSCHWEITERGABE TESTEN - Delete a component
@@ -407,7 +372,7 @@ paths:
 
   /componentattribute/all:
     get:
-      summary: Get all component attributes
+      summary: WORKS - Get all component attributes
       responses:
         '200':
           description: OK
@@ -424,7 +389,7 @@ paths:
                       type: string
   /componentattribute/add:
     post:
-      summary: Add a component attribute
+      summary: WORKS - Add a component attribute
       parameters:
         - in: query
           name: attribute
