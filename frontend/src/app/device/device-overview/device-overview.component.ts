@@ -11,6 +11,12 @@ import { Card } from 'src/app/fe-entities/card.entity';
 export class DeviceOverviewComponent implements OnInit {
   public devices: Device[];
   public deviceCards: Card[];
+
+  // For Selecting Devices
+  public selectedDevices = new Array();
+  public selectModeActive = false;
+  public selectButtonValue = 'Auswahl';
+
   public deviceAttributes;
   public SearchText = '';
 
@@ -24,23 +30,6 @@ export class DeviceOverviewComponent implements OnInit {
 
   getDevices(): Device[] {
     return [
-      {
-        id: 11,
-        bezeichnung: 'Computer',
-        raumId: 222,
-        lieferantId: 48768,
-        einkaufsdatum: '2019-07-13',
-        geweahrleistungsdauer: 12,
-        notiz: 'Ein komischer Rechner',
-        hersteller: 'Apple',
-        belegId: 1234,
-        komponentenArtId: 1,
-        komponentenAttribute: [
-          { id: 2, value: '4GB RAM' },
-          { id: 1, value: '293474-34764' },
-          { id: 3, value: 'GTX 2070' }
-        ]
-      },
       {
         id: 11,
         bezeichnung: 'Computer',
@@ -93,7 +82,7 @@ export class DeviceOverviewComponent implements OnInit {
         ]
       },
       {
-        id: 11,
+        id: 14,
         bezeichnung: 'Computer',
         raumId: 222,
         lieferantId: 48768,
@@ -110,7 +99,7 @@ export class DeviceOverviewComponent implements OnInit {
         ]
       },
       {
-        id: 11,
+        id: 15,
         bezeichnung: 'Computer',
         raumId: 222,
         lieferantId: 48768,
@@ -127,7 +116,7 @@ export class DeviceOverviewComponent implements OnInit {
         ]
       },
       {
-        id: 11,
+        id: 16,
         bezeichnung: 'Computer',
         raumId: 222,
         lieferantId: 48768,
@@ -144,7 +133,7 @@ export class DeviceOverviewComponent implements OnInit {
         ]
       },
       {
-        id: 11,
+        id: 17,
         bezeichnung: 'Computer',
         raumId: 222,
         lieferantId: 48768,
@@ -161,7 +150,7 @@ export class DeviceOverviewComponent implements OnInit {
         ]
       },
       {
-        id: 11,
+        id: 18,
         bezeichnung: 'Computer',
         raumId: 222,
         lieferantId: 48768,
@@ -178,7 +167,7 @@ export class DeviceOverviewComponent implements OnInit {
         ]
       },
       {
-        id: 11,
+        id: 19,
         bezeichnung: 'Computer',
         raumId: 222,
         lieferantId: 48768,
@@ -195,7 +184,7 @@ export class DeviceOverviewComponent implements OnInit {
         ]
       },
       {
-        id: 11,
+        id: 20,
         bezeichnung: 'Computer',
         raumId: 222,
         lieferantId: 48768,
@@ -212,7 +201,24 @@ export class DeviceOverviewComponent implements OnInit {
         ]
       },
       {
-        id: 11,
+        id: 21,
+        bezeichnung: 'Computer',
+        raumId: 222,
+        lieferantId: 48768,
+        einkaufsdatum: '2019-07-13',
+        geweahrleistungsdauer: 12,
+        notiz: 'Ein komischer Rechner',
+        hersteller: 'Apple',
+        belegId: 1234,
+        komponentenArtId: 1,
+        komponentenAttribute: [
+          { id: 2, value: '4GB RAM' },
+          { id: 1, value: '293474-34764' },
+          { id: 3, value: 'GTX 2070' }
+        ]
+      },
+      {
+        id: 22,
         bezeichnung: 'Computer',
         raumId: 222,
         lieferantId: 48768,
@@ -264,13 +270,85 @@ export class DeviceOverviewComponent implements OnInit {
     return cards;
   }
 
-  showDetailedDevice(id: number) {
-    this._router.navigate(['devices/' + id]);
+  clickCard(id: number) {
+    if(!this.selectModeActive) {
+      this._router.navigate(['devices/' + id]);
+    } else {
+      // If Device is not Selected
+      if(!this.selectedDevices.find(resp => resp === id)) {
+        this.selectedDevices.push(id);
+      }
+      // IF device is already selected 
+      else {
+        let index = this.selectedDevices.indexOf(id,0);
+        if(index > -1) {
+          this.selectedDevices.splice(index, 1);
+        }
+      }
+
+    }
+    
   }
 
   getSeriennummerId(): number {
     return this.getDeviceAttributes().find(
       attr => attr.bezeichnung === 'Seriennummer'
     ).id;
+  }
+
+  toggleSelectMode(){
+    if(this.selectModeActive){
+      this.selectModeActive = false;
+      this.selectedDevices = new Array();
+      this.selectButtonValue = 'Auswählen';
+    } else { 
+      this.selectModeActive = true;
+      this.selectButtonValue = 'Aufheben';
+    }
+    
+  }
+  isCardSelected(id: number): boolean {
+  
+    if(this.selectedDevices.find(resp => resp === id)){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  rejectDevices() {
+    // TODO api call for moving Devices in Ausmusterungs Rooms
+    let softwareDevices = new Array();
+    let hardwareDevices = new Array();
+
+    
+    for(let i=0; i<this.selectedDevices.length; i++){
+
+      if(this.deviceIsSoftware(this.selectedDevices[i])){
+        // Add SW Array
+        softwareDevices.push(this.selectedDevices[i])
+      } else {
+        // Add HW Array
+        hardwareDevices.push(this.selectedDevices[i])
+      }
+
+    }
+
+
+    console.log('SW');
+    console.log(softwareDevices);
+    console.log('HW');
+    console.log(hardwareDevices);
+    
+    // Delete Values 
+    this.toggleSelectMode();
+  }
+
+  // TODO api call if device is Software
+  deviceIsSoftware(id: number): boolean {
+
+
+
+    return false;
   }
 }

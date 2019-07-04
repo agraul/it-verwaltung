@@ -10,22 +10,28 @@
         </path>
       </svg>
     </a>
-    <a class="py-2 d-none d-md-inline-block" routerLink="/logIn" routerLinkActive="active">Login</a>
-    <a class="py-2 d-none d-md-inline-block" routerLink="/rooms" routerLinkActive="active">Räume</a>
     
+    <a class="py-2 d-none d-md-inline-block" routerLink="/rooms" routerLinkActive="active">Räume</a>
     <a class="py-2 d-none d-md-inline-block" routerLink="/devices" routerLinkActive="active">Geräte</a>
     <a class="py-2 d-none d-md-inline-block" routerLink="/masterdata" routerLinkActive="active">Stammdaten</a>
+    
+    <a class="py-2 d-none d-md-inline-block" routerLink="/logIn" routerLinkActive="active"></a>
     <a class="py-2 d-none d-md-inline-block" routerLink="/rooms/detailed" routerLinkActive="active"></a>
     <a class="py-2 d-none d-md-inline-block" routerLink="/devices/detailed"
       routerLinkActive="active"></a>
     <a class="py-2 d-none d-md-inline-block" routerLink="/masterdata/user" routerLinkActive="active"></a>
     <a class="py-2 d-none d-md-inline-block" routerLink="/masterdata/supplier"
       routerLinkActive="active"></a>
+     
     <a class="py-2 d-none d-md-inline-block" routerLink="/masterdata/devicetype"
       routerLinkActive="active"></a>
+       <div id="userButton" class="py-2 d-none d-md-inline-block" *ngIf="isLoggedIn()">
+    <a (click)="openDropdown()" class="fas fa-chevron-down" id="icon"></a><a (click)="openDropdown()">{{setUserName()}}</a><br>
+        <a *ngIf="showDropdown" (click)="logOut()"routerLink="/logIn" id="logOut">logout</a>
+    </div>
+      
   </div>
 </nav>
-
 
 <div class="container mt-2">
   <router-outlet></router-outlet>

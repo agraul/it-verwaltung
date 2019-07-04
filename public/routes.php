@@ -101,6 +101,16 @@ return $routes = [
         'action' => 'delete',
     ],
     [
+        'route' => '/component/detail',
+        'controller' => 'component',
+        'action' => 'detail',
+    ],
+    [
+        'route' => '/component/changeRoom',
+        'controller' => 'component',
+        'action' => 'changeRoom',
+    ],
+    [
         'route' => '/component/all',
         'controller' => 'component',
         'action' => 'all',

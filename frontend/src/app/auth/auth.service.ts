@@ -9,13 +9,14 @@ import { USERS } from '../log-in/log-in.mock';
 })
 export class AuthService {
   isLoggedIn = false;
-  users = USERS;
+  userName= ''
 
   // store the URL so we can redirect after logging in
   redirectUrl: string;
 
   login(username: string, password: string): Observable<boolean> {
     if (this.getToken(username, password)) {
+      this.userName = username;
       return of(true).pipe(
         delay(100),
         tap(val => (this.isLoggedIn = true))
