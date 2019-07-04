@@ -69,4 +69,8 @@ export class RoomOverviewComponent implements OnInit {
     this.router.navigate(['rooms/' + id]);
   }
 
+  showAddRoom() {
+    this.router.navigate(['rooms/add']);
+  }
+
 }

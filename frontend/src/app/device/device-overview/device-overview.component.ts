@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Device } from 'src/app/fe-entities/device.entity';
 import { Router } from '@angular/router';
 import { Card } from 'src/app/fe-entities/card.entity';
+import { Device } from 'src/app/fe-entities/device.entity';
 
 @Component({
   selector: 'app-device-overview',
@@ -20,7 +20,7 @@ export class DeviceOverviewComponent implements OnInit {
   public deviceAttributes;
   public SearchText = '';
 
-  constructor(private _router: Router) {}
+  constructor(private _router: Router) { }
 
   ngOnInit() {
     this.devices = this.getDevices();
@@ -31,17 +31,17 @@ export class DeviceOverviewComponent implements OnInit {
   getDevices(): Device[] {
     return [
       {
-        id: 11,
+        id: 1,
         bezeichnung: 'Computer',
-        raumId: 222,
-        lieferantId: 48768,
+        raum_id: 222,
+        lieferant_id: 48768,
         einkaufsdatum: '2019-07-13',
         geweahrleistungsdauer: 12,
         notiz: 'Ein komischer Rechner',
         hersteller: 'Apple',
-        belegId: 1234,
-        komponentenArtId: 1,
-        komponentenAttribute: [
+        beleg_id: 1234,
+        komponentenartenid: 1,
+        attribute: [
           { id: 2, value: '4GB RAM' },
           { id: 1, value: '293474-34764' },
           { id: 3, value: 'GTX 2070' }
@@ -50,15 +50,15 @@ export class DeviceOverviewComponent implements OnInit {
       {
         id: 12,
         bezeichnung: 'Computer',
-        raumId: 222,
-        lieferantId: 48768,
+        raum_id: 222,
+        lieferant_id: 48768,
         einkaufsdatum: '2019-07-13',
         geweahrleistungsdauer: 12,
         notiz: 'Ein komischer Rechner',
         hersteller: 'Apple',
-        belegId: 1234,
-        komponentenArtId: 1,
-        komponentenAttribute: [
+        beleg_id: 1234,
+        komponentenartenid: 1,
+        attribute: [
           { id: 2, value: '4GB RAM' },
           { id: 1, value: '293474-34764' },
           { id: 3, value: 'GTX 2070' }
@@ -67,15 +67,15 @@ export class DeviceOverviewComponent implements OnInit {
       {
         id: 13,
         bezeichnung: 'Computer',
-        raumId: 222,
-        lieferantId: 48768,
+        raum_id: 222,
+        lieferant_id: 48768,
         einkaufsdatum: '2019-07-13',
         geweahrleistungsdauer: 12,
         notiz: 'Ein komischer Rechner',
         hersteller: 'Apple',
-        belegId: 1234,
-        komponentenArtId: 1,
-        komponentenAttribute: [
+        beleg_id: 1234,
+        komponentenartenid: 1,
+        attribute: [
           { id: 2, value: '4GB RAM' },
           { id: 1, value: '293474-34764' },
           { id: 3, value: 'GTX 2070' }
@@ -84,15 +84,15 @@ export class DeviceOverviewComponent implements OnInit {
       {
         id: 14,
         bezeichnung: 'Computer',
-        raumId: 222,
-        lieferantId: 48768,
+        raum_id: 222,
+        lieferant_id: 48768,
         einkaufsdatum: '2019-07-13',
         geweahrleistungsdauer: 12,
         notiz: 'Ein komischer Rechner',
         hersteller: 'Apple',
-        belegId: 1234,
-        komponentenArtId: 1,
-        komponentenAttribute: [
+        beleg_id: 1234,
+        komponentenartenid: 1,
+        attribute: [
           { id: 2, value: '4GB RAM' },
           { id: 1, value: '293474-34764' },
           { id: 3, value: 'GTX 2070' }
@@ -101,15 +101,15 @@ export class DeviceOverviewComponent implements OnInit {
       {
         id: 15,
         bezeichnung: 'Computer',
-        raumId: 222,
-        lieferantId: 48768,
+        raum_id: 222,
+        lieferant_id: 48768,
         einkaufsdatum: '2019-07-13',
         geweahrleistungsdauer: 12,
         notiz: 'Ein komischer Rechner',
         hersteller: 'Apple',
-        belegId: 1234,
-        komponentenArtId: 1,
-        komponentenAttribute: [
+        beleg_id: 1234,
+        komponentenartenid: 1,
+        attribute: [
           { id: 2, value: '4GB RAM' },
           { id: 1, value: '293474-34764' },
           { id: 3, value: 'GTX 2070' }
@@ -118,15 +118,15 @@ export class DeviceOverviewComponent implements OnInit {
       {
         id: 16,
         bezeichnung: 'Computer',
-        raumId: 222,
-        lieferantId: 48768,
+        raum_id: 222,
+        lieferant_id: 48768,
         einkaufsdatum: '2019-07-13',
         geweahrleistungsdauer: 12,
         notiz: 'Ein komischer Rechner',
         hersteller: 'Apple',
-        belegId: 1234,
-        komponentenArtId: 1,
-        komponentenAttribute: [
+        beleg_id: 1234,
+        komponentenartenid: 1,
+        attribute: [
           { id: 2, value: '4GB RAM' },
           { id: 1, value: '293474-34764' },
           { id: 3, value: 'GTX 2070' }
@@ -135,15 +135,15 @@ export class DeviceOverviewComponent implements OnInit {
       {
         id: 17,
         bezeichnung: 'Computer',
-        raumId: 222,
-        lieferantId: 48768,
+        raum_id: 222,
+        lieferant_id: 48768,
         einkaufsdatum: '2019-07-13',
         geweahrleistungsdauer: 12,
         notiz: 'Ein komischer Rechner',
         hersteller: 'Apple',
-        belegId: 1234,
-        komponentenArtId: 1,
-        komponentenAttribute: [
+        beleg_id: 1234,
+        komponentenartenid: 1,
+        attribute: [
           { id: 2, value: '4GB RAM' },
           { id: 1, value: '293474-34764' },
           { id: 3, value: 'GTX 2070' }
@@ -152,15 +152,15 @@ export class DeviceOverviewComponent implements OnInit {
       {
         id: 18,
         bezeichnung: 'Computer',
-        raumId: 222,
-        lieferantId: 48768,
+        raum_id: 222,
+        lieferant_id: 48768,
         einkaufsdatum: '2019-07-13',
         geweahrleistungsdauer: 12,
         notiz: 'Ein komischer Rechner',
         hersteller: 'Apple',
-        belegId: 1234,
-        komponentenArtId: 1,
-        komponentenAttribute: [
+        beleg_id: 1234,
+        komponentenartenid: 1,
+        attribute: [
           { id: 2, value: '4GB RAM' },
           { id: 1, value: '293474-34764' },
           { id: 3, value: 'GTX 2070' }
@@ -169,15 +169,15 @@ export class DeviceOverviewComponent implements OnInit {
       {
         id: 19,
         bezeichnung: 'Computer',
-        raumId: 222,
-        lieferantId: 48768,
+        raum_id: 222,
+        lieferant_id: 48768,
         einkaufsdatum: '2019-07-13',
         geweahrleistungsdauer: 12,
         notiz: 'Ein komischer Rechner',
         hersteller: 'Apple',
-        belegId: 1234,
-        komponentenArtId: 1,
-        komponentenAttribute: [
+        beleg_id: 1234,
+        komponentenartenid: 1,
+        attribute: [
           { id: 2, value: '4GB RAM' },
           { id: 1, value: '293474-34764' },
           { id: 3, value: 'GTX 2070' }
@@ -186,15 +186,15 @@ export class DeviceOverviewComponent implements OnInit {
       {
         id: 20,
         bezeichnung: 'Computer',
-        raumId: 222,
-        lieferantId: 48768,
+        raum_id: 222,
+        lieferant_id: 48768,
         einkaufsdatum: '2019-07-13',
         geweahrleistungsdauer: 12,
         notiz: 'Ein komischer Rechner',
         hersteller: 'Apple',
-        belegId: 1234,
-        komponentenArtId: 1,
-        komponentenAttribute: [
+        beleg_id: 1234,
+        komponentenartenid: 1,
+        attribute: [
           { id: 2, value: '4GB RAM' },
           { id: 1, value: '293474-34764' },
           { id: 3, value: 'GTX 2070' }
@@ -203,15 +203,15 @@ export class DeviceOverviewComponent implements OnInit {
       {
         id: 21,
         bezeichnung: 'Computer',
-        raumId: 222,
-        lieferantId: 48768,
+        raum_id: 222,
+        lieferant_id: 48768,
         einkaufsdatum: '2019-07-13',
         geweahrleistungsdauer: 12,
         notiz: 'Ein komischer Rechner',
         hersteller: 'Apple',
-        belegId: 1234,
-        komponentenArtId: 1,
-        komponentenAttribute: [
+        beleg_id: 1234,
+        komponentenartenid: 1,
+        attribute: [
           { id: 2, value: '4GB RAM' },
           { id: 1, value: '293474-34764' },
           { id: 3, value: 'GTX 2070' }
@@ -220,15 +220,15 @@ export class DeviceOverviewComponent implements OnInit {
       {
         id: 22,
         bezeichnung: 'Computer',
-        raumId: 222,
-        lieferantId: 48768,
+        raum_id: 222,
+        lieferant_id: 48768,
         einkaufsdatum: '2019-07-13',
         geweahrleistungsdauer: 12,
         notiz: 'Ein komischer Rechner',
         hersteller: 'Apple',
-        belegId: 1234,
-        komponentenArtId: 1,
-        komponentenAttribute: [
+        beleg_id: 1234,
+        komponentenartenid: 1,
+        attribute: [
           { id: 2, value: '4GB RAM' },
           { id: 1, value: '293474-34764' },
           { id: 3, value: 'GTX 2070' }
@@ -261,7 +261,7 @@ export class DeviceOverviewComponent implements OnInit {
         devices[i].bezeichnung,
         devices[i].hersteller,
         false,
-        devices[i].komponentenAttribute.find(
+        devices[i].attribute.find(
           attr => attr.id === this.getSeriennummerId()
         ).value
       );
@@ -271,23 +271,23 @@ export class DeviceOverviewComponent implements OnInit {
   }
 
   clickCard(id: number) {
-    if(!this.selectModeActive) {
+    if (!this.selectModeActive) {
       this._router.navigate(['devices/' + id]);
     } else {
       // If Device is not Selected
-      if(!this.selectedDevices.find(resp => resp === id)) {
+      if (!this.selectedDevices.find(resp => resp === id)) {
         this.selectedDevices.push(id);
       }
-      // IF device is already selected 
+      // IF device is already selected
       else {
-        let index = this.selectedDevices.indexOf(id,0);
-        if(index > -1) {
+        let index = this.selectedDevices.indexOf(id, 0);
+        if (index > -1) {
           this.selectedDevices.splice(index, 1);
         }
       }
 
     }
-    
+
   }
 
   getSeriennummerId(): number {
@@ -296,20 +296,20 @@ export class DeviceOverviewComponent implements OnInit {
     ).id;
   }
 
-  toggleSelectMode(){
-    if(this.selectModeActive){
+  toggleSelectMode() {
+    if (this.selectModeActive) {
       this.selectModeActive = false;
       this.selectedDevices = new Array();
       this.selectButtonValue = 'Auswählen';
-    } else { 
+    } else {
       this.selectModeActive = true;
       this.selectButtonValue = 'Aufheben';
     }
-    
+
   }
   isCardSelected(id: number): boolean {
-  
-    if(this.selectedDevices.find(resp => resp === id)){
+
+    if (this.selectedDevices.find(resp => resp === id)) {
       return true;
     } else {
       return false;
@@ -321,10 +321,10 @@ export class DeviceOverviewComponent implements OnInit {
     let softwareDevices = new Array();
     let hardwareDevices = new Array();
 
-    
-    for(let i=0; i<this.selectedDevices.length; i++){
 
-      if(this.deviceIsSoftware(this.selectedDevices[i])){
+    for (let i = 0; i < this.selectedDevices.length; i++) {
+
+      if (this.deviceIsSoftware(this.selectedDevices[i])) {
         // Add SW Array
         softwareDevices.push(this.selectedDevices[i])
       } else {
@@ -339,8 +339,8 @@ export class DeviceOverviewComponent implements OnInit {
     console.log(softwareDevices);
     console.log('HW');
     console.log(hardwareDevices);
-    
-    // Delete Values 
+
+    // Delete Values
     this.toggleSelectMode();
   }
 
