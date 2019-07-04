@@ -15,6 +15,14 @@ class componentattribute extends controller
         $this->db = $link::get();
         $_POST = json_decode(file_get_contents('php://input'), true);
         $this->cors();
+        if ($this->decode() === false) {
+            switch ($action) {
+                case 'add':
+                case 'delete':
+                    http_response_code(401);
+                    exit;
+            }
+        }
     }
 
     public function __destruct()

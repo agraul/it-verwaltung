@@ -7,9 +7,10 @@ import { RoomDetailedComponent } from './room-detailed/room-detailed.component';
 import { RoomCardComponent } from './room-card/room-card.component';
 import { AddCardComponent } from './add-card/add-card.component';
 import { FormsModule } from '@angular/forms';
+import { RoomPipePipe } from './room-pipe.pipe';
 
 @NgModule({
-  declarations: [RoomOverviewComponent, RoomDetailedComponent, RoomCardComponent, AddCardComponent],
+  declarations: [RoomOverviewComponent, RoomDetailedComponent, RoomCardComponent, AddCardComponent, RoomPipePipe],
   imports: [
     CommonModule,
     RoomRoutingModule,

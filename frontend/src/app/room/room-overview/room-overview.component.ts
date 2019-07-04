@@ -35,14 +35,14 @@ export class RoomOverviewComponent implements OnInit {
       },
       {
         id: 2,
-        nr: '222',
+        nr: '223',
         bezeichnung: 'Computerraum',
         hat_notiz: false,
         komponenten_arten: null
       }
       , {
         id: 3,
-        nr: '222',
+        nr: '224',
         bezeichnung: 'Computerraum',
         hat_notiz: true,
         komponenten_arten: null

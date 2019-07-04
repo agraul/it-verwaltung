@@ -18,7 +18,7 @@
     </div>
     <div class="ex1">
         <div class="flex-container">
-            <app-device-card *ngFor="let deviceCard of deviceCards; let i = index" [card]="deviceCard"
+            <app-device-card *ngFor="let deviceCard of (deviceCards| device:searchText); let i = index" [card]="deviceCard"
                 (click)="clickCard(devices[i].id)" [ngClass]="{'active': isCardSelected(devices[i].id)}" ></app-device-card>
             <app-add-device-card></app-add-device-card>
         </div>
