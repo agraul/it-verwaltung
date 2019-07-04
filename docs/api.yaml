@@ -17,19 +17,19 @@ paths:
           description: OK
           content:
             application/json:
-              schema: 
+              schema:
                 type: array
                 items:
                   type: object
-                  properties:  
+                  properties:
                     id:
                       type: integer
-                    nr: 
+                    nr:
                       type: string
                     bezeichnung:
                       type: string
                     hat_notiz:
-                      type: boolean 
+                      type: boolean
                     komponenten_arten:
                       type: array
                       items:
@@ -48,11 +48,11 @@ paths:
           description: Ein JSON Array aus Raum Objekten
           content:
             application/json:
-              schema: 
+              schema:
                 type: array
                 items:
                   type: object
-                  properties:  
+                  properties:
                     id:
                       type: integer
                     nr:
@@ -62,7 +62,7 @@ paths:
                     notiz:
                       type: string
                     komponenten:
-                      type: object 
+                      type: object
                       properties:
                         id:
                           type: integer
@@ -93,15 +93,15 @@ paths:
           schema:
             type: string
       responses:
-        '200':  
+        '200':
           description: OK
           content:
             application/json:
-              schema: 
+              schema:
                 type: array
                 items:
                   type: object
-                  properties:  
+                  properties:
                     success:
                       type: boolean
         '400':
@@ -116,15 +116,15 @@ paths:
             type: integer
           required: true
       responses:
-        '200':  
+        '200':
           description: OK
           content:
             application/json:
-              schema: 
+              schema:
                 type: array
                 items:
                   type: object
-                  properties:  
+                  properties:
                     success:
                       type: boolean
         '400':
@@ -149,15 +149,15 @@ paths:
             type: string
           required: true
       responses:
-        '200':  
+        '200':
           description: OK
           content:
             application/json:
-              schema: 
+              schema:
                 type: array
                 items:
                   type: object
-                  properties:  
+                  properties:
                     success:
                       type: boolean
         '400':
@@ -177,21 +177,21 @@ paths:
             type: string
           required: true
       responses:
-        '200':  
+        '200':
           description: OK
           content:
             application/json:
-              schema: 
+              schema:
                 type: array
                 items:
                   type: object
-                  properties:  
+                  properties:
                     success:
                       type: boolean
         '400':
           description: Bad Request
-          
-          
+
+
   /component/all:
     get:
       summary: x
@@ -229,7 +229,7 @@ paths:
           description: OK
   /component/overview:
     get:
-      summary: Get overview data for components 
+      summary: Get overview data for components
       parameters:
         - in: query
           name: id
@@ -261,11 +261,11 @@ paths:
           description: OK
           content:
             application/json:
-              schema: 
+              schema:
                 type: array
                 items:
                   type: object
-                  properties:  
+                  properties:
                     id:
                       type: integer
                     bezeichnung:
@@ -281,33 +281,43 @@ paths:
                             type: integer
                           bezeichnung:
                             type: string
-  /componenttype/add: 
+  /componenttype/add:
      post:
       summary: WORKS - Add a componenttype
-      parameters:
-        - in: query
-          name: componenttype
-          schema:
-            type: string
-          required: true
-        - in: query
-          name: is_software
-          schema:
-            type: integer
-          required: true
+      requestBody:
+        content:
+          application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    bezeichnung:
+                      type: string
+                    is_software:
+                      type: boolean
+                    attribute:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          bezeichnung:
+                            type: string
       responses:
         '200':
           description: OK
           content:
             application/json:
-              schema: 
+              schema:
                 type: array
                 items:
                   type: object
-                  properties:  
+                  properties:
                     sucess:
                       type: boolean
-  /componenttype/delete: 
+  /componenttype/delete:
      post:
       summary: WORKS - Add a componenttype
       parameters:
@@ -321,14 +331,14 @@ paths:
           description: OK
           content:
             application/json:
-              schema: 
+              schema:
                 type: array
                 items:
                   type: object
-                  properties:  
+                  properties:
                     sucess:
                       type: boolean
-  /componenttype/addAttribute: 
+  /componenttype/addAttribute:
      post:
       summary: WORKS - Add a attribute for a component type
       parameters:
@@ -347,11 +357,11 @@ paths:
           description: OK
           content:
             application/json:
-              schema: 
+              schema:
                 type: array
                 items:
                   type: object
-                  properties:  
+                  properties:
                     sucess:
                       type: boolean
 
@@ -363,11 +373,11 @@ paths:
           description: OK
           content:
             application/json:
-              schema: 
+              schema:
                 type: array
                 items:
                   type: object
-                  properties:  
+                  properties:
                     id:
                       type: integer
                     bezeichnung:
@@ -377,7 +387,7 @@ paths:
       summary: Add a component attribute
       parameters:
         - in: query
-          name: attribute 
+          name: attribute
           schema:
             type: string
       responses:
@@ -385,20 +395,20 @@ paths:
           description: OK
           content:
             application/json:
-              schema: 
+              schema:
                 type: array
                 items:
                   type: object
-                  properties:  
+                  properties:
                     sucess:
                       type: boolean
-                      
+
   /componentattribute/delete:
     get:
       summary: Works -  Add a component attribute
       parameters:
         - in: query
-          name: id 
+          name: id
           schema:
             type: integer
           required: true
@@ -407,11 +417,11 @@ paths:
           description: OK
           content:
             application/json:
-              schema: 
+              schema:
                 type: array
                 items:
                   type: object
-                  properties:  
+                  properties:
                     sucess:
                       type: boolean
   /user/login:
@@ -429,7 +439,7 @@ paths:
           required: true
       responses:
         '200':
-          description: OK    
+          description: OK
   /user/logout:
     get:
       summary: Logout user [NOT WORKING]
@@ -445,10 +455,10 @@ paths:
           required: true
       responses:
         '200':
-          description: OK  
+          description: OK
   /user/register:
     post:
-      summary: WORKS - Register new user, if user is already registered we return a HTTP 409 
+      summary: WORKS - Register new user, if user is already registered we return a HTTP 409
       parameters:
         - in: query
           name: groupid
@@ -459,7 +469,7 @@ paths:
           name: firstname
           schema:
             type: string
-          required: true        
+          required: true
         - in: query
           name: lastname
           schema:
@@ -480,15 +490,15 @@ paths:
           description: OK
           content:
             application/json:
-              schema: 
+              schema:
                 type: array
                 items:
                   type: object
-                  properties:  
+                  properties:
                     success:
-                      type: boolean 
+                      type: boolean
 
-          
+
   /user/delete:
     get:
       summary: WORKS - Delete a user
@@ -503,13 +513,13 @@ paths:
           description: OK
           content:
             application/json:
-              schema: 
+              schema:
                 type: array
                 items:
                   type: object
-                  properties:  
+                  properties:
                     success:
-                      type: boolean 
+                      type: boolean
   /user/setpassword:
     post:
       summary: WORKS - Set a new password for a user
@@ -526,16 +536,16 @@ paths:
           required: true
       responses:
         '200':
-          description: OK  
+          description: OK
           content:
             application/json:
-              schema: 
+              schema:
                 type: array
                 items:
                   type: object
-                  properties:  
+                  properties:
                     success:
-                      type: boolean     
+                      type: boolean
   /user/all:
     post:
       summary: WORKS - Get all user
@@ -544,16 +554,16 @@ paths:
           description: OK
           content:
             application/json:
-              schema: 
+              schema:
                 type: array
                 items:
                   type: object
-                  properties:  
+                  properties:
                     userid:
-                      type: integer  
+                      type: integer
                     username:
                       type: string
-                    pw: 
+                    pw:
                       type: string
                     groupid:
                       type: integer
@@ -577,17 +587,17 @@ paths:
           required: true
       responses:
         '200':
-          description: OK  
+          description: OK
           content:
             application/json:
-              schema: 
+              schema:
                 type: array
                 items:
                   type: object
-                  properties:  
+                  properties:
                     success:
-                      type: boolean     
-          
+                      type: boolean
+
   /group/add:
     post:
       summary: WORKS - Add a new group
@@ -604,49 +614,49 @@ paths:
           required: true
       responses:
         '200':
-          description: OK  
+          description: OK
           content:
             application/json:
-              schema: 
+              schema:
                 type: array
                 items:
                   type: object
-                  properties:  
+                  properties:
                     success:
-                      type: boolean           
+                      type: boolean
   /group/all:
     get:
       summary: WORKS - Get info of all groups
       responses:
         '200':
-          description: OK  
+          description: OK
           content:
             application/json:
-              schema: 
+              schema:
                 type: array
                 items:
                   type: object
-                  properties:  
+                  properties:
                     id:
                       type: integer
                     bezeichnung:
                       type: string
                     priviligiert:
                       type: boolean
-          
+
   /supplier/all:
     get:
       summary: WORKS - Get all supplier
       responses:
         '200':
-          description: OK  
+          description: OK
           content:
             application/json:
-              schema: 
+              schema:
                 type: array
                 items:
                   type: object
-                  properties:  
+                  properties:
                     id:
                       type: integer
                     companyname:
@@ -655,11 +665,11 @@ paths:
                       type: string
                     plz:
                       type: string
-                    place: 
+                    place:
                       type: string
-                    tel: 
+                    tel:
                       type: string
-                    mobile: 
+                    mobile:
                       type: string
                     fax:
                       type: string
@@ -676,14 +686,14 @@ paths:
           required: true
       responses:
         '200':
-          description: OK  
+          description: OK
           content:
             application/json:
-              schema: 
+              schema:
                 type: array
                 items:
                   type: object
-                  properties:  
+                  properties:
                     success:
                       type: boolean
   /supplier/add:
@@ -714,7 +724,7 @@ paths:
           name: tel
           schema:
             type: string
-          required: true       
+          required: true
         - in: query
           name: mobile
           schema:
@@ -729,17 +739,17 @@ paths:
           name: email
           schema:
             type: string
-          required: true                  
+          required: true
       responses:
         '200':
-          description: OK  
+          description: OK
           content:
             application/json:
-              schema: 
+              schema:
                 type: array
                 items:
                   type: object
-                  properties:  
+                  properties:
                     success:
                       type: boolean
   /supplier/edit:
@@ -775,7 +785,7 @@ paths:
           name: tel
           schema:
             type: string
-          required: true       
+          required: true
         - in: query
           name: mobile
           schema:
@@ -790,20 +800,20 @@ paths:
           name: email
           schema:
             type: string
-          required: true                  
+          required: true
       responses:
         '200':
-          description: OK  
+          description: OK
           content:
             application/json:
-              schema: 
+              schema:
                 type: array
                 items:
                   type: object
-                  properties:  
+                  properties:
                     success:
                       type: boolean
-                      
+
   /software/all:
     get:
       summary:  WORKS - All rooms to a software
@@ -816,14 +826,14 @@ paths:
 
       responses:
         '200':
-          description: OK  
+          description: OK
           content:
             application/json:
-              schema: 
+              schema:
                 type: array
                 items:
                   type: object
-                  properties:  
+                  properties:
                     sir_r_id:
                       type: integer
   /software/add:
@@ -840,17 +850,17 @@ paths:
           schema:
             type: integer
           required: true
-          
+
       responses:
         '200':
-          description: OK  
+          description: OK
           content:
             application/json:
-              schema: 
+              schema:
                 type: array
                 items:
                   type: object
-                  properties:  
+                  properties:
                     success:
                       type: boolean
   /software/delete:
@@ -862,17 +872,17 @@ paths:
           schema:
             type: integer
           required: true
-          
+
       responses:
         '200':
-          description: OK  
+          description: OK
           content:
             application/json:
-              schema: 
+              schema:
                 type: array
                 items:
                   type: object
-                  properties:  
+                  properties:
                     success:
                       type: boolean
 
