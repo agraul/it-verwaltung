@@ -8,6 +8,7 @@ import { DeviceAttribute } from '../fe-entities/device-attibute.entity';
 import { DeviceType } from '../fe-entities/device-type.entity';
 import { Device } from '../fe-entities/device.entity';
 import { Roles } from '../fe-entities/roles.entity';
+import { RoomDetailed } from '../fe-entities/room-detailed.entity';
 import { Room } from '../fe-entities/room.entity';
 import { User } from '../fe-entities/user.entity';
 
@@ -431,22 +432,22 @@ export class ApiClientService {
       return Promise.resolve({
         id: 11,
         bezeichnung: 'Computer',
-        raumId: 2,
-        lieferantId: 2,
+        raum_id: 2,
+        lieferant_id: 2,
         einkaufsdatum: '2019-07-13',
         geweahrleistungsdauer: 12,
         notiz: 'Ein komischer Rechner',
         hersteller: 'Apple',
-        belegId: 1234,
-        komponentenArtId: 1,
-        komponentenAttribute: [
+        beleg_id: 1234,
+        komponentenartenid: 1,
+        attribute: [
           { id: 2, value: '4GB RAM' },
           { id: 1, value: '293474-34764' },
           { id: 3, value: 'GTX 2070' }
         ]
       });
     } else {
-      this.httpClient.get<Device>(environment.url + '/component/detail?id=' + id).toPromise();
+      return this.httpClient.get<Device>(environment.url + '/component/detail?id=' + id).toPromise();
     }
   }
 
@@ -460,6 +461,10 @@ export class ApiClientService {
     }
   }
 
+  public updateComponent(body: Device): Promise<void> {
+    return this.httpClient.post<void>(environment.url + '/component/update', body).toPromise();
+  }
+
   public removeRoomsToSoftware(id: number): Promise<void> {
     return this.httpClient.get<void>(environment.url + '/software/delete?id=' + id).toPromise();
   }
@@ -470,5 +475,33 @@ export class ApiClientService {
 
   public getAllRoomsToSoftware(id: number): Promise<any> {
     return this.httpClient.get<any>(environment.url + '/software/all?id=' + id).toPromise();
+  }
+
+  public createNewRoom(body: { nr: string, bezeichung: string }): Promise<void> {
+    return this.httpClient.post<void>(environment.url + '/room/add', body).toPromise();
+  }
+
+  public getRoomDetail(id: number): Promise<RoomDetailed> {
+    return this.httpClient.get<RoomDetailed>(environment.url + '/room/detail?id=' + id).toPromise();
+  }
+
+  public deleteRoom(id: number): Promise<void> {
+    return this.httpClient.get<void>(environment.url + '/room/delete?id=' + id).toPromise();
+  }
+
+  public editRoom(body: { id: number, nr: string, bezeichung: string }): Promise<void> {
+    return this.httpClient.post<void>(environment.url + '/room/edit', body).toPromise();
+  }
+
+  public changeRoomNote(body: { id: number, note: string }): Promise<void> {
+    return this.httpClient.post<void>(environment.url + '/room/note', body).toPromise();
+  }
+
+  public getAllComponents(): Promise<Device[]> {
+    return this.httpClient.get<Device[]>(environment.url + '/component/all').toPromise();
+  }
+
+  public changeRoom(id: number, roomId: number): Promise<void> {
+    return this.httpClient.get<void>(environment.url + '/room/changeRoom?id=' + id + '&room_id=' + roomId).toPromise();
   }
 }
