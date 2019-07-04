@@ -19,17 +19,9 @@ export class LogInComponent implements OnInit {
   ngOnInit() {}
 
   public secureAndSend(username: string, password: string): boolean {
-    console.log(
-      this.authentication.login(username, password).subscribe(resp => {
-        return resp;
-      })
-    );
+   
 
-    console.log(
-      this.authentication.login(username, password).subscribe(resp => {
-        return resp;
-      }).closed === false
-    );
+
 
     if (
       this.authentication.login(username, password).subscribe(resp => {
