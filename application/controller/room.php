@@ -109,4 +109,39 @@ class room extends controller
         }
     }
 
+    public function edit()
+    {
+        if ($this->verify($_POST['id']) === false || $this->verify($_POST['nr']) === false || $this->verify($_POST['bezeichnung']) === false) {
+            http_response_code(400);
+            return;
+        }
+        $id = (int) $_POST['id'];
+        $nr = (string) $_POST['nr'];
+        $bezeichnung = (string) $_POST['bezeichnung'];
+        $sql = "UPDATE raeume SET r_nr = ?,  r_bezeichnung = ? WHERE r_id = ?;";
+        $query = $this->db->prepare($sql);
+        $result = $query->execute(array($nr, $bezeichnung, $id));
+        if ($result === false) {
+            http_response_code(500);
+            return;
+        }
+    }
+
+    public function note()
+    {
+        if ($this->verify($_POST['id']) === false || $this->verify($_POST['notiz']) === false) {
+            http_response_code(400);
+            return;
+        }
+        $id = (int) $_POST['id'];
+        $note = (string) $_POST['notiz'];
+        $sql = "UPDATE raeume SET r_notiz = ? WHERE r_id = ?;";
+        $query = $this->db->prepare($sql);
+        $result = $query->execute(array($note, $id));
+        if ($result === false) {
+            http_response_code(500);
+            return;
+        }
+    }
+
 }
