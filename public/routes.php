@@ -86,6 +86,16 @@ return $routes = [
         'action' => 'all',
     ],
     [
+        'route' => '/component/add',
+        'controller' => 'component',
+        'action' => 'add',
+    ],
+    [
+        'route' => '/component/update',
+        'controller' => 'component',
+        'action' => 'update',
+    ],
+    [
         'route' => '/component/delete',
         'controller' => 'component',
         'action' => 'delete',
