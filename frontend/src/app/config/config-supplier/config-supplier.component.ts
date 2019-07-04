@@ -1,14 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators
-} from '@angular/forms';
-import { Deliverer } from 'src/app/fe-entities/deliverer.entity';
-import { ApiClientService } from 'src/app/core/api-client.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ApiClientService } from 'src/app/core/api-client.service';
+import { Deliverer } from 'src/app/fe-entities/deliverer.entity';
 
 @Component({
   selector: 'app-config-supplier',
@@ -18,7 +12,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class ConfigSupplierComponent implements OnInit {
   public form: FormGroup;
 
-  constructor(private builder: FormBuilder, private api: ApiClientService) {}
+  constructor(private builder: FormBuilder, private api: ApiClientService) { }
 
   ngOnInit() {
     this.reloadTable();
@@ -54,7 +48,7 @@ export class ConfigSupplierComponent implements OnInit {
   public saveDeliverer(): void {
     const newDeliverer = this.form.get('addDeliverer').value;
 
-    this.api.updateDeliverer(newDeliverer).then(res => {
+    this.api.addDeliverer(newDeliverer).then(res => {
       if (!(res instanceof HttpErrorResponse)) {
         this.reloadTable();
       }
@@ -62,7 +56,7 @@ export class ConfigSupplierComponent implements OnInit {
   }
 
   public saveChange(control: FormGroup): void {
-    // TODO: BE;
+    this.api.updateDeliverer(control.value).then(() => this.reloadTable());
   }
 
   public deleteDeliverer(id: number): void {

@@ -1,11 +1,11 @@
 <a *ngIf="!flagExtendable" (click)="blueprint()" class="float-right text-primary">Als Vorlage verwenden...</a>
 <h5>{{ title }}:</h5>
-<form [formGroup]="basicForm" class="mt-2">
+<form *ngIf="form" [formGroup]="basicForm" class="mt-2">
   <div class="row mb-3">
     <label for="deviceType" class="col-3 col-form-label">Komponentenart*</label>
     <div class="col-6">
       <select class="form-control" id="deviceType" formControlName="deviceType" (change)="changeType()">
-        <option disabled selected hidden></option>
+        <option disabled selected></option>
         <option *ngFor="let type of sortedDeviceTypes()" [value]="type.id">{{ type.bezeichnung }}</option>
       </select>
     </div>
@@ -25,10 +25,10 @@
   <div class="row mt-1">
     <label for="deliverer" class="col-3 col-form-label">Lieferant*</label>
     <div class="col-6">
-        <select class="form-control" id="deliverer" formControlName="deliverer">
-            <option disabled selected hidden></option>
-            <option *ngFor="let deliverer of sortedDeliverers()" [value]="deliverer.id">{{ deliverer.firmenname }}</option>
-          </select>
+      <select class="form-control" id="deliverer" formControlName="deliverer">
+        <option disabled selected></option>
+        <option *ngFor="let deliverer of sortedDeliverers()" [value]="deliverer.id">{{ deliverer.companyname }}</option>
+      </select>
     </div>
   </div>
   <div class="row mt-1">
@@ -53,19 +53,20 @@
     <label for="room" class="col-3 col-form-label">Raum*</label>
     <div class="col-6">
       <select class="form-control" id="room" formControlName="room">
-        <option disabled selected hidden></option>
+        <option disabled selected></option>
         <option *ngFor="let room of sortedRooms()" [value]="room.id">{{ room.nr }}</option>
       </select>
     </div>
   </div>
-<div *ngIf="isDeviceTypeSet()" class="mt-4" formArrayName="attributes">
-  <div class="row mt-1" *ngFor="let attribute of currentAttributes; let i = index">
-    <label for="input-{{ i }}" class="col-3 col-form-label">{{ attribute.bezeichnung }}</label>
-    <div class="col-6">
-      <input type="text" class="form-control" id="input-{{ i }}" [formControlName]="i">
+  <div *ngIf="isDeviceTypeSet()" class="mt-4" formArrayName="attributes">
+    <div class="row mt-1" *ngFor="let attribute of currentAttributes; let i = index">
+      <label for="input-{{ i }}" class="col-3 col-form-label">{{ attribute.bezeichnung }}</label>
+      <div class="col-6">
+        <input type="text" class="form-control" id="input-{{ i }}" [formControlName]="i">
+      </div>
     </div>
+    <app-multi-input [extendable]="flagExtendable" [label]="getMultiLabel()" [form]="multiForm" [rooms]="rooms">
+    </app-multi-input>
   </div>
-  <app-multi-input [extendable]="flagExtendable" [label]="getMultiLabel()" [form]="multiForm" [rooms]="rooms"></app-multi-input>
-</div>
 </form>
 <button class="mt-2" (click)="save()" *ngIf="!flagReadOnly" [disabled]="!enableSaveBtn()">Speichern</button>
