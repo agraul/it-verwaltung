@@ -1,3 +1,35 @@
-<p>
-  room-add works!
-</p>
+<div class="container-fluid">
+
+  <div class="row">
+    <h5>Raum hinzufügen:</h5>
+  </div>
+  <hr>
+  <div *ngIf="warn" class="alert alert-danger" role="alert">
+    Bitte füllen Sie alle Pflichtfelder aus!
+  </div>
+  <div class="row mt-1">
+    <label for="nr" class="col-3 col-form-label">Raumnummer*</label>
+    <div class="col-6">
+      <input [(ngModel)]="room.nr" type="text" class="form-control" id="nr">
+    </div>
+  </div>
+    
+  <div class="row mt-1">
+    <label for="bezeichnung" class="col-3 col-form-label">Bezeichnung*</label>
+    <div class="col-6">
+      <input [(ngModel)]="room.bezeichnung" type="text" class="form-control" id="bezeichnung">
+    </div>
+  </div>
+
+  <div class="row mt-1">
+    <label for="notiz" class="col-3 col-form-label">Raumnotiz</label>
+    <div class="col-6">
+      <input [(ngModel)]="room.notiz" type="text" class="form-control" id="notiz">
+    </div>
+  </div>
+  <hr>
+  <button class="btn btn-primary" (click)="addRoom()">
+    Raum hinzufügen
+  </button>
+
+</div>
