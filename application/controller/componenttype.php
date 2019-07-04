@@ -51,12 +51,79 @@ class componenttype extends controller
     public function add()
     {
         $this->data[0] = new stdClass();
+        $type = (string) $_POST['bezeichnung'];
+        $is_software = (int) $_POST['is_software'];
+        $attributes = (array) $_POST['attribute'];
+        $sql = "INSERT INTO komponentenarten (ka_komponentenart, ka_software) VALUES (?, ?);";
+        // update: delete in wird_beschrieben_durch, dann geändertes per insert2 rein.
+        $query = $this->db->prepare($sql);
+        $result = $query->execute(array($type, $is_software));
+        if ($result != true) {
+          $this->data[0]->success = $result;
+        }
+        else {
+          $response = $this->db->query('SELECT MAX(ka_id) FROM komponentenarten;');
+          foreach ($response as $r) {
+            $letzte_id = $r['MAX(ka_id)'];
+          }
+          $this->addAttributesToType($letzte_id, $attributes);
+        }
+
+
+        $this->data[0]->success = $result;
+    }
+
+    public function update()
+    {
+        $this->data[0] = new stdClass();
+        $this->data[0]->success = true;
+        $id = (int) $_POST['id'];
+        $type = (string) $_POST['bezeichnung'];
+        $is_software = (int) $_POST['is_software'];
+        $attributes = (array) $_POST['attribute'];
+
+        // update type table entries
+        $sql1 = "UPDATE komponentenarten SET ka_komponentenart = ?, ka_software = ? WHERE ka_id = ?";
+        $query1 = $this->db->prepare($sql1);
+        $result1 = $query1->execute(array($type, $is_software, $id));
+        if ($result1 != true) {
+          $this->data[0]->success = $result1;
+        }
+        else {
+          // drop type <-> attribute entries
+          $sql2 = "DELETE FROM wird_beschrieben_durch where komponentenarten_ka_id = ?";
+          $query2 = $this->db->prepare($sql2);
+          $result2 = $query2->execute(array($id));
+          if ($result2 != true) {
+            $this->data[0]->success = $result2;
+          }
+          else {
+            // re-add new type <-> attribute entries
+            $this->addAttributesToType($id, $attributes);
+          }
+        }
+    }
+
+    private function addAttributesToType($type_id, $attributes) {
+        $sql = "INSERT INTO wird_beschrieben_durch (komponentenarten_ka_id, komponentenattribute_kat_id) VALUES (?, ?);";
+        $query = $this->db->prepare($sql);
+        foreach ($attributes as $attribute) {
+          $id = (int) $attribute['id'];
+          $result = $query->execute(array($type_id, $id));
+          if ($result != true) {
+            $this->data[0]->success = false;
+          }
+        }
+    }
+
+    public function addAttribute()
+    {
+        $this->data[0] = new stdClass();
         try {
-            $type = (string) $_POST['componenttype'];
-            $is_software = (int) $_POST['is_software'];
-            $sql = "INSERT INTO komponentenarten (ka_komponentenart, ka_software) VALUES (?, ?);";
+            $artId = (int) $_POST['komponentenart_id'];
+            $attributeId = (int) $_POST['komponentenattribute_id'];
             $query = $this->db->prepare($sql);
-            $query->execute(array($type, $is_software));
+            $query->execute(array($artId, $attributeId));
             $this->data[0]->success = true;
         } catch (Exception $e) {
             $this->data[0]->success = false;
@@ -77,19 +144,5 @@ class componenttype extends controller
         }
     }
 
-    public function addAttribute()
-    {
-        $this->data[0] = new stdClass();
-        try {
-            $artId = (int) $_POST['komponentenart_id'];
-            $attributeId = (int) $_POST['komponentenattribute_id'];
-            $sql = "INSERT INTO wird_beschrieben_durch (komponentenarten_ka_id, komponentenattribute_kat_id) VALUES (?, ?);";
-            $query = $this->db->prepare($sql);
-            $query->execute(array($artId, $attributeId));
-            $this->data[0]->success = true;
-        } catch (Exception $e) {
-            $this->data[0]->success = false;
-        }
-    }
 
 }
