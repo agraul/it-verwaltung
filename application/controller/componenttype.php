@@ -62,9 +62,9 @@ class componenttype extends controller
           $this->data[0]->success = $result;
         }
         else {
-          $response = $this->db->query('SELECT MAX(ka_id) FROM komponentenarten;');
+          $response = $this->db->query('SELECT LAST_INSERT_ID();');
           foreach ($response as $r) {
-            $letzte_id = $r['MAX(ka_id)'];
+            $letzte_id = $r['LAST_INSERT_ID()'];
           }
           $this->addAttributesToType($letzte_id, $attributes);
         }
