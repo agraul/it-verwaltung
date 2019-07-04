@@ -13,7 +13,7 @@ class software extends controller
         require '../db.php';
         $link = new db();
         $this->db = $link::get();
-        #    $_POST = json_decode(file_get_contents('php://input'), true);
+        $_POST = json_decode(file_get_contents('php://input'), true);
         $this->cors();
     }
 
@@ -67,7 +67,7 @@ class software extends controller
         if ($this->verify($_GET['id']) === false) {
             http_response_code(400);
             return;
-        } 
+        }
         $id = (int) $_GET['id'];
         $sql = "DELETE FROM software_in_raum WHERE sir_k_id = ?;";
         $query = $this->db->prepare($sql);
