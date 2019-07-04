@@ -25,28 +25,31 @@ export class AuthService {
   }
 
 
-  login(username: string, password: string): Observable<boolean> {
-    if (this.requestToken(username, password)) {
+  login(username: string, password: string): Promise<boolean> {
+    return this.requestToken(username, password).then(resp => {
+      if(resp) {
       this.userName = username;
       this.isLoggedIn = true;
-      return of(true).pipe();
-    } else {
-      return of(false).pipe();
-    }
+      return true;
+      } else {
+        return false;
+      }
+    });
   }
 
   logout(): void {
     this.isLoggedIn = false;
   }
 
-  requestToken(usr: string, pwd: string) {
+  requestToken(usr: string, pwd: string): Promise<boolean> {
     const jwtDecode = require('jwt-decode');
     let creds = new UserLogIn(usr, pwd);
-    this.apiClient.logInAndGetToken(creds).then(resp => {
+    return this.apiClient.logInAndGetToken(creds).then(resp => {
       const token = resp[0].token;
       this.isAdmin = jwtDecode(token).admin;
       localStorage.setItem('token', token);
-    });
-    return true;
+      return true;
+    },
+    () => {return false});
   }
 }

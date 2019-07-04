@@ -478,7 +478,7 @@ export class ApiClientService {
     return this.httpClient.get<any>(environment.url + '/software/all?id=' + id).toPromise();
   }
 
-  public createNewRoom(body: { nr: string, bezeichung: string }): Promise<void> {
+  public createNewRoom(body: { nr: string, bezeichnung: string, notiz: string}): Promise<void> {
     return this.httpClient.post<void>(environment.url + '/room/add', body).toPromise();
   }
 

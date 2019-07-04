@@ -6,7 +6,8 @@
   Benutzer <br><input [(ngModel)]="userName" type="input" id="userNm"><br>
   Passwort <br> <input [(ngModel)]="passWord" type="password" id="passWd">
   <p *ngIf="showValidationMessage" id="errorMessage">Falsches Passwort oder Benutzername.</p>
-  <br><br>
+  <br *ngIf="!showValidationMessage">
+  <br *ngIf="!showValidationMessage">
   <input type="button" id="sendBtn" (click)="secureAndSend(userName, passWord, true)" value="Anmelden">
 </div>
 </div>
