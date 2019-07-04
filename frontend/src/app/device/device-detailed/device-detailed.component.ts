@@ -75,9 +75,9 @@ export class DeviceDetailedComponent implements OnInit {
           id: selectedDevice.id,
           producer: new FormControl(selectedDevice.hersteller, Validators.required),
           name: new FormControl(selectedDevice.bezeichnung, Validators.required),
-          room: new FormControl(selectedDevice.raum_id, Validators.required),
+          room: new FormControl(selectedDevice.raeume_id, Validators.required),
           purchase: new FormControl(selectedDevice.einkaufsdatum, Validators.required),
-          warranty: new FormControl(selectedDevice.geweahrleistungsdauer, Validators.required),
+          warranty: new FormControl(selectedDevice.gewaehrleistungsdauer, Validators.required),
           deliverer: new FormControl(selectedDevice.lieferant_id, Validators.required),
           proof: new FormControl(selectedDevice.beleg_id, Validators.required),
           deviceType: new FormControl({
@@ -181,15 +181,15 @@ export class DeviceDetailedComponent implements OnInit {
       const returnObj: Device = {
         hersteller: this.basicForm.value.producer,
         bezeichnung: this.basicForm.value.name,
-        geweahrleistungsdauer: this.basicForm.value.warranty,
+        gewaehrleistungsdauer: this.basicForm.value.warranty,
         lieferant_id: this.basicForm.value.deliverer,
         komponentenartenid: this.basicForm.controls.deviceType.value,
         attribute: this.mapAttributes(),
-        raum_id: null,
+        raeume_id: null,
         beleg_id: this.basicForm.value.proof,
         einkaufsdatum: this.basicForm.value.purchase,
         id: this.basicForm.value.id,
-        notiz: null
+        notiz: ''
       };
       const raeume = this.multiForm.get('array').value.filter(room => room);
       this.api.createNewComponent(returnObj).then(resp => {
@@ -206,15 +206,15 @@ export class DeviceDetailedComponent implements OnInit {
       const returnObj: Device = {
         hersteller: this.basicForm.value.producer,
         bezeichnung: this.basicForm.value.name,
-        geweahrleistungsdauer: this.basicForm.value.warranty,
+        gewaehrleistungsdauer: this.basicForm.value.warranty,
         lieferant_id: this.basicForm.value.deliverer,
         komponentenartenid: this.basicForm.controls.deviceType.value,
         attribute: this.mapAttributes(),
-        raum_id: this.basicForm.value.room,
+        raeume_id: this.basicForm.value.room,
         beleg_id: this.basicForm.value.proof,
         einkaufsdatum: this.basicForm.value.purchase,
         id: this.basicForm.value.id,
-        notiz: null
+        notiz: ''
       };
       const serialId = this.getIdOfSerialnumber();
       this.multiForm.get('array').value.forEach(serial => {
@@ -224,8 +224,12 @@ export class DeviceDetailedComponent implements OnInit {
             id: serialId,
             value: serial
           });
-          console.log(current, '!');
-          // TODO: send !!!HERE!!! to BE;
+          // TODO Handle routing from site;
+          if (current.id) {
+            this.api.updateComponent(current).then();
+          } else {
+            this.api.createNewComponent(current).then();
+          }
           current.attribute.pop();
         }
       });
@@ -270,7 +274,7 @@ export class DeviceDetailedComponent implements OnInit {
     if (this.isDeviceTypeSW()) {
       return this.basicForm.valid;
     } else {
-      return this.basicForm && this.basicForm.valid && this.multiForm && this.multiForm.get('array').value.find(value => value);
+      return this.basicForm.valid && this.multiForm.get('array').value.find(value => value);
     }
   }
 }

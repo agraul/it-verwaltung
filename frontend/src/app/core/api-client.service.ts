@@ -10,8 +10,8 @@ import { Device } from '../fe-entities/device.entity';
 import { Roles } from '../fe-entities/roles.entity';
 import { RoomDetailed } from '../fe-entities/room-detailed.entity';
 import { Room } from '../fe-entities/room.entity';
-import { User } from '../fe-entities/user.entity';
 import { UserLogIn } from '../fe-entities/user-login-entity';
+import { User } from '../fe-entities/user.entity';
 
 @Injectable({
   providedIn: 'root'
@@ -433,10 +433,10 @@ export class ApiClientService {
       return Promise.resolve({
         id: 11,
         bezeichnung: 'Computer',
-        raum_id: 2,
+        raeume_id: 2,
         lieferant_id: 2,
         einkaufsdatum: '2019-07-13',
-        geweahrleistungsdauer: 12,
+        gewaehrleistungsdauer: 12,
         notiz: 'Ein komischer Rechner',
         hersteller: 'Apple',
         beleg_id: 1234,
@@ -499,7 +499,216 @@ export class ApiClientService {
   }
 
   public getAllComponents(): Promise<Device[]> {
-    return this.httpClient.get<Device[]>(environment.url + '/component/all').toPromise();
+    if (!environment.isMock) {
+      return Promise.resolve([
+        {
+          id: 1,
+          bezeichnung: 'Computer',
+          raeume_id: 222,
+          lieferant_id: 48768,
+          einkaufsdatum: '2019-07-13',
+          gewaehrleistungsdauer: 12,
+          notiz: 'Ein komischer Rechner',
+          hersteller: 'Apple',
+          beleg_id: 1234,
+          komponentenartenid: 1,
+          attribute: [
+            { id: 2, value: '4GB RAM' },
+            { id: 1, value: '293474-34764' },
+            { id: 3, value: 'GTX 2070' }
+          ]
+        },
+        {
+          id: 12,
+          bezeichnung: 'Computer',
+          raeume_id: 222,
+          lieferant_id: 48768,
+          einkaufsdatum: '2019-07-13',
+          gewaehrleistungsdauer: 12,
+          notiz: 'Ein komischer Rechner',
+          hersteller: 'Apple',
+          beleg_id: 1234,
+          komponentenartenid: 1,
+          attribute: [
+            { id: 2, value: '4GB RAM' },
+            { id: 1, value: '293474-34764' },
+            { id: 3, value: 'GTX 2070' }
+          ]
+        },
+        {
+          id: 13,
+          bezeichnung: 'Computer',
+          raeume_id: 222,
+          lieferant_id: 48768,
+          einkaufsdatum: '2019-07-13',
+          gewaehrleistungsdauer: 12,
+          notiz: 'Ein komischer Rechner',
+          hersteller: 'Apple',
+          beleg_id: 1234,
+          komponentenartenid: 1,
+          attribute: [
+            { id: 2, value: '4GB RAM' },
+            { id: 1, value: '293474-34764' },
+            { id: 3, value: 'GTX 2070' }
+          ]
+        },
+        {
+          id: 14,
+          bezeichnung: 'Computer',
+          raeume_id: 222,
+          lieferant_id: 48768,
+          einkaufsdatum: '2019-07-13',
+          gewaehrleistungsdauer: 12,
+          notiz: 'Ein komischer Rechner',
+          hersteller: 'Apple',
+          beleg_id: 1234,
+          komponentenartenid: 1,
+          attribute: [
+            { id: 2, value: '4GB RAM' },
+            { id: 1, value: '293474-34764' },
+            { id: 3, value: 'GTX 2070' }
+          ]
+        },
+        {
+          id: 15,
+          bezeichnung: 'Computer',
+          raeume_id: 222,
+          lieferant_id: 48768,
+          einkaufsdatum: '2019-07-13',
+          gewaehrleistungsdauer: 12,
+          notiz: 'Ein komischer Rechner',
+          hersteller: 'Apple',
+          beleg_id: 1234,
+          komponentenartenid: 1,
+          attribute: [
+            { id: 2, value: '4GB RAM' },
+            { id: 1, value: '293474-34764' },
+            { id: 3, value: 'GTX 2070' }
+          ]
+        },
+        {
+          id: 16,
+          bezeichnung: 'Computer',
+          raeume_id: 222,
+          lieferant_id: 48768,
+          einkaufsdatum: '2019-07-13',
+          gewaehrleistungsdauer: 12,
+          notiz: 'Ein komischer Rechner',
+          hersteller: 'Apple',
+          beleg_id: 1234,
+          komponentenartenid: 1,
+          attribute: [
+            { id: 2, value: '4GB RAM' },
+            { id: 1, value: '293474-34764' },
+            { id: 3, value: 'GTX 2070' }
+          ]
+        },
+        {
+          id: 17,
+          bezeichnung: 'Computer',
+          raeume_id: 222,
+          lieferant_id: 48768,
+          einkaufsdatum: '2019-07-13',
+          gewaehrleistungsdauer: 12,
+          notiz: 'Ein komischer Rechner',
+          hersteller: 'Apple',
+          beleg_id: 1234,
+          komponentenartenid: 1,
+          attribute: [
+            { id: 2, value: '4GB RAM' },
+            { id: 1, value: '293474-34764' },
+            { id: 3, value: 'GTX 2070' }
+          ]
+        },
+        {
+          id: 18,
+          bezeichnung: 'Computer',
+          raeume_id: 222,
+          lieferant_id: 48768,
+          einkaufsdatum: '2019-07-13',
+          gewaehrleistungsdauer: 12,
+          notiz: 'Ein komischer Rechner',
+          hersteller: 'Apple',
+          beleg_id: 1234,
+          komponentenartenid: 1,
+          attribute: [
+            { id: 2, value: '4GB RAM' },
+            { id: 1, value: '293474-34764' },
+            { id: 3, value: 'GTX 2070' }
+          ]
+        },
+        {
+          id: 19,
+          bezeichnung: 'Computer',
+          raeume_id: 222,
+          lieferant_id: 48768,
+          einkaufsdatum: '2019-07-13',
+          gewaehrleistungsdauer: 12,
+          notiz: 'Ein komischer Rechner',
+          hersteller: 'Apple',
+          beleg_id: 1234,
+          komponentenartenid: 1,
+          attribute: [
+            { id: 2, value: '4GB RAM' },
+            { id: 1, value: '293474-34764' },
+            { id: 3, value: 'GTX 2070' }
+          ]
+        },
+        {
+          id: 20,
+          bezeichnung: 'Computer',
+          raeume_id: 222,
+          lieferant_id: 48768,
+          einkaufsdatum: '2019-07-13',
+          gewaehrleistungsdauer: 12,
+          notiz: 'Ein komischer Rechner',
+          hersteller: 'Apple',
+          beleg_id: 1234,
+          komponentenartenid: 1,
+          attribute: [
+            { id: 2, value: '4GB RAM' },
+            { id: 1, value: '293474-34764' },
+            { id: 3, value: 'GTX 2070' }
+          ]
+        },
+        {
+          id: 21,
+          bezeichnung: 'Computer',
+          raeume_id: 222,
+          lieferant_id: 48768,
+          einkaufsdatum: '2019-07-13',
+          gewaehrleistungsdauer: 12,
+          notiz: 'Ein komischer Rechner',
+          hersteller: 'Apple',
+          beleg_id: 1234,
+          komponentenartenid: 1,
+          attribute: [
+            { id: 2, value: '4GB RAM' },
+            { id: 1, value: '293474-34764' },
+            { id: 3, value: 'GTX 2070' }
+          ]
+        },
+        {
+          id: 22,
+          bezeichnung: 'Computer',
+          raeume_id: 222,
+          lieferant_id: 48768,
+          einkaufsdatum: '2019-07-13',
+          gewaehrleistungsdauer: 12,
+          notiz: 'Ein komischer Rechner',
+          hersteller: 'Apple',
+          beleg_id: 1234,
+          komponentenartenid: 1,
+          attribute: [
+            { id: 2, value: '4GB RAM' },
+            { id: 1, value: '293474-34764' },
+            { id: 3, value: 'GTX 2070' }
+          ]
+        }
+      ]);
+    } else {
+      return this.httpClient.get<Device[]>(environment.url + '/component/all').toPromise();
+    }
   }
 
   public changeRoom(id: number, roomId: number): Promise<void> {
@@ -507,6 +716,6 @@ export class ApiClientService {
   }
 
   public logInAndGetToken(creds: UserLogIn): Promise<any> {
-    return this.httpClient.get<any>(environment.url + '/user/login?usr='+creds.username+'&pw='+creds.passwort).toPromise();
+    return this.httpClient.get<any>(environment.url + '/user/login?usr=' + creds.username + '&pw=' + creds.passwort).toPromise();
   }
 }

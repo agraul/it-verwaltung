@@ -3,6 +3,9 @@ import { Router } from '@angular/router';
 import { Card } from 'src/app/fe-entities/card.entity';
 import { Device } from 'src/app/fe-entities/device.entity';
 
+import { ApiClientService } from '../../core/api-client.service';
+import { DeviceAttribute } from '../../fe-entities/device-attibute.entity';
+
 @Component({
   selector: 'app-device-overview',
   templateUrl: './device-overview.component.html',
@@ -17,241 +20,19 @@ export class DeviceOverviewComponent implements OnInit {
   public selectModeActive = false;
   public selectButtonValue = 'Auswahl';
 
-  public deviceAttributes;
+  public deviceAttributes: DeviceAttribute[];
   public SearchText = '';
 
-  constructor(private _router: Router) { }
+  constructor(private _router: Router, private api: ApiClientService) { }
 
   ngOnInit() {
-    this.devices = this.getDevices();
-    this.deviceAttributes = this.getDeviceAttributes();
-    this.deviceCards = this.mapToDCards(this.devices);
-  }
-
-  getDevices(): Device[] {
-    return [
-      {
-        id: 1,
-        bezeichnung: 'Computer',
-        raum_id: 222,
-        lieferant_id: 48768,
-        einkaufsdatum: '2019-07-13',
-        geweahrleistungsdauer: 12,
-        notiz: 'Ein komischer Rechner',
-        hersteller: 'Apple',
-        beleg_id: 1234,
-        komponentenartenid: 1,
-        attribute: [
-          { id: 2, value: '4GB RAM' },
-          { id: 1, value: '293474-34764' },
-          { id: 3, value: 'GTX 2070' }
-        ]
-      },
-      {
-        id: 12,
-        bezeichnung: 'Computer',
-        raum_id: 222,
-        lieferant_id: 48768,
-        einkaufsdatum: '2019-07-13',
-        geweahrleistungsdauer: 12,
-        notiz: 'Ein komischer Rechner',
-        hersteller: 'Apple',
-        beleg_id: 1234,
-        komponentenartenid: 1,
-        attribute: [
-          { id: 2, value: '4GB RAM' },
-          { id: 1, value: '293474-34764' },
-          { id: 3, value: 'GTX 2070' }
-        ]
-      },
-      {
-        id: 13,
-        bezeichnung: 'Computer',
-        raum_id: 222,
-        lieferant_id: 48768,
-        einkaufsdatum: '2019-07-13',
-        geweahrleistungsdauer: 12,
-        notiz: 'Ein komischer Rechner',
-        hersteller: 'Apple',
-        beleg_id: 1234,
-        komponentenartenid: 1,
-        attribute: [
-          { id: 2, value: '4GB RAM' },
-          { id: 1, value: '293474-34764' },
-          { id: 3, value: 'GTX 2070' }
-        ]
-      },
-      {
-        id: 14,
-        bezeichnung: 'Computer',
-        raum_id: 222,
-        lieferant_id: 48768,
-        einkaufsdatum: '2019-07-13',
-        geweahrleistungsdauer: 12,
-        notiz: 'Ein komischer Rechner',
-        hersteller: 'Apple',
-        beleg_id: 1234,
-        komponentenartenid: 1,
-        attribute: [
-          { id: 2, value: '4GB RAM' },
-          { id: 1, value: '293474-34764' },
-          { id: 3, value: 'GTX 2070' }
-        ]
-      },
-      {
-        id: 15,
-        bezeichnung: 'Computer',
-        raum_id: 222,
-        lieferant_id: 48768,
-        einkaufsdatum: '2019-07-13',
-        geweahrleistungsdauer: 12,
-        notiz: 'Ein komischer Rechner',
-        hersteller: 'Apple',
-        beleg_id: 1234,
-        komponentenartenid: 1,
-        attribute: [
-          { id: 2, value: '4GB RAM' },
-          { id: 1, value: '293474-34764' },
-          { id: 3, value: 'GTX 2070' }
-        ]
-      },
-      {
-        id: 16,
-        bezeichnung: 'Computer',
-        raum_id: 222,
-        lieferant_id: 48768,
-        einkaufsdatum: '2019-07-13',
-        geweahrleistungsdauer: 12,
-        notiz: 'Ein komischer Rechner',
-        hersteller: 'Apple',
-        beleg_id: 1234,
-        komponentenartenid: 1,
-        attribute: [
-          { id: 2, value: '4GB RAM' },
-          { id: 1, value: '293474-34764' },
-          { id: 3, value: 'GTX 2070' }
-        ]
-      },
-      {
-        id: 17,
-        bezeichnung: 'Computer',
-        raum_id: 222,
-        lieferant_id: 48768,
-        einkaufsdatum: '2019-07-13',
-        geweahrleistungsdauer: 12,
-        notiz: 'Ein komischer Rechner',
-        hersteller: 'Apple',
-        beleg_id: 1234,
-        komponentenartenid: 1,
-        attribute: [
-          { id: 2, value: '4GB RAM' },
-          { id: 1, value: '293474-34764' },
-          { id: 3, value: 'GTX 2070' }
-        ]
-      },
-      {
-        id: 18,
-        bezeichnung: 'Computer',
-        raum_id: 222,
-        lieferant_id: 48768,
-        einkaufsdatum: '2019-07-13',
-        geweahrleistungsdauer: 12,
-        notiz: 'Ein komischer Rechner',
-        hersteller: 'Apple',
-        beleg_id: 1234,
-        komponentenartenid: 1,
-        attribute: [
-          { id: 2, value: '4GB RAM' },
-          { id: 1, value: '293474-34764' },
-          { id: 3, value: 'GTX 2070' }
-        ]
-      },
-      {
-        id: 19,
-        bezeichnung: 'Computer',
-        raum_id: 222,
-        lieferant_id: 48768,
-        einkaufsdatum: '2019-07-13',
-        geweahrleistungsdauer: 12,
-        notiz: 'Ein komischer Rechner',
-        hersteller: 'Apple',
-        beleg_id: 1234,
-        komponentenartenid: 1,
-        attribute: [
-          { id: 2, value: '4GB RAM' },
-          { id: 1, value: '293474-34764' },
-          { id: 3, value: 'GTX 2070' }
-        ]
-      },
-      {
-        id: 20,
-        bezeichnung: 'Computer',
-        raum_id: 222,
-        lieferant_id: 48768,
-        einkaufsdatum: '2019-07-13',
-        geweahrleistungsdauer: 12,
-        notiz: 'Ein komischer Rechner',
-        hersteller: 'Apple',
-        beleg_id: 1234,
-        komponentenartenid: 1,
-        attribute: [
-          { id: 2, value: '4GB RAM' },
-          { id: 1, value: '293474-34764' },
-          { id: 3, value: 'GTX 2070' }
-        ]
-      },
-      {
-        id: 21,
-        bezeichnung: 'Computer',
-        raum_id: 222,
-        lieferant_id: 48768,
-        einkaufsdatum: '2019-07-13',
-        geweahrleistungsdauer: 12,
-        notiz: 'Ein komischer Rechner',
-        hersteller: 'Apple',
-        beleg_id: 1234,
-        komponentenartenid: 1,
-        attribute: [
-          { id: 2, value: '4GB RAM' },
-          { id: 1, value: '293474-34764' },
-          { id: 3, value: 'GTX 2070' }
-        ]
-      },
-      {
-        id: 22,
-        bezeichnung: 'Computer',
-        raum_id: 222,
-        lieferant_id: 48768,
-        einkaufsdatum: '2019-07-13',
-        geweahrleistungsdauer: 12,
-        notiz: 'Ein komischer Rechner',
-        hersteller: 'Apple',
-        beleg_id: 1234,
-        komponentenartenid: 1,
-        attribute: [
-          { id: 2, value: '4GB RAM' },
-          { id: 1, value: '293474-34764' },
-          { id: 3, value: 'GTX 2070' }
-        ]
-      }
-    ];
-  }
-
-  getDeviceAttributes() {
-    return [
-      {
-        id: 1,
-        bezeichnung: 'Seriennummer'
-      },
-      {
-        id: 2,
-        bezeichung: 'RAM Größe'
-      },
-      {
-        id: 3,
-        bezeichnung: 'Lumen'
-      }
-    ];
+    this.api.getAllComponentAttributes().then(resp => {
+      this.deviceAttributes = resp;
+      this.api.getAllComponents().then(res => {
+        this.devices = res;
+        this.deviceCards = this.mapToDCards(res);
+      });
+    });
   }
 
   mapToDCards(devices: Device[]): Card[] {
@@ -291,7 +72,7 @@ export class DeviceOverviewComponent implements OnInit {
   }
 
   getSeriennummerId(): number {
-    return this.getDeviceAttributes().find(
+    return this.deviceAttributes.find(
       attr => attr.bezeichnung === 'Seriennummer'
     ).id;
   }
