@@ -20,13 +20,14 @@
       <li class="list-group-item" *ngFor="let attribute of sortedDeviceAttributes(); let i = index;"
         (click)="toggleDeviceAttribute(i)" [ngClass]="{'active': checkDeviceAttributeActive(i)}">
         {{ attribute.bezeichnung }}<button class="float-right" *ngIf="!checkAttributeDeleteable(i)"
-          (click)="deleteDeviceAttribute(i)" id="delete-attribute">x</button></li>
+          (click)="deleteDeviceAttribute(i);$event.stopPropagation();" id="delete-attribute">x</button></li>
     </ul>
   </div>
   <div class="col-4">
     <div class="form-check">
-      <input class="form-check-input" type="checkbox" [(ngModel)]="deviceTypes[activeType].isSoftware"
-        id="isSoftware"><label class="form-check-label" for="isSoftware">Software</label>
+      <input *ngIf="deviceTypes.length > 0 && deviceAttributes.length > 0" class="form-check-input" type="checkbox"
+        [(ngModel)]="deviceTypes[activeType].is_software" id="isSoftware"><label class="form-check-label"
+        for="isSoftware">Software</label>
     </div>
     <div>
       <button id="btn-save" (click)="saveDeviceType()">Speichern</button>

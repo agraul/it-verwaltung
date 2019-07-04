@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
-import { DeviceType } from 'src/app/fe-entities/device-type.entity';
-import { Room } from 'src/app/fe-entities/room.entity';
-import { DeviceAttribute } from 'src/app/fe-entities/device-attibute.entity';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Device } from 'src/app/fe-entities/device.entity';
+import { DeviceAttribute } from 'src/app/fe-entities/device-attibute.entity';
 import { DeviceAttribut } from 'src/app/fe-entities/device-attribute.entity';
+import { DeviceType } from 'src/app/fe-entities/device-type.entity';
+import { Device } from 'src/app/fe-entities/device.entity';
+import { Room } from 'src/app/fe-entities/room.entity';
+
+import { ApiClientService } from '../../core/api-client.service';
+import { Deliverer } from '../../fe-entities/deliverer.entity';
 
 @Component({
   selector: 'app-device-detailed',
@@ -17,7 +20,7 @@ export class DeviceDetailedComponent implements OnInit {
 
   private rooms: Room[];
 
-  private deliverers: any[];
+  private deliverers: Deliverer[];
 
   private deviceTypes: DeviceType[];
 
@@ -33,97 +36,15 @@ export class DeviceDetailedComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+    private api: ApiClientService
+  ) { }
 
   ngOnInit() {
-    // TODO: get from BE; pflichtfelder; daten laden; als vorlage;
-    this.deliverers = [
-      {
-        id: 1,
-        firmenname: 'Huber CO'
-      },
-      {
-        id: 2,
-        firmenname: 'Moritz GmbH'
-      }
-    ];
+    this.api.getAllDeliverer().then(resp => this.deliverers = resp);
+    this.api.getAllRooms().then(resp => this.rooms = resp);
 
-    this.rooms = [
-      {
-        id: 1,
-        nr: '012',
-        bezeichnung: 'Computerraum',
-        hat_notiz: true,
-        komponenten_arten: null
-      },
-      {
-        id: 2,
-        nr: '222',
-        bezeichnung: 'Computerraum',
-        hat_notiz: false,
-        komponenten_arten: null
-      },
-      {
-        id: 3,
-        nr: '154',
-        bezeichnung: 'Computerraum',
-        hat_notiz: true,
-        komponenten_arten: null
-      }
-    ];
-
-    this.deviceTypes = [
-      {
-        id: 1,
-        bezeichnung: 'PC',
-        attributes: [
-          {
-            id: 1,
-            bezeichnung: 'Seriennummer'
-          },
-          {
-            id: 2,
-            bezeichnung: 'RAM Größe'
-          },
-          {
-            id: 3,
-            bezeichnung: 'CPU Bezeichnung'
-          }
-        ],
-        isSoftware: false
-      },
-      {
-        id: 2,
-        bezeichnung: 'Beamer',
-        attributes: [
-          {
-            id: 1,
-            bezeichnung: 'Seriennummer'
-          },
-          {
-            id: 4,
-            bezeichnung: 'Lumen'
-          }
-        ],
-        isSoftware: false
-      },
-      {
-        id: 3,
-        bezeichnung: 'Software',
-        attributes: [
-          {
-            id: 5,
-            bezeichnung: 'Versionsnummer'
-          },
-          {
-            id: 6,
-            bezeichnung: 'Lizenztyp'
-          }
-        ],
-        isSoftware: true
-      }
-    ];
+    this.api.getAllComponentType().then(resp => this.deviceTypes = resp);
 
     const id = this.route.snapshot.paramMap.get('id');
 
@@ -145,58 +66,46 @@ export class DeviceDetailedComponent implements OnInit {
         attributes: this.formBuilder.array([])
       });
     } else {
-      this.flagExtendable = false;
-      const selectedDevice: Device = {
-        id: 11,
-        bezeichnung: 'Computer',
-        raumId: 2,
-        lieferantId: 2,
-        einkaufsdatum: '2019-07-13',
-        geweahrleistungsdauer: 12,
-        notiz: 'Ein komischer Rechner',
-        hersteller: 'Apple',
-        belegId: 1234,
-        komponentenArtId: 1,
-        komponentenAttribute: [
-          { id: 2, value: '4GB RAM' },
-          { id: 1, value: '293474-34764' },
-          { id: 3, value: 'GTX 2070' }
-        ]
-      };
+      this.api.getComponentById(Number(id)).then(resp => {
+        this.flagExtendable = false;
+        const selectedDevice = resp;
 
-      this.basicForm = this.formBuilder.group({
-        id: selectedDevice.id,
-        producer: new FormControl(selectedDevice.hersteller, Validators.required),
-        name: new FormControl(selectedDevice.bezeichnung, Validators.required),
-        room: new FormControl(selectedDevice.raumId, Validators.required),
-        purchase: new FormControl(selectedDevice.einkaufsdatum, Validators.required),
-        warranty: new FormControl(selectedDevice.geweahrleistungsdauer, Validators.required),
-        deliverer: new FormControl(selectedDevice.lieferantId, Validators.required),
-        proof: new FormControl(selectedDevice.belegId, Validators.required),
-        deviceType: new FormControl({
-          value: selectedDevice.komponentenArtId,
-          disabled: true
-        }),
-        attributes: this.formBuilder.array([])
+        this.basicForm = this.formBuilder.group({
+          id: selectedDevice.id,
+          producer: new FormControl(selectedDevice.hersteller, Validators.required),
+          name: new FormControl(selectedDevice.bezeichnung, Validators.required),
+          room: new FormControl(selectedDevice.raumId, Validators.required),
+          purchase: new FormControl(selectedDevice.einkaufsdatum, Validators.required),
+          warranty: new FormControl(selectedDevice.geweahrleistungsdauer, Validators.required),
+          deliverer: new FormControl(selectedDevice.lieferantId, Validators.required),
+          proof: new FormControl(selectedDevice.belegId, Validators.required),
+          deviceType: new FormControl({
+            value: selectedDevice.komponentenArtId,
+            disabled: true
+          }),
+          attributes: this.formBuilder.array([])
+        });
+
+        this.changeType(selectedDevice.komponentenAttribute);
+
+        if (!this.isDeviceTypeSW()) {
+          (this.multiForm.get('array') as FormArray).controls[0].setValue(
+            selectedDevice.komponentenAttribute.find(
+              attr => attr.id === this.getIdOfSerialnumber()
+            ).value
+          );
+        } else {
+          this.api.getAllRoomsToSoftware(Number(id)).then(res => {
+            res.forEach(room => {
+              (this.multiForm.get('array') as FormArray).push(
+                this.formBuilder.control(room.sir_r_id)
+              );
+            });
+            (this.multiForm.get('array') as FormArray).removeAt(0);
+          });
+        }
       });
 
-      this.changeType(selectedDevice.komponentenAttribute);
-
-      if (!this.isDeviceTypeSW()) {
-        (this.multiForm.get('array') as FormArray).controls[0].setValue(
-          selectedDevice.komponentenAttribute.find(
-            attr => attr.id === this.getIdOfSerialnumber()
-          ).value
-        );
-      } else {
-        const roomsToSW = [1, 2];
-        roomsToSW.forEach(room => {
-          (this.multiForm.get('array') as FormArray).push(
-            this.formBuilder.control(room)
-          );
-        });
-        (this.multiForm.get('array') as FormArray).removeAt(0);
-      }
     }
     if (this.flagReadOnly) {
       this.basicForm.disable();
@@ -205,30 +114,30 @@ export class DeviceDetailedComponent implements OnInit {
   }
 
   public get title() {
-     return this.flagExtendable ? 'Neue Komponente' : (this.basicForm.value.name ? this.basicForm.value.name : 'Komponente') ;
+    return this.flagExtendable ? 'Neue Komponente' : (this.basicForm.value.name ? this.basicForm.value.name : 'Komponente');
   }
 
 
   public sortedRooms(): Room[] {
-    return this.rooms.sort((a, b) => a.nr.localeCompare(b.nr));
+    return this.rooms ? this.rooms.sort((a, b) => a.nr.localeCompare(b.nr)) : [];
   }
 
   public sortedDeviceTypes(): DeviceType[] {
-    return this.deviceTypes.sort((a, b) =>
+    return this.deviceTypes ? this.deviceTypes.sort((a, b) =>
       a.bezeichnung.localeCompare(b.bezeichnung)
-    );
+    ) : [];
   }
 
-  public sortedDeliverers(): DeviceType[] {
-    return this.deliverers.sort((a, b) =>
-      a.firmenname.localeCompare(b.firmenname)
-    );
+  public sortedDeliverers(): Deliverer[] {
+    return this.deliverers ? this.deliverers.sort((a, b) =>
+      a.companyname.localeCompare(b.companyname)
+    ) : [];
   }
 
   public getAttributes(values?: DeviceAttribut[]): DeviceAttribute[] {
     const att = this.deviceTypes
       .find(type => type.id === Number(this.basicForm.get('deviceType').value))
-      .attributes.filter(attr => attr.bezeichnung !== 'Seriennummer');
+      .attribute.filter(attr => attr.bezeichnung !== 'Seriennummer');
     const formArray = this.basicForm.get('attributes') as FormArray;
     formArray.controls.splice(0);
     if (values) {
@@ -251,14 +160,14 @@ export class DeviceDetailedComponent implements OnInit {
   }
 
   public getSelectedDeviceType(): DeviceType {
-    return this.deviceTypes.find(
+    return this.sortedDeviceTypes().find(
       type => type.id === Number(this.basicForm.get('deviceType').value)
     );
   }
 
   public isDeviceTypeSW(): boolean {
     return this.getSelectedDeviceType()
-      ? this.getSelectedDeviceType().isSoftware
+      ? this.getSelectedDeviceType().is_software
       : false;
   }
 
@@ -282,7 +191,16 @@ export class DeviceDetailedComponent implements OnInit {
         notiz: null
       };
       const raeume = this.multiForm.get('array').value.filter(room => room);
-      console.log(returnObj, raeume);
+      this.api.createNewComponent(returnObj).then(resp => {
+        const id = resp.id;
+        this.api.removeRoomsToSoftware(id).then(() => {
+          raeume.forEach(raum => this.api.addSoftwareToRoom({
+            component_Id: id,
+            room_id: raum
+          }));
+        });
+      });
+
     } else {
       const returnObj: Device = {
         hersteller: this.basicForm.value.producer,
@@ -300,15 +218,15 @@ export class DeviceDetailedComponent implements OnInit {
       const serialId = this.getIdOfSerialnumber();
       this.multiForm.get('array').value.forEach(serial => {
         if (serial) {
-        const current = returnObj;
-        current.komponentenAttribute.push({
-          id: serialId,
-          value: serial
-        });
-        console.log(current, '!');
-        // TODO: send !!!HERE!!! to BE;
-        current.komponentenAttribute.pop();
-      }
+          const current = returnObj;
+          current.komponentenAttribute.push({
+            id: serialId,
+            value: serial
+          });
+          console.log(current, '!');
+          // TODO: send !!!HERE!!! to BE;
+          current.komponentenAttribute.pop();
+        }
       });
     }
   }
@@ -334,7 +252,7 @@ export class DeviceDetailedComponent implements OnInit {
   }
 
   private getIdOfSerialnumber(): number {
-    return this.getSelectedDeviceType().attributes.find(
+    return this.getSelectedDeviceType().attribute.find(
       type => type.bezeichnung === 'Seriennummer'
     ).id;
   }

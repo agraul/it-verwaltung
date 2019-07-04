@@ -1,13 +1,13 @@
 import { DeviceAttribute } from './device-attibute.entity';
 
 /**
- * Enity for deviceType. Contains id, name, isSoftware and attributes.
+ * Enity for deviceType. Contains id, name, is_software and attributes.
  */
 export class DeviceType {
 
   id: number;
   bezeichnung: string;
-  isSoftware: boolean;
-  attributes: DeviceAttribute[];
+  is_software: boolean;
+  attribute: DeviceAttribute[];
 
 }

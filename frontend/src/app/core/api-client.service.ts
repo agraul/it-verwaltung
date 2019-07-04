@@ -3,20 +3,23 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
 import { environment } from '../../environments/environment';
+import { Deliverer } from '../fe-entities/deliverer.entity';
+import { DeviceAttribute } from '../fe-entities/device-attibute.entity';
+import { DeviceType } from '../fe-entities/device-type.entity';
+import { Device } from '../fe-entities/device.entity';
 import { Roles } from '../fe-entities/roles.entity';
 import { Room } from '../fe-entities/room.entity';
 import { User } from '../fe-entities/user.entity';
-import { Deliverer } from '../fe-entities/deliverer.entity';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiClientService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
 
-  public getAllRooms(): Observable<Room[]> {
+  public getAllRooms(): Promise<Room[]> {
     if (environment.isMock) {
-      return of([
+      return Promise.resolve([
         {
           id: 1,
           nr: '123',
@@ -40,7 +43,7 @@ export class ApiClientService {
         }
       ]);
     }
-    return this.httpClient.get<Room[]>(environment.url + '/room/all');
+    return this.httpClient.get<Room[]>(environment.url + '/room/all').toPromise();
   }
 
   public getAllGroups(): Observable<Roles[]> {
@@ -154,7 +157,7 @@ export class ApiClientService {
     }
   }
 
-  public updateDeliverer(body: any): Promise<any> {
+  public addDeliverer(body: Deliverer): Promise<any> {
     if (environment.isMock) {
       return Promise.resolve();
     } else {
@@ -172,5 +175,300 @@ export class ApiClientService {
         .get<void>(environment.url + '/supplier/delete?id=' + id)
         .toPromise();
     }
+  }
+
+  public updateDeliverer(body: Deliverer): Promise<void> {
+    if (environment.isMock) {
+      return Promise.resolve();
+    } else {
+      return this.httpClient
+        .post<any>(environment.url + '/supplier/update', body)
+        .toPromise();
+    }
+  }
+
+  public getAllComponentAttributes(): Promise<DeviceAttribute[]> {
+    if (environment.isMock) {
+      return Promise.resolve([
+        {
+          id: 1,
+          bezeichnung: 'Seriennummer',
+        },
+        {
+          id: 2,
+          bezeichnung: 'RAM'
+        },
+        {
+          id: 3,
+          bezeichnung: 'CPU'
+        },
+        {
+          id: 4,
+          bezeichnung: 'Festplatte'
+        },
+        {
+          id: 5,
+          bezeichnung: 'Festplatten Typ'
+        },
+        {
+          id: 6,
+          bezeichnung: 'Grafikausgang'
+        },
+        {
+          id: 19,
+          bezeichnung: 'Versionsnummer'
+        },
+        {
+          id: 20,
+          bezeichnung: 'Lizenztyp'
+        },
+        {
+          id: 21,
+          bezeichnung: 'Lizenzanzahl'
+        },
+        {
+          id: 22,
+          bezeichnung: 'Lizenzlaufzeit'
+        },
+        {
+          id: 23,
+          bezeichnung: 'Lizenzinformationen'
+        },
+        {
+          id: 24,
+          bezeichnung: 'Installationshinweise'
+        },
+        {
+          id: 7,
+          bezeichnung: 'Anzahl Ports'
+        },
+        {
+          id: 8,
+          bezeichnung: 'Uplinktyp'
+        },
+        {
+          id: 9,
+          bezeichnung: 'IP'
+        },
+        {
+          id: 18,
+          bezeichnung: 'Anschlusstyp'
+        }
+      ]);
+    } else {
+      return this.httpClient
+        .get<DeviceAttribute[]>(environment.url + '/componentattribute/all')
+        .toPromise();
+    }
+  }
+
+  public addComponentAttribute(bez: string): Promise<void> {
+    if (environment.isMock) {
+      return Promise.resolve();
+    } else {
+      return this.httpClient
+        .post<any>(environment.url + '/componentattribute/add', { attribute: bez })
+        .toPromise();
+    }
+  }
+
+  public deleteComponentAttribute(id: number): Promise<void> {
+    if (environment.isMock) {
+      return Promise.resolve();
+    } else {
+      return this.httpClient
+        .get<void>(environment.url + '/componentattribute/delete?id=' + id)
+        .toPromise();
+    }
+  }
+
+  public getAllComponentType(): Promise<DeviceType[]> {
+    if (environment.isMock) {
+      return Promise.resolve([
+        {
+          id: 1,
+          bezeichnung: 'PC',
+          is_software: false,
+          attribute: [
+            {
+              id: 1,
+              bezeichnung: 'Seriennummer'
+            },
+            {
+              id: 2,
+              bezeichnung: 'RAM'
+            },
+            {
+              id: 3,
+              bezeichnung: 'CPU'
+            }
+          ]
+        },
+        {
+          id: 2,
+          bezeichnung: 'Switch',
+          is_software: false,
+          attribute: [
+            {
+              id: 1,
+              bezeichnung: 'Seriennummer'
+            },
+            {
+              id: 7,
+              bezeichnung: 'Anzahl Ports'
+            },
+            {
+              id: 8,
+              bezeichnung: 'Uplinktyp'
+            }
+          ]
+        },
+        {
+          id: 3,
+          bezeichnung: 'Router',
+          is_software: false,
+          attribute: [
+            {
+              id: 1,
+              bezeichnung: 'Seriennummer'
+            },
+            {
+              id: 7,
+              bezeichnung: 'Anzahl Ports'
+            },
+            {
+              id: 9,
+              bezeichnung: 'IP'
+            }
+          ]
+        },
+        {
+          id: 7,
+          bezeichnung: 'Visualizer',
+          is_software: false,
+          attribute: [
+            {
+              id: 1,
+              bezeichnung: 'Seriennummer'
+            },
+            {
+              id: 18,
+              bezeichnung: 'Anschlusstyp'
+            }
+          ]
+        },
+        {
+          id: 8,
+          bezeichnung: 'Software',
+          is_software: true,
+          attribute: [
+            {
+              id: 19,
+              bezeichnung: 'Versionsnummer'
+            },
+            {
+              id: 20,
+              bezeichnung: 'Lizenztyp'
+            },
+            {
+              id: 21,
+              bezeichnung: 'Lizenzanzahl'
+            },
+            {
+              id: 22,
+              bezeichnung: 'Lizenzlaufzeit'
+            },
+            {
+              id: 23,
+              bezeichnung: 'Lizenzinformationen'
+            },
+            {
+              id: 24,
+              bezeichnung: 'Installationshinweise'
+            }
+          ]
+        }
+      ]);
+    } else {
+      return this.httpClient
+        .get<DeviceType[]>(environment.url + '/componenttype/all')
+        .toPromise();
+    }
+  }
+
+  public deleteComponentType(id: number): Promise<void> {
+    if (environment.isMock) {
+      return Promise.resolve();
+    } else {
+      return this.httpClient
+        .get<void>(environment.url + '/componenttype/delete?id=' + id)
+        .toPromise();
+    }
+  }
+
+  public addNewComponentType(body: any): Promise<any> {
+    if (environment.isMock) {
+      return Promise.resolve();
+    } else {
+      return this.httpClient
+        .post<any>(environment.url + '/componenttype/add', body)
+        .toPromise();
+    }
+  }
+
+  public updateComponentType(body: any): Promise<any> {
+    if (environment.isMock) {
+      return Promise.resolve();
+    } else {
+      return this.httpClient
+        .post<any>(environment.url + '/componenttype/update', body)
+        .toPromise();
+    }
+  }
+
+  public getComponentById(id: number): Promise<Device> {
+    if (environment.isMock) {
+      return Promise.resolve({
+        id: 11,
+        bezeichnung: 'Computer',
+        raumId: 2,
+        lieferantId: 2,
+        einkaufsdatum: '2019-07-13',
+        geweahrleistungsdauer: 12,
+        notiz: 'Ein komischer Rechner',
+        hersteller: 'Apple',
+        belegId: 1234,
+        komponentenArtId: 1,
+        komponentenAttribute: [
+          { id: 2, value: '4GB RAM' },
+          { id: 1, value: '293474-34764' },
+          { id: 3, value: 'GTX 2070' }
+        ]
+      });
+    } else {
+      this.httpClient.get<Device>(environment.url + '/component/detail?id=' + id).toPromise();
+    }
+  }
+
+  public createNewComponent(body: Device): Promise<any> {
+    if (environment.isMock) {
+      return Promise.resolve({
+        id: Math.random() * 100
+      });
+    } else {
+      return this.httpClient.post(environment.url + '/component/add', body).toPromise();
+    }
+  }
+
+  public removeRoomsToSoftware(id: number): Promise<void> {
+    return this.httpClient.get<void>(environment.url + '/software/delete?id=' + id).toPromise();
+  }
+
+  public addSoftwareToRoom(body: any): Promise<void> {
+    return this.httpClient.post<void>(environment.url + '/software/add', body).toPromise();
+  }
+
+  public getAllRoomsToSoftware(id: number): Promise<any> {
+    return this.httpClient.get<any>(environment.url + '/software/all?id=' + id).toPromise();
   }
 }
