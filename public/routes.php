@@ -91,9 +91,9 @@ return $routes = [
         'action' => 'delete',
     ],
     [
-        'route' => '/componenttype/addAttribute',
+        'route' => '/componenttype/update',
         'controller' => 'componenttype',
-        'action' => 'addAttribute',
+        'action' => 'update',
     ],
     [
         'route' => '/supplier/all',
