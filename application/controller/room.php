@@ -30,7 +30,7 @@ class room extends controller
         foreach ($query as $row) {
             $this->data[$i] = new stdClass();
             $this->data[$i]->id = (int) $row['r_id'];
-            $this->data[$i]->nr = (int) $row['r_nr'];
+            $this->data[$i]->nr = (string) $row['r_nr'];
             $this->data[$i]->bezeichnung = (string) $row['r_bezeichnung'];
             $this->data[$i]->hat_notiz = empty($row['r_bezeichnung']) ? false : true;
             $this->data[$i]->komponenten_arten = [];
