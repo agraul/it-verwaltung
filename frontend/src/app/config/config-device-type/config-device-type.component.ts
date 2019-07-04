@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { DeviceType } from 'src/app/fe-entities/device-type.entity';
 
+import { ApiClientService } from '../../core/api-client.service';
 import { DeviceAttribute } from '../../fe-entities/device-attibute.entity';
 
 @Component({
@@ -21,47 +22,11 @@ export class ConfigDeviceTypeComponent implements OnInit {
 
   public newDeviceAttribute = new FormControl('');
 
-  constructor() { }
+  constructor(private api: ApiClientService) { }
 
   ngOnInit() {
-    // TODO: load from BE;
-    this.deviceAttributes = [
-      {
-        id: 1,
-        bezeichnung: 'Seriennummer'
-      },
-      {
-        id: 2,
-        bezeichnung: 'RAM Größe'
-      },
-      {
-        id: 3,
-        bezeichnung: 'Lumen'
-      }
-    ];
-    this.deviceTypes = [
-      {
-        id: 1,
-        bezeichnung: 'PC',
-        attributes: [{
-          id: 1,
-          bezeichnung: 'Seriennummer'
-        }, {
-          id: 2,
-          bezeichnung: 'RAM Größe'
-        }],
-        isSoftware: false
-      },
-      {
-        id: 2,
-        bezeichnung: 'Beamer',
-        attributes: [{
-          id: 3,
-          bezeichnung: 'Lumen'
-        }],
-        isSoftware: false
-      }
-    ];
+    this.api.getAllComponentAttributes().then(resp => this.deviceAttributes = resp);
+    this.api.getAllComponentType().then(resp => this.deviceTypes = resp);
   }
 
   /**
@@ -82,11 +47,11 @@ export class ConfigDeviceTypeComponent implements OnInit {
     const attribute = this.deviceAttributes[index];
     if (attribute) {
       const id = attribute.id;
-      if (this.deviceTypes[this.activeType].attributes.find(attr => attr.id === id) === undefined) {
-        this.deviceTypes[this.activeType].attributes.push(attribute);
+      if (this.deviceTypes[this.activeType].attribute.find(attr => attr.id === id) === undefined) {
+        this.deviceTypes[this.activeType].attribute.push(attribute);
       } else {
-        const found = this.deviceTypes[this.activeType].attributes.findIndex(attr => attr.id === id);
-        this.deviceTypes[this.activeType].attributes.splice(found, 1);
+        const found = this.deviceTypes[this.activeType].attribute.findIndex(attr => attr.id === id);
+        this.deviceTypes[this.activeType].attribute.splice(found, 1);
       }
     }
   }
@@ -98,10 +63,11 @@ export class ConfigDeviceTypeComponent implements OnInit {
    */
   public checkDeviceAttributeActive(index: number): boolean {
     const attribute = this.deviceAttributes[index];
+    const deviceType = this.deviceTypes[this.activeType];
     let retVal = false;
-    if (attribute) {
+    if (attribute && deviceType) {
       const id = attribute.id;
-      retVal = this.deviceTypes[this.activeType].attributes.find(attr => attr.id === id) !== undefined;
+      retVal = deviceType.attribute.find(attr => attr.id === id) !== undefined;
     }
     return retVal;
   }
@@ -115,8 +81,8 @@ export class ConfigDeviceTypeComponent implements OnInit {
       {
         id: null,
         bezeichnung: this.newDeviceType.value,
-        attributes: [],
-        isSoftware: false
+        attribute: [],
+        is_software: false
       }
     );
     this.newDeviceType.setValue('');
@@ -127,14 +93,11 @@ export class ConfigDeviceTypeComponent implements OnInit {
    * Directly saved in database.
    */
   public addNewDeviceAttribute(): void {
-    // TODO: Persist directly in DB for ID, maybe not if BE can gets whole Device with attributes id and name;
-    this.deviceAttributes.push(
-      {
-        id: Math.random() * 100,
-        bezeichnung: this.newDeviceAttribute.value
-      }
+    this.api.addComponentAttribute(this.newDeviceAttribute.value).then(() => {
+      this.api.getAllComponentAttributes().then(resp => this.deviceAttributes = resp);
+      this.newDeviceAttribute.setValue('');
+    }
     );
-    this.newDeviceAttribute.setValue('');
   }
 
   /**
@@ -149,16 +112,25 @@ export class ConfigDeviceTypeComponent implements OnInit {
    * Saves the current deviceType.
    */
   public saveDeviceType(): void {
-    // TODO: send to BE; Maybe split between POST and PUT depending on id set or not;
+    const currentDevice = this.deviceTypes[this.activeType];
+    currentDevice.attribute = currentDevice.attribute.filter(attr => this.deviceAttributes.some(dattr => dattr.id === attr.id));
+    if (!currentDevice.id) {
+      this.api.addNewComponentType(currentDevice).then(() => this.api.getAllComponentType().then(resp => this.deviceTypes = resp));
+    } else {
+      this.api.updateComponentType(currentDevice).then();
+    }
   }
 
   /**
    * Deletes the current deviceType
    */
   public deleteDeviceType(): void {
-    // TODO: request to BE; Error handling? DeviceType in Use...
-    this.deviceTypes.splice(this.activeType, 1);
-    this.activeType = 0;
+    this.api.deleteComponentType(this.deviceTypes[this.activeType].id).then(() => {
+      this.api.getAllComponentType().then(resp => {
+        this.deviceTypes = resp;
+        this.activeType = 0;
+      });
+    });
   }
 
   /**
@@ -171,7 +143,7 @@ export class ConfigDeviceTypeComponent implements OnInit {
     const attribute = this.deviceAttributes[index];
     let retVal = false;
     if (attribute) {
-      retVal = this.deviceTypes.find(type => type.attributes.find(attr => attribute.id === attr.id) !== undefined) !== undefined;
+      retVal = this.deviceTypes.find(type => type.attribute.find(attr => attribute.id === attr.id) !== undefined) !== undefined;
     }
     return retVal;
   }
@@ -181,8 +153,9 @@ export class ConfigDeviceTypeComponent implements OnInit {
    * @param index of selected device attribute
    */
   public deleteDeviceAttribute(index: number): void {
-    // TODO: request to BE, if attributes are saved directly.
-    this.deviceAttributes.splice(index, 1);
+    this.api.deleteComponentAttribute(this.deviceAttributes[index].id).then(() =>
+      this.api.getAllComponentAttributes().then(resp => this.deviceAttributes = resp)
+    );
   }
 
 
