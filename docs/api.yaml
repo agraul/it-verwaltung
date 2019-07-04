@@ -826,7 +826,56 @@ paths:
                   properties:  
                     sir_r_id:
                       type: integer
-                 
+  /software/add:
+    post:
+      summary:  WORKS - Add software to a room
+      parameters:
+        - in: query
+          name: component_id
+          schema:
+            type: integer
+          required: true
+        - in: query
+          name: room_id
+          schema:
+            type: integer
+          required: true
+          
+      responses:
+        '200':
+          description: OK  
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:  
+                    success:
+                      type: boolean
+  /software/delete:
+    get:
+      summary:  WORKS - Delete software to a room
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+          
+      responses:
+        '200':
+          description: OK  
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:  
+                    success:
+                      type: boolean
+
 components:
   schemas:
     Raum:
