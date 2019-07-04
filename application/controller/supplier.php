@@ -57,7 +57,7 @@ class supplier extends controller
         }
     }
 
-    private function checkAddParameter($arr): bool
+    private function checkParameter($arr): bool
     {
         switch (false) {
             case $this->verify($arr['companyname']):
@@ -75,7 +75,7 @@ class supplier extends controller
 
     public function add()
     {
-        if ($this->checkAddParameter($_POST) === false) {
+        if ($this->checkParameter($_POST) === false) {
             http_response_code(400);
             return;
         }
@@ -90,6 +90,30 @@ class supplier extends controller
         $sql = "INSERT INTO lieferant (l_firmenname, l_strasse, l_plz, l_ort, l_tel, l_mobil, l_fax, l_email) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
         $query = $this->db->prepare($sql);
         $result = $query->execute(array($companyname, $street, $plz, $place, $tel, $mobile, $fax, $email));
+        if ($result === false) {
+            http_response_code(500);
+            return;
+        }
+    }
+
+    public function edit()
+    {
+        if ($this->checkParameter($_POST) === false) {
+            http_response_code(400);
+            return;
+        }
+        $id = (int) $_POST['id'];
+        $companyname = (string) $_POST['companyname'];
+        $street = (string) $_POST['street'];
+        $plz = (string) $_POST['plz'];
+        $place = (string) $_POST['place'];
+        $tel = (string) $_POST['tel'];
+        $mobile = (string) $_POST['mobile'];
+        $fax = (string) $_POST['fax'];
+        $email = (string) $_POST['email'];
+        $sql = "UPDATE lieferant SET l_firmenname = ?, l_strasse = ?, l_plz = ?, l_ort = ?, l_tel = ?, l_mobil = ?, l_fax = ?, l_email = ? WHERE l_id = ?;";
+        $query = $this->db->prepare($sql);
+        $result = $query->execute(array($companyname, $street, $plz, $place, $tel, $mobile, $fax, $email, $id));
         if ($result === false) {
             http_response_code(500);
             return;

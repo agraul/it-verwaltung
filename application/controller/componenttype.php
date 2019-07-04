@@ -116,20 +116,6 @@ class componenttype extends controller
         }
     }
 
-    public function addAttribute()
-    {
-        $this->data[0] = new stdClass();
-        try {
-            $artId = (int) $_POST['komponentenart_id'];
-            $attributeId = (int) $_POST['komponentenattribute_id'];
-            $query = $this->db->prepare($sql);
-            $query->execute(array($artId, $attributeId));
-            $this->data[0]->success = true;
-        } catch (Exception $e) {
-            $this->data[0]->success = false;
-        }
-    }
-
     public function delete()
     {
         $this->data[0] = new stdClass();
