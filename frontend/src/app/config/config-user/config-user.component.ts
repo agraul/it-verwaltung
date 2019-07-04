@@ -48,7 +48,7 @@ export class ConfigUserComponent implements OnInit{
     if (changes.pw.trim() !== '') {
       this.api.setUserPassword(pwchange).then();
     }
-    this.api.setUserGroupChange(rolechange).then();
+    this.api.setUserGroupChange(rolechange).then( () => this.reloadTable());
   }
 
   private async reloadTable() {
