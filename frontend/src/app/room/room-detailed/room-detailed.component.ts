@@ -230,6 +230,14 @@ export class RoomDetailedComponent implements OnInit {
 
   getRoom() {
     const roomId = this.getRoomId();
+    this.api.getAllRooms().then(resp => {
+      for(let i=0; i<resp.length; i++){
+        if(resp[i].nr === roomId){
+          console.log("Raum gefunden")
+          this.api.getRoomDetail(resp[i].id).then(resp => this.room = resp);
+        }
+      }
+    })
     // TODO get specific room from db
     return;
   }
