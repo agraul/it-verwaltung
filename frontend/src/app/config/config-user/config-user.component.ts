@@ -1,26 +1,35 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Roles } from 'src/app/fe-entities/roles.entity';
 import { User } from 'src/app/fe-entities/user.entity';
 
 import { ApiClientService } from '../../core/api-client.service';
+import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-config-user',
   templateUrl: './config-user.component.html',
   styleUrls: ['./config-user.component.less']
 })
-export class ConfigUserComponent implements OnInit {
+export class ConfigUserComponent implements OnInit{
 
   public roles: Roles[] = [];
   public users: User[];
 
   public form: FormGroup;
 
-  constructor(private builder: FormBuilder, private api: ApiClientService) { }
+  constructor(private builder: FormBuilder, private api: ApiClientService, private authService: AuthService) { 
+    console.log("GEtt messa");
+    
+      console.log(this.authService.isAdmin);
+      
+    
+  }
 
   async ngOnInit() {
+    
     this.reloadTable();
   }
 

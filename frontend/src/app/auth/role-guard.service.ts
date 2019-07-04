@@ -10,6 +10,11 @@ import { decode } from 'punycode';
 @Injectable()
 export class RoleGuardService implements CanActivate {
   constructor(public auth: AuthService, public router: Router) {}
+  
+  
+  
+  
+  
   canActivate(route: ActivatedRouteSnapshot): boolean {
     // this will be passed from the route config
     // on the data property
@@ -17,6 +22,8 @@ export class RoleGuardService implements CanActivate {
     const token = localStorage.getItem('token');
     // decode the token to get its payload
     const tokenPayload = decode(token);
+    console.log(tokenPayload);
+    
     if (!this.auth.isLoggedIn) {
       this.router.navigate(['login']);
       return false;

@@ -10,6 +10,7 @@ import { Device } from '../fe-entities/device.entity';
 import { Roles } from '../fe-entities/roles.entity';
 import { Room } from '../fe-entities/room.entity';
 import { User } from '../fe-entities/user.entity';
+import { UserLogIn } from '../fe-entities/user-login-entity';
 
 @Injectable({
   providedIn: 'root'
@@ -470,5 +471,9 @@ export class ApiClientService {
 
   public getAllRoomsToSoftware(id: number): Promise<any> {
     return this.httpClient.get<any>(environment.url + '/software/all?id=' + id).toPromise();
+  }
+
+  public logInAndGetToken(creds: UserLogIn): Promise<any> {
+    return this.httpClient.get<any>(environment.url + '/user/login?usr='+creds.username+'&pw='+creds.passwort).toPromise();
   }
 }
