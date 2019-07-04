@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Card } from 'src/app/fe-entities/card.entity';
 import { Room } from 'src/app/fe-entities/room.entity';
+import { ApiClientService } from 'src/app/core/api-client.service';
 
 @Component({
   selector: 'app-room-overview',
@@ -15,16 +16,24 @@ export class RoomOverviewComponent implements OnInit {
   public searchText = '';
 
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private api: ApiClientService) { }
 
   ngOnInit() {
-    this.rooms = this.getRooms();
-    this.overViewRooms = this.mapRoomsToCard(this.rooms);
+    this.getRooms();
+    
 
   }
 
-  private getRooms(): Room[] {
+  private getRooms() {
+
+    this.api.getAllRooms().then(resp => {
+      this.rooms = resp;
+      this.overViewRooms = this.mapRoomsToCard(this.rooms);
+
+    });
+
     // TODO add api call for db entries
+    /*
     return [
       {
         id: 1,
@@ -47,7 +56,7 @@ export class RoomOverviewComponent implements OnInit {
         hat_notiz: true,
         komponenten_arten: null
       }
-    ];
+    ]; */
   }
   /**
    *  Maps the room-array to card-array, for overview cards
