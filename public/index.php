@@ -3,20 +3,12 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-session_start();
+define('KEY', 'hgEKTTuuKYhMpwiIvfLiskiMhQNgSERz');
 
 $request_uri = (string) $_SERVER['REQUEST_URI'];
 if ($request_uri === '/index.php') {
     $request_uri = '/';
 }
-
-// .js
-// .css
-// .html
-// .icon
-// .
-#$request_uri = "/runtime.js";
-#var_dump($request_uri);
 
 $base = '/api/v1';
 require 'routes.php';
@@ -72,7 +64,7 @@ chdir('../application/controller');
 require 'controller.php';
 require $route['controller'] . '.php';
 $param = $_REQUEST;
-$controller = new $route['controller']();
+$controller = new $route['controller']($route['action']);
 $action = $route['action'];
 $controller->$action();
 

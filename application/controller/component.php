@@ -6,7 +6,7 @@ class component extends controller
     public $data;
     private $db;
 
-    public function __construct()
+    public function __construct(string $action)
     {
         header('Content-Type: application/json');
         $this->data = [];
@@ -15,6 +15,16 @@ class component extends controller
         $this->db = $link::get();
         $_POST = json_decode(file_get_contents('php://input'), true);
         $this->cors();
+        if ($this->decode() === false) {
+            switch ($action) {
+                case 'delete':
+                case 'add':
+                case 'changeRoom':
+                case 'update':
+                    http_response_code(401);
+                    exit;
+            }
+        }
     }
 
     public function __destruct()
@@ -162,7 +172,7 @@ class component extends controller
             }
         }
     }
- 
+
     public function detail()
     {
         if ($this->verify($_GET['id']) === false) {

@@ -6,15 +6,31 @@ class user extends controller
     public $data;
     private $db;
 
-    public function __construct()
+    public function __construct(string $action)
     {
         header('Content-Type: application/json');
         $this->data = [];
         require '../db.php';
         $link = new db();
         $this->db = $link::get();
-        #   $_POST = json_decode(file_get_contents('php://input'), true);
+        $_POST = json_decode(file_get_contents('php://input'), true);
         $this->cors();
+        if ($action !== 'login') {
+            if ($this->decode() === false) {
+                switch ($action) {
+                    case 'delete':
+                    case 'add':
+                    case 'changeRoom':
+                    case 'update':
+                    case 'edit':
+                    case 'register':
+                    case 'setpassword':
+                    case 'changegroup':
+                        http_response_code(401);
+                        exit;
+                }
+            }
+        }
     }
 
     public function __destruct()
@@ -39,36 +55,37 @@ class user extends controller
 
     public function login()
     {
-        if ($this->verify($_POST['username']) === false || $this->verify($_POST['pw']) === false) {
+        if ($this->verify($_GET['usr']) === false || $this->verify($_GET['pw']) === false) {
             http_response_code(400);
             return;
         }
 
-        $username = (string) $_POST['username'];
-        $pw = (string) $_POST['pw'];
-        $sql = "SELECT * FROM benutzer WHERE b_username=?";
+        $username = (string) $_GET['usr'];
+        $pw = (string) $_GET['pw'];
+        $sql = "SELECT * FROM benutzer INNER JOIN gruppe ON gruppe_g_id=g_id WHERE b_username=? ";
         $query = $this->db->prepare($sql);
         $result = $query->execute(array($username));
-        var_dump($query->rowCount());
         if ((int) $query->rowCount() === 0) {
             http_response_code(400);
             return;
         }
         foreach ($query as $row) {
             $hash = (string) $row['b_passwort'];
+            $permission = (bool) $row['g_privilegiert'];
         }
         if (password_verify($pw, $hash) === false) {
             http_response_code(400);
             return;
         } else {
- 
-            var_dump('erfolgreich');
+            require '../php-jwt/JWT.php';
+            $jwt = new Firebase\JWT\JWT();
+            $payload = [
+                'exp' => time() + 60 * 60 * 2,
+                'admin' => (bool) $permission,
+            ];
+            $this->data[0] = new stdClass();
+            $this->data[0]->token = $jwt->encode($payload, KEY);
         }
-    }
-
-    public function logout()
-    {
-        
     }
 
     public function register()
