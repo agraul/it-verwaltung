@@ -194,7 +194,7 @@ INSERT INTO `wird_beschrieben_durch` (`komponentenarten_ka_id`, `komponentenattr
 (8, 22),
 (8, 23),
 (8, 24);
-  
+
 -- --------------------------------------------------------
 
 --
@@ -321,7 +321,9 @@ INSERT INTO `benutzer` (`b_id`, `gruppe_g_id`, `b_vorname`, `b_nachname`, `b_use
 (1, 1, 'Manfred', 'Fischer', 'A0001', '$2y$10$iHqwBPJh.UtLUCZQYtzdmOv40q6j26pc8PAvf5M3rjPfbmoBaaBF2'),
 (2, 2, 'Lukas', 'Nuber', 'A0002', '$2y$10$oGtvVZtxnIXp0aahpEWN1ODHJQlLbn3doj9tIAdXZK4xev5FRylqa'),
 (3, 3, 'Hannah', 'Leugnert', 'A0003', '$2y$10$uRooRoK59TCr.pi4zdNG3eGLxVODizJLO40KxqR4hpmlAaMWaJYJy'),
-(4, 4, 'Udo', 'Schmidt', 'A0004', '$2y$10$.ffq49dPG764uiMZyBCFIOHcP6H2B9NY98Jk0vnBI8LyRxFO1FEFG');
+(4, 4, 'Udo', 'Schmidt', 'A0004', '$2y$10$.ffq49dPG764uiMZyBCFIOHcP6H2B9NY98Jk0vnBI8LyRxFO1FEFG'),
+(5, 1, 'Super', 'User', 'sudo', '$2y$10$qDu70PrO6vQMeACZgM5E0..US28.rwBiBNeb1lNSb217YUDvrRwpq');
+-- username: sudo, password: superuser
 
 
 --
@@ -381,7 +383,7 @@ ALTER TABLE `wird_beschrieben_durch`
 --
 ALTER TABLE `benutzer`
   ADD PRIMARY KEY (`b_id`);
-  
+
 --
 -- Indizes für die Tabelle `gruppe`
 --
@@ -396,19 +398,19 @@ ALTER TABLE `gruppe`
 --
 ALTER TABLE `komponenten`
   MODIFY `k_id` int(11) NOT NULL AUTO_INCREMENT;
-  
+
 --
 -- AUTO_INCREMENT für Tabelle `komponentenattribute`
 --
 ALTER TABLE `komponentenattribute`
   MODIFY `kat_id` int(11) NOT NULL AUTO_INCREMENT;
-  
+
 --
 -- AUTO_INCREMENT für Tabelle `komponentenarten`
 --
 ALTER TABLE `komponentenarten`
   MODIFY `ka_id` int(11) NOT NULL AUTO_INCREMENT;
-  
+
 --
 -- AUTO_INCREMENT für Tabelle `lieferant`
 --
@@ -424,13 +426,13 @@ ALTER TABLE `raeume`
 --
 ALTER TABLE `benutzer`
   MODIFY `b_id` int(11) NOT NULL AUTO_INCREMENT;
-  
+
 --
 -- AUTO_INCREMENT für Tabelle `gruppe`
 --
 ALTER TABLE `gruppe`
   MODIFY `g_id` int(11) NOT NULL AUTO_INCREMENT;
-  
+
 --
 -- Constraints der exportierten Tabellen
 --
