@@ -105,18 +105,15 @@ class component extends controller
             $komponentenartenid));
         if ($result != true) {
             $this->data[0]->success = $result;
-            $this->data[1] = 'Insert into komponenten';
         } else {
             $response = $this->db->query('SELECT LAST_INSERT_ID();');
             foreach ($response as $r) {
                 $letzte_id = $r['LAST_INSERT_ID()'];
             }
             $this->addAttributesToComponent($letzte_id, $attributes);
+            $this->data[0]->id = $letzte_id;
+            $this->data[0]->success = $result;
         }
-
-
-        $this->data[0]->id = $letzte_id;
-        $this->data[0]->success = $result;
     }
 
     public function update()
