@@ -1,18 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { tap, delay } from 'rxjs/operators';
+
 import { ApiClientService } from '../core/api-client.service';
 import { UserLogIn } from '../fe-entities/user-login-entity';
-
-var jwtDecode = require('jwt-decode');
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   isLoggedIn = false;
-  isAdmin= false;
-  userName= ''
+  isAdmin = false;
+  userName = '';
 
   // store the URL so we can redirect after logging in
   redirectUrl: string;
@@ -42,6 +40,7 @@ export class AuthService {
   }
 
   requestToken(usr: string, pwd: string) {
+    const jwtDecode = require('jwt-decode');
     let creds = new UserLogIn(usr, pwd);
     this.apiClient.logInAndGetToken(creds).then(resp => {
       const token = resp[0].token;
