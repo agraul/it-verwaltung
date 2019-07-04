@@ -46,4 +46,25 @@ abstract class controller
         }
     }
 
+    public function decode(): bool
+    {
+        if (isset($_SERVER['HTTP_AUTHORIZATION']) === false) {
+            http_response_code(401);
+            exit;
+        }
+        $token = (string) $_SERVER['HTTP_AUTHORIZATION'];
+        require '../php-jwt/JWT.php';
+        try {
+            $jwt = new Firebase\JWT\JWT();
+            $e = $jwt->decode($token, KEY, $allowed_algs = [
+                'HS256',
+            ]);
+            return $e->admin;
+        } catch (Exception $e) {
+            http_response_code(401);
+            exit;
+        }
+        return false;
+    }
+
 }

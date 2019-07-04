@@ -15,6 +15,15 @@ class componenttype extends controller
         $this->db = $link::get();
         $_POST = json_decode(file_get_contents('php://input'), true);
         $this->cors();
+        if ($this->decode() === false) {
+            switch ($action) {
+                case 'delete':
+                case 'add':
+                case 'update':
+                    http_response_code(401);
+                    exit;
+            }
+        }
     }
 
     public function __destruct()
@@ -58,14 +67,13 @@ class componenttype extends controller
         $query = $this->db->prepare($sql);
         $result = $query->execute(array($type, $is_software));
         if ($result != true) {
-          $this->data[0]->success = $result;
-        }
-        else {
-          $response = $this->db->query('SELECT LAST_INSERT_ID();');
-          foreach ($response as $r) {
-            $letzte_id = $r['LAST_INSERT_ID()'];
-          }
-          $this->addAttributesToType($letzte_id, $attributes);
+            $this->data[0]->success = $result;
+        } else {
+            $response = $this->db->query('SELECT LAST_INSERT_ID();');
+            foreach ($response as $r) {
+                $letzte_id = $r['LAST_INSERT_ID()'];
+            }
+            $this->addAttributesToType($letzte_id, $attributes);
         }
 
 
@@ -86,32 +94,31 @@ class componenttype extends controller
         $query1 = $this->db->prepare($sql1);
         $result1 = $query1->execute(array($type, $is_software, $id));
         if ($result1 != true) {
-          $this->data[0]->success = $result1;
-        }
-        else {
-          // drop type <-> attribute entries
-          $sql2 = "DELETE FROM wird_beschrieben_durch where komponentenarten_ka_id = ?";
-          $query2 = $this->db->prepare($sql2);
-          $result2 = $query2->execute(array($id));
-          if ($result2 != true) {
-            $this->data[0]->success = $result2;
-          }
-          else {
-            // re-add new type <-> attribute entries
-            $this->addAttributesToType($id, $attributes);
-          }
+            $this->data[0]->success = $result1;
+        } else {
+            // drop type <-> attribute entries
+            $sql2 = "DELETE FROM wird_beschrieben_durch where komponentenarten_ka_id = ?";
+            $query2 = $this->db->prepare($sql2);
+            $result2 = $query2->execute(array($id));
+            if ($result2 != true) {
+                $this->data[0]->success = $result2;
+            } else {
+                // re-add new type <-> attribute entries
+                $this->addAttributesToType($id, $attributes);
+            }
         }
     }
 
-    private function addAttributesToType($type_id, $attributes) {
+    private function addAttributesToType($type_id, $attributes)
+    {
         $sql = "INSERT INTO wird_beschrieben_durch (komponentenarten_ka_id, komponentenattribute_kat_id) VALUES (?, ?);";
         $query = $this->db->prepare($sql);
         foreach ($attributes as $attribute) {
-          $id = (int) $attribute['id'];
-          $result = $query->execute(array($type_id, $id));
-          if ($result != true) {
-            $this->data[0]->success = false;
-          }
+            $id = (int) $attribute['id'];
+            $result = $query->execute(array($type_id, $id));
+            if ($result != true) {
+                $this->data[0]->success = false;
+            }
         }
     }
 
@@ -128,6 +135,5 @@ class componenttype extends controller
             $this->data[0]->success = false;
         }
     }
-
 
 }
