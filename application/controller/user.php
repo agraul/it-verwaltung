@@ -6,7 +6,7 @@ class user extends controller
     public $data;
     private $db;
 
-    public function __construct()
+    public function __construct(string $action)
     {
         header('Content-Type: application/json');
         $this->data = [];
@@ -15,6 +15,22 @@ class user extends controller
         $this->db = $link::get();
         $_POST = json_decode(file_get_contents('php://input'), true);
         $this->cors();
+        if ($action !== 'login') {
+            if ($this->decode() === false) {
+                switch ($action) {
+                    case 'delete':
+                    case 'add':
+                    case 'changeRoom':
+                    case 'update':
+                    case 'edit':
+                    case 'register':
+                    case 'setpassword':
+                    case 'changegroup':
+                        http_response_code(401);
+                        exit;
+                }
+            }
+        }
     }
 
     public function __destruct()
@@ -39,13 +55,44 @@ class user extends controller
 
     public function login()
     {
-        
+        if ($this->verify($_GET['usr']) === false || $this->verify($_GET['pw']) === false) {
+            http_response_code(400);
+            return;
+        }
+
+        $username = (string) $_GET['usr'];
+        $pw = (string) $_GET['pw'];
+        $sql = "SELECT * FROM benutzer INNER JOIN gruppe ON gruppe_g_id=g_id WHERE b_username=? ";
+        $query = $this->db->prepare($sql);
+        $result = $query->execute(array($username));
+        if ((int) $query->rowCount() === 0) {
+            http_response_code(400);
+            return;
+        }
+        foreach ($query as $row) {
+            $hash = (string) $row['b_passwort'];
+            $permission = (bool) $row['g_privilegiert'];
+        }
+        if (password_verify($pw, $hash) === false) {
+            http_response_code(400);
+            return;
+        } else {
+            require '../php-jwt/JWT.php';
+            $jwt = new Firebase\JWT\JWT();
+            $payload = [
+                'exp' => time() + 60 * 60 * 2,
+                'admin' => (bool) $permission,
+            ];
+            $this->data[0] = new stdClass();
+            $this->data[0]->token = $jwt->encode($payload, KEY);
+        }
     }
 
     public function register()
     {
         if ($this->verify($_POST['groupid']) === false || $this->verify($_POST['firstname']) === false || $this->verify($_POST['lastname']) === false || $this->verify($_POST['username']) === false || $this->verify($_POST['pw']) === false) {
             http_response_code(400);
+            return;
         }
         $groupId = (int) $_POST['groupid'];
         $firstName = (string) $_POST['firstname'];
@@ -57,6 +104,7 @@ class user extends controller
         $res = $query->execute(array($groupId, $firstName, $lastName, $username, $pw));
         if ($res === false) {
             http_response_code(409);
+            return;
         }
     }
 
