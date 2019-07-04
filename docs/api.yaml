@@ -129,7 +129,69 @@ paths:
                       type: boolean
         '400':
           description: Bad Request
-
+  /room/edit:
+    post:
+      summary: WORKS - Edit a room
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+        - in: query
+          name: nr
+          schema:
+            type: string
+          required: true
+        - in: query
+          name: bezeichnung
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':  
+          description: OK
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:  
+                    success:
+                      type: boolean
+        '400':
+          description: Bad Request
+  /room/note:
+    post:
+      summary: IN PROGRESS - Add a room
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+        - in: query
+          name: notiz
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':  
+          description: OK
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:  
+                    success:
+                      type: boolean
+        '400':
+          description: Bad Request
+          
+          
   /component/all:
     get:
       summary: x
@@ -332,7 +394,7 @@ paths:
                       type: boolean
                       
   /componentattribute/delete:
-    post:
+    get:
       summary: Works -  Add a component attribute
       parameters:
         - in: query
@@ -680,8 +742,140 @@ paths:
                   properties:  
                     success:
                       type: boolean
-
+  /supplier/edit:
+    post:
+      summary:  WORKS - Edit a supplier
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+        - in: query
+          name: companyname
+          schema:
+            type: string
+          required: true
+        - in: query
+          name: street
+          schema:
+            type: string
+          required: true
+        - in: query
+          name: plz
+          schema:
+            type: string
+          required: true
+        - in: query
+          name: place
+          schema:
+            type: string
+          required: true
+        - in: query
+          name: tel
+          schema:
+            type: string
+          required: true       
+        - in: query
+          name: mobile
+          schema:
+            type: string
+          required: true
+        - in: query
+          name: fax
+          schema:
+            type: string
+          required: true
+        - in: query
+          name: email
+          schema:
+            type: string
+          required: true                  
+      responses:
+        '200':
+          description: OK  
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:  
+                    success:
+                      type: boolean
                       
+  /software/all:
+    get:
+      summary:  WORKS - All rooms to a software
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+
+      responses:
+        '200':
+          description: OK  
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:  
+                    sir_r_id:
+                      type: integer
+  /software/add:
+    post:
+      summary:  WORKS - Add software to a room
+      parameters:
+        - in: query
+          name: component_id
+          schema:
+            type: integer
+          required: true
+        - in: query
+          name: room_id
+          schema:
+            type: integer
+          required: true
+          
+      responses:
+        '200':
+          description: OK  
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:  
+                    success:
+                      type: boolean
+  /software/delete:
+    get:
+      summary:  WORKS - Delete software to a room
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+          
+      responses:
+        '200':
+          description: OK  
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:  
+                    success:
+                      type: boolean
+
 components:
   schemas:
     Raum:

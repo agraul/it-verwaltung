@@ -4,7 +4,7 @@
 --
 -- Host: 127.0.0.1
 -- Erstellungszeit: 22. Jul 2015 um 23:13
--- Server-Version: 5.6.24
+-- Server-Version: 5.6.24 
 -- PHP-Version: 5.6.8
 
 
@@ -392,6 +392,12 @@ ALTER TABLE `gruppe`
 --
 
 --
+-- AUTO_INCREMENT für Tabelle `komponenten`
+--
+ALTER TABLE `komponenten`
+  MODIFY `k_id` int(11) NOT NULL AUTO_INCREMENT;
+  
+--
 -- AUTO_INCREMENT für Tabelle `komponentenattribute`
 --
 ALTER TABLE `komponentenattribute`
@@ -441,21 +447,21 @@ ADD CONSTRAINT `komponenten_ibfk_1` FOREIGN KEY (`raeume_r_id`) REFERENCES `raeu
 -- Constraints der Tabelle `komponente_hat_attribute`
 --
 ALTER TABLE `komponente_hat_attribute`
-ADD CONSTRAINT `fk_komponenten_has_komponentenattribute_komponenten1` FOREIGN KEY (`komponenten_k_id`) REFERENCES `komponenten` (`k_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+ADD CONSTRAINT `fk_komponenten_has_komponentenattribute_komponenten1` FOREIGN KEY (`komponenten_k_id`) REFERENCES `komponenten` (`k_id`) ON DELETE CASCADE ON UPDATE CASCADE,
 ADD CONSTRAINT `fk_komponenten_has_komponentenattribute_komponentenattribute1` FOREIGN KEY (`komponentenattribute_kat_id`) REFERENCES `komponentenattribute` (`kat_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 --
 -- Constraints der Tabelle `software_in_raum`
 --
 ALTER TABLE `software_in_raum`
-ADD CONSTRAINT `software_in_raum_ibfk_1` FOREIGN KEY (`sir_r_id`) REFERENCES `raeume` (`r_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-ADD CONSTRAINT `software_in_raum_ibfk_2` FOREIGN KEY (`sir_k_id`) REFERENCES `komponenten` (`k_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ADD CONSTRAINT `software_in_raum_ibfk_1` FOREIGN KEY (`sir_r_id`) REFERENCES `raeume` (`r_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `software_in_raum_ibfk_2` FOREIGN KEY (`sir_k_id`) REFERENCES `komponenten` (`k_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints der Tabelle `wird_beschrieben_durch`
 --
 ALTER TABLE `wird_beschrieben_durch`
-ADD CONSTRAINT `fk_komponentenarten_has_komponentenattribute_komponentenarten1` FOREIGN KEY (`komponentenarten_ka_id`) REFERENCES `komponentenarten` (`ka_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+ADD CONSTRAINT `fk_komponentenarten_has_komponentenattribute_komponentenarten1` FOREIGN KEY (`komponentenarten_ka_id`) REFERENCES `komponentenarten` (`ka_id`) ON DELETE CASCADE ON UPDATE CASCADE,
 ADD CONSTRAINT `fk_komponentenarten_has_komponentenattribute_komponentenattri1` FOREIGN KEY (`komponentenattribute_kat_id`) REFERENCES `komponentenattribute` (`kat_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 --
