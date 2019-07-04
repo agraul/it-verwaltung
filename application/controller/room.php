@@ -14,6 +14,7 @@ class room extends controller
         $link = new db();
         $this->db = $link::get();
         $_POST = json_decode(file_get_contents('php://input'), true);
+        $this->cors();
     }
 
     public function __destruct()
@@ -70,6 +71,41 @@ class room extends controller
             $this->data[1]->komponenten[$i]->serienundversionsnummer = (string) $r['khkat_wert'];
             $this->data[1]->komponenten[$i]->is_software = (bool) $r['ka_software'];
             $i++;
+        }
+    }
+
+    public function add()
+    {
+        if ($this->verify($_POST['nr']) === false || $this->verify($_POST['bezeichnung']) === false) {
+            http_response_code(400);
+            return;
+        }
+        $nr = (string) $_POST['nr'];
+        $bezeichnung = (string) $_POST['bezeichnung'];
+        $notiz = (string) $_POST['notiz'];
+
+        $sql = "INSERT INTO raeume (r_nr, r_bezeichnung, r_notiz) VALUES (?, ?, ?);";
+        $query = $this->db->prepare($sql);
+        $result = $query->execute(array($nr, $bezeichnung, $notiz));
+        if ($result === false) {
+            http_response_code(500);
+            return;
+        }
+    }
+
+    public function delete()
+    {
+        if ($this->verify($_GET['id']) === false) {
+            http_response_code(400);
+            return;
+        }
+        $id = (int) $_GET['id'];
+        $sql = "DELETE FROM raeume WHERE r_id = ?;";
+        $query = $this->db->prepare($sql);
+        $result = $query->execute(array($id));
+        if ($result === false) {
+            http_response_code(500);
+            return;
         }
     }
 

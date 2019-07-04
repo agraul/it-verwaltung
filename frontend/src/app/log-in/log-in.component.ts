@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {  Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { USERS } from './log-in.mock';
 import { AuthService } from '../auth/auth.service';
 
@@ -9,31 +9,36 @@ import { AuthService } from '../auth/auth.service';
   styleUrls: ['./log-in.component.less']
 })
 export class LogInComponent implements OnInit {
-
   users = USERS;
   userName = '';
   passWord = '';
-  showValidationMessage= false;
+  showValidationMessage = false;
 
-  constructor(
-    private router: Router,
-    private authentication: AuthService,
-  ) { }
+  constructor(private router: Router, private authentication: AuthService) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-  public secureAndSend(username: string, password: string): void{
-   console.log(this.authentication.login(username, password).subscribe((resp)=> {return resp;}));
-    
-    var retVal = false;
-          if(this.authentication.login(username, password).subscribe((resp)=> {return resp;}).closed === false){
-            this.router.navigate(['/rooms']);
-            retVal = false;
-          }
-        else{
-          this.showValidationMessage = true;
-        }
-    
+  public secureAndSend(username: string, password: string): void {
+    console.log(
+      this.authentication.login(username, password).subscribe(resp => {
+        return resp;
+      })
+    );
+
+    console.log(
+      this.authentication.login(username, password).subscribe(resp => {
+        return resp;
+      }).closed === false
+    );
+
+    if (
+      this.authentication.login(username, password).subscribe(resp => {
+        this.router.navigateByUrl(this.authentication.redirectUrl ? this.router.parseUrl(this.authentication.redirectUrl) : '/rooms');
+        return resp;
+      }).closed === false
+    ) {
+    } else {
+      this.showValidationMessage = true;
+    }
   }
-  }
+}

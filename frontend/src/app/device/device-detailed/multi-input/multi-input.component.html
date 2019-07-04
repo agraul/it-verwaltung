@@ -1,0 +1,29 @@
+<form [formGroup]="form">
+  <div formArrayName="array">
+    <ng-container *ngFor="let control of array.controls; let i = index">
+    <div class="row mt-1">
+      <label class="col-3 col-form-label"><ng-container *ngIf="i === 0" >{{ label }}*</ng-container></label>
+      <div class="col-6">
+        <ng-template [ngIf]="!isSelect" [ngIfElse]="roomSelects">
+        <input type="text" class="form-control" id="input-{{ i }}" formControlName="{{ i }}">
+        </ng-template>
+        <ng-template #roomSelects>
+            <select class="form-control" id="select-{{ i }}" formControlName="{{ i }}">
+                <option disabled selected hidden></option>
+                <option *ngFor="let room of availableRooms(i)" [value]="room.id">{{ room.nr }}</option>
+              </select>
+        </ng-template>
+      </div>
+      <div *ngIf="array.controls.length > 1"class="col">
+        <button class="delete-btn" (click)="removeItem(i)">x</button>
+      </div>
+    </div>
+    </ng-container>
+    <div class="row">
+    <div class="col-3"></div>
+    <div *ngIf="isSelect || extendable" class="col-6">
+    <button class="ml-5" *ngIf="!isSelect || rooms.length - array.controls.length > 0" (click)="addItem()">+</button>
+  </div>
+  </div>
+  </div>
+</form>

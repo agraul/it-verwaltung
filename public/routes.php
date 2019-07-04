@@ -11,14 +11,19 @@ return $routes = [
         'action' => 'detail',
     ],
     [
-        'route' => '/room/push',
+        'route' => '/room/add',
         'controller' => 'room',
-        'action' => 'push',
+        'action' => 'add',
     ],
     [
         'route' => '/group/add',
         'controller' => 'group',
         'action' => 'add',
+    ],
+    [
+        'route' => '/room/delete',
+        'controller' => 'room',
+        'action' => 'delete',
     ],
     [
         'route' => '/group/all',
@@ -59,7 +64,8 @@ return $routes = [
         'route' => '/componentattribute/add',
         'controller' => 'componentattribute',
         'action' => 'add',
-    ], [
+    ],
+    [
         'route' => '/componentattribute/delete',
         'controller' => 'componentattribute',
         'action' => 'delete',
@@ -68,6 +74,11 @@ return $routes = [
         'route' => '/componenttype/all',
         'controller' => 'componenttype',
         'action' => 'all',
+    ],
+    [
+        'route' => '/component/delete',
+        'controller' => 'component',
+        'action' => 'delete',
     ],
     [
         'route' => '/componenttype/add',
@@ -83,6 +94,21 @@ return $routes = [
         'route' => '/componenttype/addAttribute',
         'controller' => 'componenttype',
         'action' => 'addAttribute',
+    ],
+    [
+        'route' => '/supplier/all',
+        'controller' => 'supplier',
+        'action' => 'all',
+    ],
+    [
+        'route' => '/supplier/delete',
+        'controller' => 'supplier',
+        'action' => 'delete',
+    ],
+    [
+        'route' => '/supplier/add',
+        'controller' => 'supplier',
+        'action' => 'add',
     ],
 ];
 

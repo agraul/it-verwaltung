@@ -1,11 +1,10 @@
 // Entity for Rooms
 export class Room {
 
-    id: number;
-    nr: string;
-    bezeichnung: string;
-    hat_notiz: boolean;
-    komponentenarten: string[];
-    
-    
+  id: number;
+  nr: string;
+  bezeichnung: string;
+  hat_notiz: boolean;
+  komponenten_arten: string[];
+
 }

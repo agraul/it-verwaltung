@@ -14,6 +14,7 @@ class componenttype extends controller
         $link = new db();
         $this->db = $link::get();
         $_POST = json_decode(file_get_contents('php://input'), true);
+        $this->cors();
     }
 
     public function __destruct()
@@ -23,29 +24,25 @@ class componenttype extends controller
 
     public function all()
     {
-        // SELECT ka_id, ka_komponentenart, ka_software FROM komponentenarten;
-        $sql1 = "SELECT ka_id, ka_komponentenart, ka_software FROM komponentenarten;";
-        $query = $this->db->prepare($sql);
-        $query->execute();
+        $sql_1 = "SELECT ka_id, ka_komponentenart, ka_software FROM komponentenarten;";
+        $query1 = $this->db->prepare($sql_1);
+        $query1->execute();
+        $sql2 = "SELECT kat_id, kat_bezeichnung, komponentenarten_ka_id FROM komponentenattribute INNER JOIN wird_beschrieben_durch ON kat_id = komponentenattribute_kat_id WHERE komponentenarten_ka_id=?;";
+        $query2 = $this->db->prepare($sql2);
         $i = 0;
-        foreach ($query as $row) {
-            var_dump($row);
-            /*
-              "attribute": [
-              {
-              "id": 0,
-              "bezeichnung": "string"
-              }
-             *              */
+        foreach ($query1 as $row) {
             $this->data[$i] = new stdClass();
             $this->data[$i]->id = (int) $row['ka_id'];
             $this->data[$i]->bezeichnung = (string) $row['ka_komponentenart'];
             $this->data[$i]->is_software = (bool) $row['ka_software'];
             $this->data[$i]->attribute = [];
+            $query2->execute(array($row['ka_id']));
             $j = 0;
-
-            foreach ($row as $z) {
-                
+            foreach ($query2 as $r) {
+                $this->data[$i]->attribute[$j] = new stdClass();
+                $this->data[$i]->attribute[$j]->id = (int) $r['kat_id'];
+                $this->data[$i]->attribute[$j]->bezeichnung = (string) $r['kat_bezeichnung'];
+                $j++;
             }
             $i++;
         }
