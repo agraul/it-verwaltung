@@ -67,7 +67,7 @@ class componenttype extends controller
     {
         $this->data[0] = new stdClass();
         try {
-            $id = (int) $_POST['id'];
+            $id = (int) $_GET['id'];
             $sql = "DELETE FROM komponentenarten WHERE ka_id=?;";
             $query = $this->db->prepare($sql);
             $query->execute(array($id));

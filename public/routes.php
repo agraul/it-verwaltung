@@ -16,6 +16,16 @@ return $routes = [
         'action' => 'add',
     ],
     [
+        'route' => '/room/note',
+        'controller' => 'room',
+        'action' => 'note',
+    ],
+    [
+        'route' => '/room/edit',
+        'controller' => 'room',
+        'action' => 'edit',
+    ],
+    [
         'route' => '/group/add',
         'controller' => 'group',
         'action' => 'add',
@@ -81,6 +91,11 @@ return $routes = [
         'action' => 'delete',
     ],
     [
+        'route' => '/component/all',
+        'controller' => 'component',
+        'action' => 'all',
+    ],
+    [
         'route' => '/componenttype/add',
         'controller' => 'componenttype',
         'action' => 'add',
@@ -109,6 +124,26 @@ return $routes = [
         'route' => '/supplier/add',
         'controller' => 'supplier',
         'action' => 'add',
+    ],
+    [
+        'route' => '/supplier/edit',
+        'controller' => 'supplier',
+        'action' => 'edit',
+    ],
+    [
+        'route' => '/software/all',
+        'controller' => 'software',
+        'action' => 'all',
+    ],
+    [
+        'route' => '/software/add',
+        'controller' => 'software',
+        'action' => 'add',
+    ],
+    [
+        'route' => '/software/delete',
+        'controller' => 'software',
+        'action' => 'delete',
     ],
 ];
 
