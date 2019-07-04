@@ -18,7 +18,7 @@ export class LogInComponent implements OnInit {
 
   ngOnInit() {}
 
-  public secureAndSend(username: string, password: string): void {
+  public secureAndSend(username: string, password: string): boolean {
     console.log(
       this.authentication.login(username, password).subscribe(resp => {
         return resp;
@@ -37,8 +37,10 @@ export class LogInComponent implements OnInit {
         return resp;
       }).closed === false
     ) {
+      return true;
     } else {
       this.showValidationMessage = true;
+      return false;
     }
   }
 }
